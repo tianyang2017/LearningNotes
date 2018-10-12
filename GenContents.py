@@ -15,7 +15,8 @@ class GenContexts:
                     "&nbsp;" * 10 * deep_level + " :open_file_folder:" + "[" + fileName + "]" + "(" + root_url + full_name + ")" + " </br>\n")
                 cls.generate(file_path, root_url, full_name, deep_level + 1, catalog)
             elif os.path.isfile(file_path) and '.md' in fileName:
-                catalog.append("&nbsp;" * 10 * deep_level + " :page_with_curl:" + fileName + " </br>\n")
+                catalog.append(
+                    "&nbsp;" * 10 * deep_level + " :page_with_curl:" + "[" + fileName + "]" + "(" + root_url + full_name + ")" + " </br>\n")
 
 
 if __name__ == '__main__':
