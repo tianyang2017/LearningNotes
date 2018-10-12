@@ -22,6 +22,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[mysql](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/mysql) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[oracle](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Redis](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃1.linux下安装redis及常见报错解决方案.md </br>
  📂[服务器](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Docker](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Docker) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Linux](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Linux) </br>
