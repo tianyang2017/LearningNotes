@@ -34,7 +34,7 @@
 
    - 如果值是 null，则返回"null"；
    -  如果值是 undefined，则返回"undefined"。
-     下面再看几个例子： 
+       下面再看几个例子： 
 
    ```javascript
    var value1 = 10;
@@ -53,7 +53,7 @@
    + **hasOwnProperty(propertyName)**：用于检查给定的属性在当前对象实例中（而不是在实例的原型中）是否存在。其中，作为参数的属性名（propertyName）必须以字符串形式指定（例如： o.hasOwnProperty("name")）。
    +  **isPrototypeOf(object)**：用于检查传入的对象是否是传入对象的原型（第 5 章将讨论原型）。
    +  **propertyIsEnumerable(propertyName)**：用于检查给定的属性是否能够使用 for-in 语句（本章后面将会讨论）来枚举。与 hasOwnProperty()方法一样，作为参数的属性名必须以字符
-     串形式指定。
+       串形式指定。
    + **toLocaleString()**：返回对象的字符串表示，该字符串与执行环境的地区对应。
    +  **toString()**：返回对象的字符串表示。
    +  **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。 
@@ -90,7 +90,7 @@
 
 ## 第五章 应用类型
 
-### Array 类型
+### 1. Array 类型
 
 1. 数组的 length 属性很有特点——它不是只读的。因此，通过设置这个属性，可以从数组的末尾移除项或向数组中添加新项。请看下面的例子： 
 
@@ -220,9 +220,9 @@
    + **every()**：对数组中的每一项运行给定函数，如果该函数对每一项都返回 true，则返回 true。
    + **filter()**：对数组中的每一项运行给定函数，返回该函数会返回 true 的项组成的数组。
    + **forEach()**：对数组中的每一项运行给定函数。这个方法没有返回值。
-   +  **map()**：*对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。
+   +  **map()**：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。
    +  **some()**：对数组中的每一项运行给定函数，如果该函数对任一项返回 true，则返回 true。
-     以上方法都不会修改数组中的包含的值。 
+       以上方法都不会修改数组中的包含的值。 
 
    ```javascript
    var numbers = [1,2,3,4,5,4,3,2,1];
@@ -273,7 +273,7 @@
 
 
 
-### RegExp 类型 	
+### 2. RegExp 类型 	
 
 1. ```
    var expression = / pattern / flags ;
@@ -422,7 +422,7 @@
    ```
 
 
-### Function 类型
+### 3. Function 类型
 
 1. 每个函数都包含两个非继承而来的方法： apply()和 call()。这两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内 this 对象的值。首先， apply()方法接收两个参数：一个是在其中运行函数的作用域，另一个是参数数组。其中，第二个参数可以是 Array 的实例，也可以是arguments 对象。例如： 
 
@@ -475,7 +475,7 @@
    ```
 
 
-### String 类型
+### 4. String 类型
 
 1. ECMAScript还提供了三个基于子字符串创建新字符串的方法： slice()、 substr()和 substring()。这三个方法都会返回被操作字符串的一个子字符串，而且也都接受一或两个参数。第一个参数指定子字符串的开始位置，第二个参数（在指定的情况下）表示子字符串到哪里结束。具体来说， slice()和substring()的第二个参数指定的是子字符串最后一个字符后面的位置。而 substr()的第二个参数指定的则是返回的字符个数。如果没有给这些方法传递第二个参数，则将字符串的长度作为结束位置。与concat()方法一样， slice()、 substr()和 substring()也不会修改字符串本身的值——它们只是返回一个基本类型的字符串值，对原始字符串没有任何影响。请看下面的例子。  
 
@@ -545,6 +545,658 @@
    var colors3 = colorText.split(/[^\,]+/); //["", ",", ",", ",", ""]
    ```
 
-
 ## 第六章 面向对象的程序设计
 
+### 6.1 理解对象
+
+####  1. 属性类型
+
+1. ECMAScript 中有两种属性：数据属性和访问器属性。
+   1. **数据属性**
+     数据属性包含一个数据值的位置。在这个位置可以读取和写入值。数据属性有 4 个描述其行为的特性。
+      **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+      **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+      **[[Writable]]**：表示能否修改属性的值。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+      **[[Value]]**：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。这个特性的默认值为 undefined。 
+
+     ```javascript
+     var person = {};
+     Object.defineProperty(person, "name", {
+     writable: false,
+     value: "Nicholas"
+     });
+     alert(person.name); //"Nicholas"
+     person.name = "Greg";
+     alert(person.name); //"Nicholas"
+     
+     var person = {};
+     Object.defineProperty(person, "name", {
+     configurable: false,
+     value: "Nicholas"
+     });
+     alert(person.name); //"Nicholas"
+     delete person.name;
+     alert(person.name); //"Nicholas"
+     
+     //一旦把属性定义为不可配置的，就不能再把它变回可配置了
+     var person = {};
+     Object.defineProperty(person, "name", {
+     configurable: false,
+     value: "Nicholas"
+     });
+     //抛出错误
+     Object.defineProperty(person, "name", {
+     configurable: true,
+     value: "Nicholas"
+     });
+     ```
+
+   2. **访问器属性**
+      访问器属性不包含数据值；它们包含一对儿 getter 和 setter 函数（不过，这两个函数都不是必需的） 
+
+       **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为数据属性。对于直接在对象上定义的属性，这个特性的默认值为true。
+       **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。对于直接在对象上定义的属性，这个特性的默认值为 true。
+       **[[Get]]**：在读取属性时调用的函数。默认值为 undefined。
+       **[[Set]]**：在写入属性时调用的函数。默认值为 undefined。 
+
+      **访问器属性不能直接定义，必须使用 Object.defineProperty()来定义。** 
+
+      ```javascript
+      var book = {
+          _year: 2004,
+          edition: 1
+      	};
+      Object.defineProperty(book, "year", {
+          get: function(){
+          	return this._year;
+      	},
+          set: function(newValue){
+              if (newValue > 2004) {
+                  this._year = newValue;
+                  this.edition += newValue - 2004;
+              }
+          }
+      });
+      book.year = 2005;
+      alert(book.edition); //2
+      
+      
+      // 定义多个属性
+      var book = {};
+      Object.defineProperties(book, {
+          _year: {
+         		value: 2004
+      	},
+      	edition: {
+      		value: 1
+      	},
+      	year: {
+              get: function(){
+                  return this._year;
+              },
+              set: function(newValue){
+                  if (newValue > 2004) {
+                      this._year = newValue;
+                      this.edition += newValue - 2004;
+                  }
+              }
+      	}
+      });
+      ```
+
+
+#### 2. 读取属性
+
+1. 使用 ECMAScript 5 的 Object.getOwnPropertyDescriptor()方法，可以取得给定属性的描述符。这个方法接收两个参数：属性所在的对象和要读取其描述符的属性名称。
+
+```javascript
+var book = {};
+Object.defineProperties(book, {
+    _year: {
+    	value: 2004
+    },
+    edition: {
+    	value: 1
+    },
+    year: {
+        get: function(){
+       		return this._year;
+        },
+    set: function(newValue){
+            if (newValue > 2004) {
+                this._year = newValue;
+                this.edition += newValue - 2004;
+            }
+    	}
+    }
+});
+
+
+var descriptor = Object.getOwnPropertyDescriptor(book, "_year");
+alert(descriptor.value); //2004
+alert(descriptor.configurable); //false
+
+alert(typeof descriptor.get); //"undefined"
+var descriptor = Object.getOwnPropertyDescriptor(book, "year");
+alert(descriptor.value); //undefined
+alert(descriptor.enumerable); //false
+alert(typeof descriptor.get); //"function"
+```
+
+
+
+### 6.2  创建对象
+
+#### 1.  构造函数模式
+
+```javascript
+function Person(name, age, job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function(){
+        alert(this.name);
+    };
+}
+var person1 = new Person("Nicholas", 29, "Software Engineer");
+var person2 = new Person("Greg", 27, "Doctor");
+
+alert(person1.constructor == Person); //true
+alert(person2.constructor == Person); //true
+alert(person1 instanceof Object); //true
+alert(person1 instanceof Person); //true
+alert(person2 instanceof Object); //true
+alert(person2 instanceof Person); //true
+
+
+//构造函数模式的缺陷
+alert(person1.sayName == person2.sayName); //false
+
+//解决办法
+function Person(name, age, job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = sayName;
+}
+function sayName(){
+	alert(this.name);
+}
+var person1 = new Person("Nicholas", 29, "Software Engineer");
+var person2 = new Person("Greg", 27, "Doctor");
+```
+
+
+
+#### 2.  原型模式
+
+```javascript
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){
+alert(this.name);
+};
+var person1 = new Person();
+person1.sayName(); //"Nicholas"
+var person2 = new Person();
+person2.sayName(); //"Nicholas"
+alert(person1.sayName == person2.sayName); //true
+alert(Person.prototype.constructor=== Person);  //true
+alert(Person.prototype == person1.__proto__);  //true
+```
+
+![js 原型1](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B1.png)
+
+![js 原型2](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B2.png)
+
+```javascript
+//覆盖原型中的属性
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){
+	alert(this.name);
+};
+var person1 = new Person();
+var person2 = new Person();
+person1.name = "Greg";
+alert(person1.name); //"Greg"—— 来自实例
+alert(person2.name); //"Nicholas"—— 来自原型
+```
+
+```javascript
+//属性恢复
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){
+	alert(this.name);
+};
+var person1 = new Person();
+var person2 = new Person();
+person1.name = "Greg";
+alert(person1.name); //"Greg"—— 来自实例
+alert(person2.name); //"Nicholas"—— 来自原型
+delete person1.name;
+alert(person1.name); //"Nicholas"—— 来自原型
+```
+
+```javascript
+//使用 hasOwnProperty()方法可以检测一个属性是存在于实例中，还是存在于原型中。
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){alert(this.name);
+};
+var person1 = new Person();
+var person2 = new Person();
+alert(person1.hasOwnProperty("name")); //false
+person1.name = "Greg";
+alert(person1.name); //"Greg"—— 来自实例
+alert(person1.hasOwnProperty("name")); //true
+alert(person2.name); //"Nicholas"—— 来自原型
+alert(person2.hasOwnProperty("name")); //false
+delete person1.name;
+alert(person1.name); //"Nicholas"—— 来自原型
+alert(person1.hasOwnProperty("name")); //false
+```
+
+```javascript
+// in 操作符只要通过对象能够访问到属性就返回 true
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){
+alert(this.name);
+};
+var person1 = new Person();
+var person2 = new Person();
+alert(person1.hasOwnProperty("name")); //false
+alert("name" in person1); //true
+person1.name = "Greg";
+alert(person1.name); //"Greg" —— 来自实例
+alert(person1.hasOwnProperty("name")); //true
+alert("name" in person1); //true
+alert(person2.name); //"Nicholas" —— 来自原型
+alert(person2.hasOwnProperty("name")); //false
+alert("name" in person2); //true
+delete person1.name;
+alert(person1.name); //"Nicholas" —— 来自原型
+alert(person1.hasOwnProperty("name")); //false
+alert("name" in person1); //true
+```
+
+​	在使用 for-in 循环时，返回的是所有能够通过对象访问的、可枚举的（enumerated）属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性（即将[[Enumerable]]标记为 false 的属性）的实例属性也会在 for-in 循环中返回，因为根据规定，所有开发人员定义的属性都是可枚举的。
+
+```javascript
+//获取所有可枚举的属性
+function Person(){
+}
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function(){
+alert(this.name);
+};
+var keys = Object.keys(Person.prototype);
+alert(keys); //"name,age,job,sayName"
+var p1 = new Person();
+p1.name = "Rob";
+p1.age = 31;
+var p1keys = Object.keys(p1);
+alert(p1keys); //"name,age"
+
+// 获取所有属性 不论是否可以枚举
+var keys = Object.getOwnPropertyNames(Person.prototype);
+alert(keys); //"constructor,name,age,job,sayName"
+```
+
+```javascript
+// 更简单的原型语法
+function Person(){
+}
+Person.prototype = {
+    name : "Nicholas",
+    age : 29,
+    job: "Software Engineer",
+    sayName : function () {
+    alert(this.name);
+	}
+};
+var friend = new Person();
+alert(friend instanceof Object); //true
+alert(friend instanceof Person); //true
+alert(friend.constructor == Person); //false
+alert(friend.constructor == Object); //true
+
+
+// 弊端
+function Person(){
+}
+//这种赋值方式 相当于把Person.prototype指向一个用字面量创建的对象,相当于下面的创建结果
+Person.prototype = {
+    name : "Nicholas",
+    age : 29,
+    job: "Software Engineer",
+    sayName : function () {
+        alert(this.name);
+    }
+};
+console.log(Person.prototype.constructor); //[Function: Object]
+var obj = {
+    name : "Nicholas",
+    age : 29,
+    job: "Software Engineer",
+    sayName : function () {
+        alert(this.name);
+    }
+};
+console.log(obj.constructor);  //[Function: Object]
+
+
+//更好的创建方式 以这种方式重设 constructor 属性会导致它的[[Enumerable]]特性被设置为 true。默认情况下，原生的 constructor 属性是不可枚举的，
+function Person(){
+}
+Person.prototype = {
+    constructor : Person,
+    name : "Nicholas",
+    age : 29,
+    job: "Software Engineer",
+    sayName : function () {
+    alert(this.name);
+	}
+};
+
+
+//最好的创建方式
+function Person(){
+}
+Person.prototype = {
+    name : "Nicholas",
+    age : 29,
+    job : "Software Engineer",
+    sayName : function () {
+    alert(this.name);
+    }
+};
+//重设构造函数，只适用于 ECMAScript 5 兼容的浏览器
+Object.defineProperty(Person.prototype, "constructor", {
+    enumerable: false,
+    value: Person
+});
+```
+
+```javascript
+// 扩展原生对象的原型方式
+alert(typeof Array.prototype.sort); //"function"
+alert(typeof String.prototype.substring); //"function"
+
+String.prototype.startsWith = function (text) {
+return this.indexOf(text) == 0;
+};
+var msg = "Hello world!";
+alert(msg.startsWith("Hello")); //true
+```
+
+```javascript
+// 原生模式的弊端
+function Person(){
+}
+Person.prototype = {
+    constructor: Person,
+    name : "Nicholas",
+    age : 29,
+    job : "Software Engineer",
+    friends : ["Shelby", "Court"],
+    sayName : function () {
+        alert(this.name);
+        }
+};
+var person1 = new Person();
+var person2 = new Person();
+person1.friends.push("Van");
+alert(person1.friends); //"Shelby,Court,Van"
+alert(person2.friends); //"Shelby,Court,Van"
+alert(person1.friends === person2.friends); //true
+```
+
+
+
+#### 3.组合使用构造函数和原型模式（主要使用方式）
+
+```javascript
+function Person(name, age, job){
+this.name = name;
+this.age = age;
+this.job = job;
+this.friends = ["Shelby", "Court"];
+}
+Person.prototype = {
+constructor : Person,
+sayName : function(){
+alert(this.name);
+}
+}
+var person1 = new Person("Nicholas", 29, "Software Engineer");
+var person2 = new Person("Greg", 27, "Doctor");
+person1.friends.push("Van");
+alert(person1.friends); //"Shelby,Count,Van"
+alert(person2.friends); //"Shelby,Count"
+alert(person1.friends === person2.friends); //false
+alert(person1.sayName === person2.sayName); //true
+```
+
+
+
+### 6.3 继承
+
+#### 1. 原型链
+
+```javascript
+function Parent(){
+    this.property = "parent";
+    this.value="common value";
+}
+Parent.prototype.getParentValue= function(){
+    return this.property;
+};
+Parent.prototype.getValue= function(){
+    return this.value;
+};
+function Son(){
+    this.subproperty = "son";
+}
+
+Son.prototype = new Parent();
+Son.prototype.getSonValue = function (){
+    return this.subproperty;
+};
+var instance = new Son();
+console.log(instance.getParentValue());     //parent
+console.log(instance.getSonValue());        //son
+console.log(instance.getValue());           //common value
+
+//重写原型中的方法
+Son.prototype.getValue=function(){
+  return this.value+" modified by son"    //common value modified by son
+};
+
+console.log(instance.getValue());
+
+// 确定原型和实例的关系
+console.log(instance instanceof Object);    //true
+console.log(instance instanceof Parent);    //true
+console.log(instance instanceof Son);       //true
+
+// 确定原型和实例的关系
+console.log(Object.prototype.isPrototypeOf(instance));  //true
+console.log(Parent.prototype.isPrototypeOf(instance));  //true
+console.log(Son.prototype.isPrototypeOf(instance));     //true
+```
+
+
+
+#### 2. 组合继承(主要使用方式)
+
+```javascript
+function Parent(name) {
+    this.name = name;
+    this.colors = ["red", "blue", "green"];
+}
+
+Parent.prototype.sayName = function () {
+    console.log(this.name);
+};
+
+function Son(name, age) {
+//继承属性
+    Parent.call(this, name);
+    this.age = age;
+}
+
+//继承方法
+Son.prototype = new Parent();
+Son.prototype.constructor = Son;
+Son.prototype.sayAge = function () {
+    console.log(this.age);
+};
+var instance1 = new Son("Nicholas", 29);
+instance1.colors.push("black");
+console.log(instance1.colors);          //"red,blue,green,black"
+instance1.sayName();                    //"Nicholas";
+instance1.sayAge();                     //29
+
+var instance2 = new Son("Greg", 27);
+console.log(instance2.colors);          //"red,blue,green"
+instance2.sayName();                    //"Greg";
+instance2.sayAge();                     //27
+
+```
+
+
+
+#### 3. 原型链继承
+
+```javascript
+var person = {
+    name: "Nicholas",
+    friends: ["Shelby", "Court", "Van"]
+};
+var anotherPerson = Object.create(person);
+anotherPerson.name = "Greg";
+anotherPerson.friends.push("Rob");
+var yetAnotherPerson = Object.create(person);
+yetAnotherPerson.name = "Linda";
+yetAnotherPerson.friends.push("Barbie");
+
+console.log(person.name);               // Nicholas
+console.log(yetAnotherPerson.name);     // Linda
+console.log(anotherPerson.name);        // Greg
+//包含引用类型值的属性始终都会共享相应的值
+console.log(person.friends);            // [ 'Shelby', 'Court', 'Van', 'Rob', 'Barbie' ]
+console.log(yetAnotherPerson.friends);  // [ 'Shelby', 'Court', 'Van', 'Rob', 'Barbie' ]
+console.log(anotherPerson.friends);     // [ 'Shelby', 'Court', 'Van', 'Rob', 'Barbie' ]
+
+
+var anotherPerson2 = Object.create(person, {
+    name: {
+        value: "Greg2"
+    }
+});
+console.log(anotherPerson2.name);             //"Greg2"
+```
+
+
+
+## 第七章 函数表达式
+
+1. 递归的隐藏问题
+
+   ```javascript
+   function factorial(num){
+       if (num <= 1){
+           return 1;
+       } else {
+           return num * factorial(num-1);
+       }
+   }
+   var anotherFactorial = factorial;
+   factorial=function(){
+       return 0
+   };
+   console.log(anotherFactorial(4)); //0
+   factorial = null;
+   console.log(anotherFactorial(4)); //出错
+   
+   //稳妥实现方式1
+   function factorial(num){
+       if (num <= 1){
+           return 1;
+       } else {
+           return num * arguments.callee(num-1);
+       }
+   }
+   
+   // 稳妥实现方式2
+   var factorial = (function f(num){
+       if (num <= 1){
+           return 1;
+           } else {
+           return num * f(num-1);
+       }
+   });
+   ```
+
+
+2. #### *闭包是指有权访问另一个函数作用域中的变量的函数。*
+
+   ```javascript
+   //闭包
+   function f(param) {
+       // 内部函数持有了外部函数的变量
+       return function () {
+           return param+10
+       }
+   }
+   let f1 = f(2);
+   console.log(f1());   //12
+   ```
+
+   ```javascript
+   //回调函数和this关键字
+   function f(param, fun) {
+       for (let i = 0; i < 1000; i++) {
+           param++;
+       }
+       fun(param)
+   }
+   
+   var a = {};
+   a.say = f1;
+   
+   function f1() {
+       this.name = 1000;
+       var that = this;
+       f(222, function (param) {
+           console.log("this " + this.name);           // undefined
+           console.log("global " + global.name);       // undefined
+           console.log("that name " + that.name);      // 1000
+           console.log("结果 " + param)                 // 1222
+       });
+   }
+   
+   a.say();
+   console.log(a.name); //1000
+   
+   ```
