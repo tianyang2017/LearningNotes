@@ -64,9 +64,7 @@
 
    + **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。 
 
-        <div align=center> ![js 对象属性](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png)
-
-
+         ![js 对象属性](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png)
 
 
 ## 第四章 变量、作用域和内存问题
