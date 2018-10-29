@@ -1208,6 +1208,102 @@ console.log(anotherPerson2.name);             //"Greg2"
 
 
 
+## 第八章 BOM
+
+### 1.window 对象
+
+```javascript
+//保证兼容性下确定窗口位置
+var leftPos = (typeof window.screenLeft == "number") ?
+window.screenLeft : window.screenX;
+var topPos = (typeof window.screenTop == "number") ?
+window.screenTop : window.screenY;
+
+//窗口大小
+var pageWidth = window.innerWidth,
+pageHeight = window.innerHeight;
+if (typeof pageWidth != "number"){
+    if (document.compatMode == "CSS1Compat"){
+        pageWidth = document.documentElement.clientWidth;
+        pageHeight = document.documentElement.clientHeight;
+        } else {
+        pageWidth = document.body.clientWidth;
+        pageHeight = document.body.clientHeight;
+    }
+}
+
+// 打开新窗口
+window.open("http://www.wrox.com/","wroxWindow","height=400,width=400,top=10,left=10,resizable=yes";
+            
+// 判断弹出窗口是否被屏蔽
+var blocked = false;
+try {
+    var wroxWin = window.open("http://www.wrox.com", "_blank");
+        if (wroxWin == null){
+        	blocked = true;
+        }
+    } catch (ex){
+        blocked = true;
+    }
+    if (blocked){
+    alert("The popup was blocked!");
+} 
+
+```
+
+```javascript
+// 间歇调用和超时调用
+
+//超时调用
+setTimeout("alert('Hello world!') ", 1000); //不建议传递字符串！
+//推荐的调用方式
+setTimeout(function() {
+	alert("Hello world!");
+}, 1000);
+
+//设置超时调用
+var timeoutId = setTimeout(function() {
+alert("Hello world!");
+}, 1000);
+//注意：把它取消
+clearTimeout(timeoutId);
+
+// 间歇调用
+setInterval ("alert('Hello world!') ", 10000); //不建议传递字符串！
+//推荐的调用方式
+setInterval (function() {
+alert("Hello world!");
+}, 10000);
+```
+
+
+
+### 2.location 对象 
+
+|  属性名  |         例子         |                              说                              |
+| :------: | :------------------: | :----------------------------------------------------------: |
+|   hash   |     "#contents"      |       返回URL中的hash（#号后跟零或多个字符），如果URL        |
+|   host   |  "www.wrox.com:80"   |               返回服务器名称和端口号（如果有）               |
+| hostname |    "www.wrox.com"    |                  返回不带端口号的服务器名称                  |
+|   href   | "http:/www.wrox.com" | 返回当前加载页面的完整URL。而location对象的toString()方法也返回这个值 |
+| pathname |     "/WileyCDA/"     |                返回URL中的目录和（或）文件名                 |
+|   port   |        "8080"        | 返回URL中指定的端口号。如果URL中不包含端口号，则这个属性返回空字符串 |
+| protocol |       "http:"        |           返回页面使用的协议。通常是http:或https:            |
+|  search  |   "?q=javascript"    |          返回URL的查询字符串。这个字符串以问号开头           |
+
+```javascript
+//位置操作
+window.location = "http://www.wrox.com";
+location.href = "http://www.wrox.com";
+location.replace("http://www.wrox.com/");
+location.assign("http://www.wrox.com");
+
+location.reload(); //重新加载（有可能从缓存中加载）
+location.reload(true); //重新加载（从服务器重新加载）
+```
+
+
+
 ## 第十章 DOM
 
 ### 1. Node 类型
