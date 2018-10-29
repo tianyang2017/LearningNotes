@@ -558,11 +558,11 @@
 
 1. ECMAScript 中有两种属性：数据属性和访问器属性。
    1. **数据属性**
-     数据属性包含一个数据值的位置。在这个位置可以读取和写入值。数据属性有 4 个描述其行为的特性。
-      **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-      **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-      **[[Writable]]**：表示能否修改属性的值。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-      **[[Value]]**：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。这个特性的默认值为 undefined。 
+       数据属性包含一个数据值的位置。在这个位置可以读取和写入值。数据属性有 4 个描述其行为的特性。
+         **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+         **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+         **[[Writable]]**：表示能否修改属性的值。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+         **[[Value]]**：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。这个特性的默认值为 undefined。 
 
      ```javascript
      var person = {};
@@ -1205,3 +1205,390 @@ console.log(anotherPerson2.name);             //"Greg2"
    console.log(a.name); //1000
    
    ```
+
+
+
+## 第十章 DOM
+
+### 1. Node 类型
+
+![Node节点](D:\学习笔记\picture\Node节点.png)
+
+![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node%E8%8A%82%E7%82%B9.png)
+
+```JavaScript
+//新增节点
+var returnedNode = someNode.appendChild(newNode);
+
+//someNode 有多个子节点
+var returnedNode = someNode.appendChild(someNode.firstChild);
+alert(returnedNode == someNode.firstChild); //false
+alert(returnedNode == someNode.lastChild); //true
+
+//插入后成为最后一个子节点
+returnedNode = someNode.insertBefore(newNode, null);
+alert(newNode == someNode.lastChild); //true
+//插入后成为第一个子节点
+var returnedNode = someNode.insertBefore(newNode, someNode.firstChild);
+alert(returnedNode == newNode); //true
+alert(newNode == someNode.firstChild); //true
+//插入到最后一个子节点前面
+returnedNode = someNode.insertBefore(newNode, someNode.lastChild);
+alert(newNode == someNode.childNodes[someNode.childNodes.length-2]); //true
+
+//替换第一个子节点
+var returnedNode = someNode.replaceChild(newNode, someNode.firstChild);
+//替换最后一个子节点
+returnedNode = someNode.replaceChild(newNode, someNode.lastChild);
+
+//移除第一个子节点
+var formerFirstChild = someNode.removeChild(someNode.firstChild);
+//移除最后一个子节点
+var formerLastChild = someNode.removeChild(someNode.lastChild);
+
+// 深拷贝
+var deepList = myList.cloneNode(true); 
+alert(deepList.childNodes.length); //3（ IE < 9）或 7（其他浏览器）
+// 浅拷贝
+var shallowList = myList.cloneNode(false);
+alert(shallowList.childNodes.length);
+```
+
+
+
+### 2.Document类型
+
+2.1 JavaScript 通过 Document 类型表示文档。在浏览器中， document 对象是 HTMLDocument（继承自 Document 类型）的一个实例，表示整个 HTML 页面。而且， document 对象是 window 对象的一个属性，因此可以将其作为全局对象来访问。 
+
+```javascript
+var html = document.documentElement; //取得对<html>的引用
+alert(html === document.childNodes[0]); //true
+alert(html === document.firstChild); //true
+
+var body = document.body; //取得对<body>的引用
+
+//取得文档标题
+var originalTitle = document.title;
+//设置文档标题
+document.title = "New page title";
+//取得完整的 URL
+var url = document.URL;
+//取得域名
+var domain = document.domain;
+//取得来源页面的 URL
+var referrer = document.referrer;
+
+//如果 URL 中包含一个子域名，例如 p2p.wrox.com，那么就只能将 domain 设置为"wrox.com"（URL 中包含"www"，如 www.wrox.com 时，也是如此）。不能将这个属性设置为 URL 中不包含的域，
+document.domain = "wrox.com"; // 成功
+document.domain = "nczonline.net"; // 出错
+
+//假设页面来自于 p2p.wrox.com 域  允许由紧绷到松散 不允许松散到紧绷
+document.domain = "wrox.com"; //松散的（成功）
+document.domain = "p2p.wrox.com"; //紧绷的（出错！）！
+```
+
+2.2 查找元素
+
+```javascript
+//getElementById
+var div = document.getElementById("mydiv");
+
+//getElementsByTagName
+var images = document.getElementsByTagName("img");
+alert(images.length); //输出图像的数量
+alert(images[0].src); //输出第一个图像元素的 src 特性
+alert(images.item(0).src); //输出第一个图像元素的 src 特性
+
+//对 HTMLCollection 而言，我们可以向方括号中传入数值或字符串形式的索引值。在后台，对数值索引就会调用 item()，而对字符串索引就会调用 namedItem()。
+<img src="myimage.gif" name="myImage">
+var myImage = images.namedItem("myImage");
+var myImage = images["myImage"];
+
+
+<fieldset>
+    <legend>Which color do you prefer?</legend>
+        <ul>
+        <li><input type="radio" value="red" name="color" id="colorRed">
+        <label for="colorRed">Red</label></li>
+        <li><input type="radio" value="green" name="color" id="colorGreen">
+        <label for="colorGreen">Green</label></li>
+        <li><input type="radio" value="blue" name="color" id="colorBlue">
+        <label for="colorBlue">Blue</label></li>
+    </ul>
+</fieldset>
+//getElementsByName
+var radios = document.getElementsByName("color");
+```
+
+
+
+### 3.Element类型
+
+```javascript
+<div id="myDiv"></div>
+var div = document.getElementById("myDiv");
+alert(div.tagName); //"DIV"
+alert(div.tagName == div.nodeName); //true
+
+if (element.tagName == "div"){ //不能这样比较，很容易出错！
+//在此执行某些操作
+}
+if (element.tagName.toLowerCase() == "div"){ //这样最好（适用于任何文档）
+//在此执行某些操作
+}
+
+<div id="myDiv" class="bd" title="Body text" lang="en" dir="ltr"></div>
+var div = document.getElementById("myDiv");
+// 取值
+alert(div.id); //"myDiv""
+alert(div.className); //"bd"
+alert(div.title); //"Body text"
+alert(div.lang); //"en"
+alert(div.dir); //"ltr"
+//赋值
+div.id = "someOtherId";
+div.className = "ft";
+div.title = "Some other text";
+div.lang = "fr";
+div.dir ="rtl";
+//取值
+alert(div.getAttribute("id")); //"myDiv"
+alert(div.getAttribute("class")); //"bd"
+alert(div.getAttribute("title")); //"Body text"
+alert(div.getAttribute("lang")); //"en"
+alert(div.getAttribute("dir")); //"ltr"
+//赋值
+div.setAttribute("id", "someOtherId");
+div.setAttribute("class", "ft");
+div.setAttribute("title", "Some other text");
+div.setAttribute("lang","fr");
+div.setAttribute("dir", "rtl");
+//删除属性
+div.removeAttribute("class");
+
+// 创建元素方式1
+var div = document.createElement("div");
+div.id = "myNewDiv";
+div.className = "box";
+document.body.appendChild(div);
+
+//创建元素方式2
+var div = document.createElement("<div id=\"myNewDiv\" class=\"box\"></div >");
+
+//查找子元素
+var ul = document.getElementById("myList");
+//选择所有后代元素中标签为li，不论是否是直接子元素还是间接子元素
+var items = ul.getElementsByTagName("li"); 
+```
+
+
+
+### 4.Text类型
+
+文本节点由 Text 类型表示，包含的是可以照字面解释的纯文本内容。 
+
+- appendData(text)：将 text 添加到节点的末尾。
+- deleteData(offset, count)：从 offset 指定的位置开始删除 count 个字符。
+-  insertData(offset, text)：在 offset 指定的位置插入 text。
+-  replaceData(offset, count, text)：用 text 替换从 offset 指定的位置开始到 offset+count 为止处的文本。
+- splitText(offset)：从 offset 指定的位置将当前文本节点分成两个文本节点。
+-  substringData(offset, count)：提取从 offset 指定的位置开始到 offset+count 为止处的字符串。 
+
+```javascript
+//创建文本节点
+var textNode = document.createTextNode("<strong>Hello</strong> world!");
+
+//创建文本节点
+var element = document.createElement("div");
+element.className = "message";
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+var anotherTextNode = document.createTextNode("Yippee!");
+element.appendChild(anotherTextNode);
+document.body.appendChild(element);
+
+//规范化文本节点 DOM 文档中存在相邻的同胞文本节点很容易导致混乱，因为分不清哪个文本节点表示哪个字符串
+var element = document.createElement("div");
+element.className = "message";
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+var anotherTextNode = document.createTextNode("Yippee!");
+element.appendChild(anotherTextNode);
+document.body.appendChild(element);
+alert(element.childNodes.length); //2
+element.normalize();
+alert(element.childNodes.length); //1
+alert(element.firstChild.nodeValue); // "Hello world!Yippee!"
+
+//分割文本节点
+var element = document.createElement("div");
+element.className = "message";
+var textNode = document.createTextNode("Hello world!");
+element.appendChild(textNode);
+document.body.appendChild(element);
+var newNode = element.firstChild.splitText(5);
+alert(element.firstChild.nodeValue); //"Hello"
+alert(newNode.nodeValue); //" world!"
+alert(element.childNodes.length); //2
+```
+
+
+
+### 5.动态创建表格
+
+**为<table>元素添加的属性和方法如下：**
+
+- caption：保存着对<caption>元素（如果有）的指针。
+- tBodies：是一个<tbody>元素的 HTMLCollection。
+- tFoot：保存着对<tfoot>元素（如果有）的指针。
+- tHead：保存着对<thead>元素（如果有）的指针。
+- rows：是一个表格中所有行的 HTMLCollection。
+- createTHead()：创建<thead>元素，将其放到表格中，返回引用。
+- createTFoot()：创建<tfoot>元素，将其放到表格中，返回引用。
+- createCaption()：创建<caption>元素，将其放到表格中，返回引用。
+- deleteTHead()：删除<thead>元素。
+- deleteTFoot()：删除<tfoot>元素。
+- deleteCaption()：删除<caption>元素。
+- deleteRow(pos)：删除指定位置的行。
+-  insertRow(pos)：向 rows 集合中的指定位置插入一行。
+
+**为<tbody>元素添加的属性和方法如下：**
+
+- rows：保存着<tbody>元素中行的 HTMLCollection。
+- deleteRow(pos)：删除指定位置的行。
+- insertRow(pos)：向 rows 集合中的指定位置插入一行，返回对新插入行的引用。
+
+**为<tr>元素添加的属性和方法如下：**
+
+- cells：保存着<tr>元素中单元格的 HTMLCollection。
+- deleteCell(pos)：删除指定位置的单元格。
+- insertCell(pos)：向 cells 集合中的指定位置插入一个单元格，返回对新插入单元格的引用。  
+
+```javascript
+//创建 table
+var table = document.createElement("table");
+table.border = 1;
+table.width = "100%";
+//创建 tbody
+var tbody = document.createElement("tbody");
+table.appendChild(tbody);
+//创建第一行
+tbody.insertRow(0);
+tbody.rows[0].insertCell(0);
+tbody.rows[0].cells[0].appendChild(document.createTextNode("Cell 1,1"));
+tbody.rows[0].insertCell(1);
+tbody.rows[0].cells[1].appendChild(document.createTextNode("Cell 2,1"));
+//创建第二行
+tbody.insertRow(1);
+tbody.rows[1].insertCell(0);
+tbody.rows[1].cells[0].appendChild(document.createTextNode("Cell 1,2"));
+tbody.rows[1].insertCell(1);
+tbody.rows[1].cells[1].appendChild(document.createTextNode("Cell 2,2"));
+//将表格添加到文档主体中
+document.body.appendChild(table);
+```
+
+
+
+## 第十一章 DOM扩展
+
+**1. querySelector()方法** 
+
+querySelector()方法接收一个 CSS 选择符，返回与该模式匹配的第一个元素，如果没有找到匹配的元素，返回 null。 	
+
+```javascript
+//取得 body 元素
+var body = document.querySelector("body");
+//取得 ID 为"myDiv"的元素
+var myDiv = document.querySelector("#myDiv");
+//取得类为"selected"的第一个元素
+var selected = document.querySelector(".selected");
+//取得类为"button"的第一个图像元素
+var img = document.body.querySelector("img.button");
+```
+
+**2.querySelectorAll()方法** 
+
+querySelectorAll()方法接收的参数与 querySelector()方法一样，都是一个 CSS 选择符，但返回的是所有匹配的元素而不仅仅是一个元素。这个方法返回的是一个 NodeList 的实例。 如果没有找到匹配的元素， NodeList 就是空的。 
+
+```javascript
+//取得某<div>中的所有<em>元素（类似于 getElementsByTagName("em")）
+var ems = document.getElementById("myDiv").querySelectorAll("em");
+//取得类为"selected"的所有元素
+var selecteds = document.querySelectorAll(".selected");
+//取得所有<p>元素中的所有<strong>元素
+var strongs = document.querySelectorAll("p strong");
+
+//要取得返回的 NodeList 中的每一个元素，可以使用 item()方法，也可以使用方括号语法，比如：
+var i, len, strong;
+for (i=0, len=strongs.length; i < len; i++){
+    strong = strongs[i]; //或者 strongs.item(i)
+    strong.className = "important";
+}
+```
+
+**3.元素遍历**
+
+Element Traversal API 为 DOM 元素添加了以下 5 个属性。
+
+-  childElementCount：返回子元素（不包括文本节点和注释）的个数。
+-  firstElementChild：指向第一个子元素； firstChild 的元素版。
+-  lastElementChild：指向最后一个子元素； lastChild 的元素版。
+-  previousElementSibling：指向前一个同辈元素； previousSibling 的元素版。
+-  nextElementSibling：指向后一个同辈元素； nextSibling 的元素版。
+
+**支持的浏览器为 DOM 元素添加了这些属性，利用这些元素不必担心空白文本节点。**
+
+
+
+**4.getElementsByClassName()方法** 
+
+```javascript
+//取得所有类中包含"username"和"current"的元素，类名的先后顺序无所谓
+var allCurrentUsernames = document.getElementsByClassName("username current");
+//取得 ID 为"myDiv"的元素中带有类名"selected"的所有元素
+var selected = document.getElementById("myDiv").getElementsByClassName("selected");
+```
+
+
+
+**5.classList 属性**
+
+classList 属性是新集合类型 DOMTokenList 的实例。与其他 DOM 集合类似，OMTokenList 有一个表示自己包含多少元素的 length 属性，而要取得每个元素可以使用 item()方法，也可以使用方括号语法。此外，这个新类型还定义如下方法。
+
+- add(value)：将给定的字符串值添加到列表中。如果值已经存在，就不添加了。
+- contains(value)：表示列表中是否存在给定的值，如果存在则返回 true，否则返回 false。
+- remove(value)：从列表中删除给定的字符串。
+- toggle(value)：如果列表中已经存在给定的值，删除它；如果列表中没有给定的值，添加它。  
+
+```javascript
+<div class="bd user disabled">...</div>
+
+//删除"disabled"类
+div.classList.remove("disabled");
+//添加"current"类
+div.classList.add("current");
+//切换"user"类
+div.classList.toggle("user");
+//确定元素中是否包含既定的类名
+if (div.classList.contains("bd") && !div.classList.contains("disabled")){
+//执行操作
+)
+//迭代类名
+for (var i=0, len=div.classList.length; i < len; i++){
+doSomething(div.classList[i]);
+}
+```
+
+**6.焦点管理**
+
+```javascript
+var button = document.getElementById("myButton");
+button.focus();
+alert(document.activeElement === button); //true
+
+var button = document.getElementById("myButton");
+button.focus();
+alert(document.hasFocus()); //true
+```
+
