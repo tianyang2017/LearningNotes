@@ -62,7 +62,9 @@
 
    + **toString()**：返回对象的字符串表示。
 
-   + **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。 
+   + **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。
+
+         ![js 对象属性](D:\学习笔记\picture\js 对象属性.png)
 
    ![js 对象属性](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png)
 
@@ -753,7 +755,11 @@ alert(Person.prototype.constructor=== Person);  //true
 alert(Person.prototype == person1.__proto__);  //true
 ```
 
+![js 原型1](D:\学习笔记\picture\js 原型1.png)
+
 ![js 原型1](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B1.png)
+
+![js 原型2](D:\学习笔记\picture\js 原型2.png)
 
 ![js 原型2](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B2.png)
 
@@ -1688,4 +1694,114 @@ button.focus();
 alert(document.hasFocus()); //true
 ```
 
-7.
+**7.readyState 属性**
+
+```javascript
+//loading，正在加载文档；
+//complete，已经加载完文档。
+if (document.readyState == "complete"){
+//执行操作
+}
+```
+
+**8.自定义属性**
+
+```javascript
+<div id="myDiv" data-appId="12345" data-myname="Nicholas"></div>
+//本例中使用的方法仅用于演示
+var div = document.getElementById("myDiv");
+//取得自定义属性的值
+var appId = div.dataset.appId;
+var myName = div.dataset.myname;
+//设置值
+div.dataset.appId = 23456;
+div.dataset.myname = "Michael";
+//有没有"myname"值呢？
+if (div.dataset.myname){
+    alert("Hello, " + div.dataset.myname);
+}
+```
+
+
+
+**9.innerHTML 属性 和 outerHTML 属性** 
+
+​	在读模式下， **innerHTML** 属性返回与调用元素的所有子节点（包括元素、注释和文本节点）对应的 HTML 标记。在写模式下， innerHTML 会根据指定的值创建新的 DOM 树，然后用这个 DOM 树完全替换调用元素原先的所有子节点。下面是一个例子。
+
+​	在读模式下， **outerHTML** 返回调用它的元素及所有子节点的 HTML 标签。在写模式下， outerHTML会根据指定的 HTML 字符串创建新的 DOM 子树，然后用这个 DOM 子树完全替换调用元素。  
+
+
+
+**10.insertAdjacentHTML()方法** 
+
+- "**beforebegin**"，在当前元素之前插入一个紧邻的同辈元素；
+
+- "**afterbegin**"，在当前元素之下插入一个新的子元素或在第一个子元素之前再插入新的子元素；
+
+- "**beforeend**"，在当前元素之下插入一个新的子元素或在最后一个子元素之后再插入新的子元素；
+
+- "**afterend**"，在当前元素之后插入一个紧邻的同辈元素。 
+
+  ```javascript
+  //作为前一个同辈元素插入
+  element.insertAdjacentHTML("beforebegin", "<p>Hello world!</p>");
+  //作为第一个子元素插入
+  element.insertAdjacentHTML("afterbegin", "<p>Hello world!</p>");
+  //作为最后一个子元素插入
+  element.insertAdjacentHTML("beforeend", "<p>Hello world!</p>");
+  //作为后一个同辈元素插入
+  element.insertAdjacentHTML("afterend", "<p>Hello world!</p>");
+  ```
+
+**11.滚动** 
+
+**scrollIntoView()：**可以在所有 HTML 元素上调用，通过滚动浏览器窗口或某个容器元素，调用元素就可以出现在视口中。如果给这个方法传入 true 作为参数，或者不传入任何参数，那么窗口滚动之后会让调用元素的顶部与视口顶部尽可能平齐。如果传入 false 作为参数，调用元素会尽可能全部出现在视口中，（可能的话，调用元素的底部会与视口顶部平齐。）不过顶部不一定平齐。
+
+**scrollIntoViewIfNeeded(alignCenter)：**只在当前元素在视口中不可见的情况下，才滚动浏览器窗口或容器元素，最终让它可见。如果当前元素在视口中可见，这个方法什么也不做。如果将可选的 alignCenter 参数设置为 true，则表示尽量将元素显示在视口中部（垂直方向）。Safari 和 Chrome 实现了这个方法。
+ **scrollByLines(lineCount)：**将元素的内容滚动指定的行高， lineCount 值可以是正值，也可以是负值。 Safari 和 Chrome 实现了这个方法。
+ **scrollByPages(pageCount)：**将元素的内容滚动指定的页面高度，具体高度由元素的高度决定。 Safari 和 Chrome 实现了这个方法。 
+
+```javascript
+//让元素可见
+document.forms[0].scrollIntoView(); 
+
+//将页面主体滚动 5 行
+document.body.scrollByLines(5);
+
+//在当前元素不可见的时候，让它进入浏览器的视口
+document.images[0].scrollIntoViewIfNeeded();
+
+//将页面主体往回滚动 1 页
+document.body.scrollByPages(-1);
+```
+
+
+
+**12.contains()方法** 
+
+判断某个节点是不是另一个节点的后代。 
+
+```javascript
+alert(document.documentElement.contains(document.body)); //true
+```
+
+
+
+## 第十二章 DOM2和DOM3
+
+**1.偏移量、客户区大小、滚动大小**
+
+![偏移量](D:\学习笔记\picture\偏移量.png)
+
+![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%81%8F%E7%A7%BB%E9%87%8F.png)
+
+![客户区大小](D:\学习笔记\picture\客户区大小.png)
+
+![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%AE%A2%E6%88%B7%E5%8C%BA%E5%A4%A7%E5%B0%8F.png)
+
+![滚动大小](D:\学习笔记\picture\滚动大小.png)
+
+![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E6%BB%9A%E5%8A%A8%E5%A4%A7%E5%B0%8F.png)
+
+## 第十三 事件
+
