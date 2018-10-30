@@ -1805,3 +1805,240 @@ alert(document.documentElement.contains(document.body)); //true
 
 ## 第十三 事件
 
+### 13.1 DOM事件流 
+
+“DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应。 
+
+![事件流](D:\学习笔记\picture\事件流.png)
+
+![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%BA%8B%E4%BB%B6%E6%B5%81.png)
+
+### 13.2 事件处理程序
+
+#### 1. DOM0 级事件处理程序 
+
+使用 DOM0 级方法指定的事件处理程序被认为是元素的方法。因此，这时候的事件处理程序是在元素的作用域中运行；换句话说，程序中的 this 引用当前元素。 
+
+```javascript
+// 绑定事件
+var btn = document.getElementById("myBtn");
+btn.onclick = function(){
+	alert(this.id); //"myBtn"
+};
+btn.onclick = null; //删除事件处理程序
+```
+
+#### 2. DOM2 级事件处理程序 
+
+“DOM2 级事件” 定义了两个方法，用于处理指定和删除事件处理程序的操作： addEventListener()和 removeEventListener()。所有 DOM 节点中都包含这两个方法，并且它们都接受 3 个参数：要处理的事件名、作为事件处理程序的函数和一个布尔值。最后这个布尔值参数如果是 true，表示在捕获阶段调用事件处理程序；如果是 false，表示在冒泡阶段调用事件处理程序。 **使用 DOM2 级方法添加事件处理程序的主要好处是可以添加多个事件处理程序。** 
+
+```javascript
+var btn = document.getElementById("myBtn");
+btn.addEventListener("click", function(){
+	alert(this.id);
+}, false);
+btn.addEventListener("click", function(){
+	alert("Hello world!");
+}, false);
+
+btn.removeEventListener("click", function(){ //没有用！
+alert(this.id);
+}, false);
+
+
+//有效解绑
+var btn = document.getElementById("myBtn");
+var handler = function(){
+alert(this.id);
+};
+btn.addEventListener("click", handler, false);
+//这里省略了其他代码
+btn.removeEventListener("click", handler, false); //有效
+```
+
+#### 3.兼容IE
+
+```javascript
+var EventUtil = {
+addHandler: function(element, type, handler){
+        if (element.addEventListener){
+        	element.addEventListener(type, handler, false);
+        } else if (element.attachEvent){
+        	element.attachEvent("on" + type, handler);
+        } else {
+        	element["on" + type] = handler;
+        }
+        },
+    removeHandler: function(element, type, handler){
+        if (element.removeEventListener){
+       		element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent){
+        	element.detachEvent("on" + type, handler);
+        } else {
+        	element["on" + type] = null;
+    }
+}
+};
+```
+
+
+
+### 13.3 事件处理程序
+
+兼容 DOM 的浏览器会将一个 event 对象传入到事件处理程序中。无论指定事件处理程序时使用什么方法（DOM0 级或 DOM2 级），都会传入 event 对象。 
+
+```javascript
+var btn = document.getElementById("myBtn");
+btn.onclick = function(event){
+	alert(event.type); //"click"
+};
+btn.addEventListener("click", function(event){
+	alert(event.type); //"click"
+}, false);
+```
+
+event 对象包含与创建它的特定事件有关的属性和方法。触发的事件类型不一样，可用的属性和方法也不一样。不过，所有事件都会有下表列出的成员。 
+
+|         属性/方法          |    类 型     | 读/写 | 说 明                                                        |
+| :------------------------: | :----------: | :---: | :----------------------------------------------------------- |
+|           target           |   Element    | 只读  | 事件的目标                                                   |
+|          bubbles           |   Boolean    | 只读  | 表明事件是否冒泡                                             |
+|         cancelable         |   Boolean    | 只读  | 表明是否可以取消事件的默认行为                               |
+|       currentTarget        |   Element    | 只读  | 其事件处理程序当前正在处理事件的那个元素                     |
+|      defaultPrevented      |   Boolean    | 只读  | 为 true 表 示 已 经 调 用 了 preventDefault()（DOM3级事件中新增） |
+|           detail           |   Integer    | 只读  | 与事件相关的细节信息                                         |
+|         eventPhase         |   Integer    | 只读  | 调用事件处理程序的阶段： 1表示捕获阶段， 2表示“处于目标”， 3表示冒泡阶段 |
+|      preventDefault()      |   Function   | 只读  | 取 消 事 件 的 默 认 行 为 。 如 果 cancelable是true，则可以使用这个方法 |
+| stopImmediatePropagation() |   Function   | 只读  | 取消事件的进一步捕获或冒泡，同时阻止任何事件处理程序被调用（DOM3级事件中新增） |
+|     stopPropagation()      |   Function   | 只读  | 取消事件的进一步捕获或冒泡。如果bubbles为true，则可以使用这个方法 |
+|          trusted           |   Boolean    | 只读  | 为true表示事件是浏览器生成的。为false表示 事 件 是 由 开 发 人 员 通 过 JavaScript 创 建 的（DOM3级事件中新增） |
+|            type            |    String    | 只读  | 被触发的事件的类型                                           |
+|            view            | AbstractView | 只读  | 与事件关联的抽象视图。等同于发生事件的window对象             |
+
+```javascript
+//点击myBtn元素
+var btn = document.getElementById("myBtn");
+btn.onclick = function(event){
+    alert(event.currentTarget === this); //true
+    alert(event.target === this); //true
+};
+
+document.body.onclick = function(event){
+	alert(event.currentTarget === document.body); //true
+	alert(this === document.body); //true
+	alert(event.target === document.getElementById("myBtn")); //true
+};
+
+//阻止默认行为
+var link = document.getElementById("myLink");
+    link.onclick = function(event){
+    event.preventDefault();
+};
+
+//阻止冒泡
+var btn = document.getElementById("myBtn");
+    btn.onclick = function(event){
+    alert("Clicked");
+    event.stopPropagation();
+};
+```
+
+事件对象的 eventPhase 属性，可以用来确定事件当前正位于事件流的哪个阶段。如果是在捕获阶段调用的事件处理程序，那么 eventPhase 等于 1；如果事件处理程序处于目标对象上，则 eventPhase 等于 2；如果是在冒泡阶段调用的事件处理程序，eventPhase 等于 3。这里要注意的是，尽管“处于目标”发生在冒泡阶段，但 eventPhase 仍然一直等于 2。 
+
+```javascript
+var btn = document.getElementById("myBtn");
+btn.onclick = function(event){
+	alert(event.eventPhase); //2
+};
+document.body.addEventListener("click", function(event){
+	alert(event.eventPhase); //1
+}, true);
+document.body.onclick = function(event){
+	alert(event.eventPhase); //3
+};
+```
+
+### 13.4 事件类型
+
+#### 1.UI 事件
+
+UI 事件指的是那些不一定与用户操作有关的事件。这些事件在 DOM 规范出现之前，都是以这种或那种形式存在的，而在 DOM 规范中保留是为了向后兼容。现有的 UI 事件如下。
+
+- **load**：当页面完全加载后在 window 上面触发，当所有框架都加载完毕时在框架集上面触发，当图像加载完毕时在\<img>元素上面触发，或者当嵌入的内容加载完毕时在\<object>元素上面触发。
+- **unload**：当页面完全卸载后在 window 上面触发，当所有框架都卸载后在框架集上面触发，或者当嵌入的内容卸载完毕后在\<object>元素上面触发。
+- **abort**：在用户停止下载过程时，如果嵌入的内容没有加载完，则在\<object>元素上面触发。
+- **error**：当发生 JavaScript 错误时在 window 上面触发，当无法加载图像时在\<img>元素上面触发，当无法加载嵌入内容时在\<object>元素上面触发，或者当有一或多个框架无法加载时在框架集上面触发。
+- **select**：当用户选择文本框（\<input>或\<texterea>）中的一或多个字符时触发。
+- **resize**：当窗口或框架的大小变化时在 window 或框架上面触发。
+- **scroll**：当用户滚动带滚动条的元素中的内容时，在该元素上面触发。 \<body>元素中包含所加载页面的滚动条。
+
+多数这些事件都与 window 对象或表单控件相关。  
+
+```javascript
+EventUtil.addHandler(window, "load", function(event){
+	alert("Loaded!");
+});
+
+<body onload="alert('Loaded!')">
+
+// 加载图片    
+<img src="smile.gif" onload="alert('Image loaded.')">
+    
+var image = document.getElementById("myImage");
+EventUtil.addHandler(image, "load", function(event){
+    event = EventUtil.getEvent(event);
+    alert(EventUtil.getTarget(event).src);
+});
+
+//创建并加载图片
+EventUtil.addHandler(window, "load", function(){
+var image = document.createElement("img");
+EventUtil.addHandler(image, "load", function(event){
+    event = EventUtil.getEvent(event);
+    alert(EventUtil.getTarget(event).src);
+});
+document.body.appendChild(image);
+	image.src = "smile.gif";
+});
+
+//创建并加载图片2
+EventUtil.addHandler(window, "load", function(){
+var image = new Image();
+EventUtil.addHandler(image, "load", function(event){
+alert("Image loaded!");
+});
+image.src = "smile.gif";
+});
+
+//创建并加载脚本
+EventUtil.addHandler(window, "load", function(){
+var script = document.createElement("script");
+EventUtil.addHandler(script, "load", function(event){
+alert("Loaded");
+});
+script.src = "example.js";
+document.body.appendChild(script);
+});
+```
+
+#### 2.焦点事件
+
+**blur**：在元素失去焦点时触发。这个事件不会冒泡；所有浏览器都支持它。 
+
+**focus**：在元素获得焦点时触发。这个事件不会冒泡；所有浏览器都支持它。 
+
+#### 3.鼠标和滚轮事件
+
+鼠标事件是 Web 开发中最常用的一类事件，毕竟鼠标还是最主要的定位设备。 DOM3 级事件中定义了 9 个鼠标事件。
+
+- **click**：在用户单击主鼠标按钮（一般是左边的按钮）或者按下回车键时触发。这一点对确保易访问性很重要，意味着 onclick 事件处理程序既可以通过键盘也可以通过鼠标执行。
+- **dblclick**：在用户双击主鼠标按钮（一般是左边的按钮）时触发。从技术上说，这个事件并不是 DOM2 级事件规范中规定的，但鉴于它得到了广泛支持，所以 DOM3 级事件将其纳入了标准。
+- **mousedown**：在用户按下了任意鼠标按钮时触发。不能通过键盘触发这个事件。
+- **mouseenter**：在鼠标光标从元素外部首次移动到元素范围之内时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。 DOM2 级事件并没有定义这个事件，但 DOM3 级事件将它纳入了规范。 IE、 Firefox 9+和 Opera 支持这个事件。
+- **mouseleave**：在位于元素上方的鼠标光标移动到元素范围之外时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。 DOM2 级事件并没有定义这个事件，但 DOM3 级事件将它纳入了规范。 IE、 Firefox 9+和 Opera 支持这个事件。
+
+- **mousemove**：当鼠标指针在元素内部移动时重复地触发。不能通过键盘触发这个事件。 
+
+- **mouseout**：在鼠标指针位于一个元素上方，然后用户将其移入另一个元素时触发。又移入的另一个元素可能位于前一个元素的外部，也可能是这个元素的子元素。不能通过键盘触发这个事件。
+- **mouseover**：在鼠标指针位于一个元素外部，然后用户将其首次移入另一个元素边界之内时触发。不能通过键盘触发这个事件。
+- **mouseup**：在用户释放鼠标按钮时触发。不能通过键盘触发这个事件。 
