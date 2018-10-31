@@ -2029,16 +2029,876 @@ document.body.appendChild(script);
 
 #### 3.鼠标和滚轮事件
 
+**3.1 鼠标事件**
+
 鼠标事件是 Web 开发中最常用的一类事件，毕竟鼠标还是最主要的定位设备。 DOM3 级事件中定义了 9 个鼠标事件。
 
 - **click**：在用户单击主鼠标按钮（一般是左边的按钮）或者按下回车键时触发。这一点对确保易访问性很重要，意味着 onclick 事件处理程序既可以通过键盘也可以通过鼠标执行。
+
 - **dblclick**：在用户双击主鼠标按钮（一般是左边的按钮）时触发。从技术上说，这个事件并不是 DOM2 级事件规范中规定的，但鉴于它得到了广泛支持，所以 DOM3 级事件将其纳入了标准。
+
 - **mousedown**：在用户按下了任意鼠标按钮时触发。不能通过键盘触发这个事件。
+
 - **mouseenter**：在鼠标光标从元素外部首次移动到元素范围之内时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。 DOM2 级事件并没有定义这个事件，但 DOM3 级事件将它纳入了规范。 IE、 Firefox 9+和 Opera 支持这个事件。
+
 - **mouseleave**：在位于元素上方的鼠标光标移动到元素范围之外时触发。这个事件不冒泡，而且在光标移动到后代元素上不会触发。 DOM2 级事件并没有定义这个事件，但 DOM3 级事件将它纳入了规范。 IE、 Firefox 9+和 Opera 支持这个事件。
 
 - **mousemove**：当鼠标指针在元素内部移动时重复地触发。不能通过键盘触发这个事件。 
 
 - **mouseout**：在鼠标指针位于一个元素上方，然后用户将其移入另一个元素时触发。又移入的另一个元素可能位于前一个元素的外部，也可能是这个元素的子元素。不能通过键盘触发这个事件。
+
 - **mouseover**：在鼠标指针位于一个元素外部，然后用户将其首次移入另一个元素边界之内时触发。不能通过键盘触发这个事件。
+
 - **mouseup**：在用户释放鼠标按钮时触发。不能通过键盘触发这个事件。 
+
+
+**3.2 位置：**
+
+```javascript
+//客户区坐标位置 相对于浏览器可视窗口
+var div = document.getElementById("myDiv");
+EventUtil.addHandler(div, "click", function(event){
+	event = EventUtil.getEvent(event);
+	alert("Client coordinates: " + event.clientX + "," + event.clientY);
+});
+
+//页面坐标位置  相对于整个html页面
+var div = document.getElementById("myDiv");
+EventUtil.addHandler(div, "click", function(event){
+	event = EventUtil.getEvent(event);
+	alert("Page coordinates: " + event.pageX + "," + event.pageY);
+});
+
+//屏幕坐标位置 相对于整个电脑屏幕
+var div = document.getElementById("myDiv");
+EventUtil.addHandler(div, "click", function(event){
+	event = EventUtil.getEvent(event);
+	alert("Screen coordinates: " + event.screenX + "," + event.screenY);
+});
+```
+
+
+
+**3.3  修改键**
+
+虽然鼠标事件主要是使用鼠标来触发的，但在按下鼠标时键盘上的某些键的状态也可以影响到所要采取的操作。这些修改键就是 Shift、 Ctrl、 Alt 和 Meta（在 Windows 键盘中是 Windows 键，在苹果机中是 Cmd 键），它们经常被用来修改鼠标事件的行为。 DOM 为此规定了 4 个属性，表示这些修改键的状态： shiftKey、 ctrlKey、 altKey 和 metaKey。这些属性中包含的都是布尔值，如果相应的键被按下了，则值为 true，否则值为 false。
+
+```javascript
+var div = document.getElementById("myDiv");
+EventUtil.addHandler(div, "click", function(event){
+event = EventUtil.getEvent(event);
+var keys = new Array();
+	if (event.shiftKey){
+keys.push("shift");
+}
+if (event.ctrlKey){
+	keys.push("ctrl");
+}
+if (event.altKey){
+	keys.push("alt");
+}
+if (event.metaKey){
+	keys.push("meta");
+}
+	alert("Keys: " + keys.join(","));
+});
+```
+
+**3.4 相关元素**
+
+在发生 mouseover 和 mouserout 事件时，还会涉及更多的元素。这两个事件都会涉及把鼠标指针从一个元素的边界之内移动到另一个元素的边界之内。对 mouseover 事件而言，事件的主目标是获得光标的元素，而相关元素就是那个失去光标的元素。类似地，对 mouseout 事件而言，事件的主目标是失去光标的元素，而相关元素则是获得光标的元素。DOM 通过 event 对象的 **relatedTarget** 属性提供了相关元素的信息。 **这个属性只对于 mouseover和 mouseout 事件才包含值**；对于其他事件，这个属性的值是 null。 
+
+**3.5 鼠标按钮** 
+
+只有在主鼠标按钮被单击（或键盘回车键被按下）时才会触发 click 事件，因此检测按钮的信息并不是必要的。但对mousedown 和 mouseup 事件来说，则在其 event 对象存在一个 button 属性，表示按下或释放的按钮。 DOM 的 button 属性可能有如下 3 个值： 0 表示主鼠标按钮， 1 表示中间的鼠标按钮（鼠标滚轮按钮）， 2 表示次鼠标按钮。 
+
+**3.6 鼠标滚轮事件**
+
+```javascript
+EventUtil.addHandler(document, "mousewheel", function(event){
+	event = EventUtil.getEvent(event);
+	alert(event.wheelDelta);
+});
+```
+
+
+
+#### 4.键盘与文本事件
+
+**4.1 键盘事件与文本事件**
+
+**键盘事件**:
+
+- **keydown**：当用户按下键盘上的任意键时触发，而且如果按住不放的话，会重复触发此事件。
+- **keypress**：当用户按下键盘上的字符键时触发，而且如果按住不放的话，会重复触发此事件。按下 Esc 键也会触发这个事件。Safari 3.1 之前的版本也会在用户按下非字符键时触发 keypress事件。
+- **keyup**：当用户释放键盘上的键时触发。 
+
+**文本事件：**
+
+-  **textInput**。这个事件是对 keypress 的补充，用意是在将文本显示给用户之前更容易拦截文本。在文本插入文本框之前会触发 textInput 事件。 
+
+**4.2 键码**
+
+在发生 **keydown** 和 **keyup** 事件时， event 对象的 **keyCode** 属性中会包含一个代码，与键盘上一个特定的键对应。 （回车键定对应的键码为13）
+
+**4.3 字符编码**
+
+发生 **keypress** 事件意味着按下的键会影响到屏幕中文本的显示。在所有浏览器中，按下能够插入或删除字符的键都会触发 keypress 事件。IE9、 Firefox、 Chrome 和 Safari 的 event 对象都支持一个 **charCode** 属性，这个属性只有在发生keypress 事件时才包含值，而且这个值是按下的那个键所代表字符的 ASCII 编码。此时的 keyCode通常等于 0 或者也可能等于所按键的键码。
+
+**4.5 textInput 事件** 
+
+由于 textInput 事件主要考虑的是字符，因此它的 event 对象中还包含一个 data 属性，这个属性的值就是用户输入的字符（而非字符编码）。 
+
+```javascript
+var textbox = document.getElementById("myText");
+EventUtil.addHandler(textbox, "textInput", function(event){
+    event = EventUtil.getEvent(event);
+    alert(event.data);
+});
+```
+
+另外， event 对象上还有一个属性，叫 **inputMethod**，表示把文本输入到文本框中的方式。
+
+- 0，表示浏览器不确定是怎么输入的。
+- 1，表示是使用键盘输入的。
+- 2，表示文本是粘贴进来的。
+- 3，表示文本是拖放进来的。
+- 4，表示文本是使用 IME 输入的。
+- 5，表示文本是通过在表单中选择某一项输入的。
+- 6，表示文本是通过手写输入的（比如使用手写笔）。
+- 7，表示文本是通过语音输入的。
+- 8，表示文本是通过几种方法组合输入的。
+- 9，表示文本是通过脚本输入的。 
+
+
+
+#### 5.变动事件
+
+DOM2 级的变动（mutation）事件能在 DOM 中的某一部分发生变化时给出提示。变动事件是为 XML或 HTML DOM 设计的，并不特定于某种语言。 DOM2 级定义了如下变动事件。
+
+- **DOMSubtreeModified**：在 DOM 结构中发生任何变化时触发。这个事件在其他任何事件触发后都会触发。
+- **DOMNodeInserted**：在一个节点作为子节点被插入到另一个节点中时触发。
+- **DOMNodeRemoved**：在节点从其父节点中被移除时触发。
+- **DOMNodeInsertedIntoDocument**：在一个节点被直接插入文档或通过子树间接插入文档之后触发。这个事件在 DOMNodeInserted 之后触发。
+- **DOMNodeRemovedFromDocument**：在一个节点被直接从文档中移除或通过子树间接从文档中移除之前触发。这个事件在 DOMNodeRemoved 之后触发。
+- **DOMAttrModified**：在特性被修改之后触发。
+- **DOMCharacterDataModified**：在文本节点的值发生变化时触发。 
+
+
+
+#### 6.HTML5事件
+
+**6.1 beforeunload 事件**
+
+之所以有发生在 window 对象上的 beforeunload 事件，是为了让开发人员有可能在页面卸载前阻止这一操作。这个事件会在浏览器卸载页面之前触发，可以通过它来取消卸载并继续使用原有页面。  
+
+为了显示这个弹出对话框，必须将 event.returnValue 的值设置为要显示给用户的字符串（对IE 及 Fiefox 而言），同时作为函数的值返回（对 Safari 和 Chrome 而言），如下面的例子所示。 
+
+```javascript
+EventUtil.addHandler(window, "beforeunload", function(event){
+    event = EventUtil.getEvent(event);
+    var message = "I'm really going to miss you if you go.";
+    event.returnValue = message;
+    return message;
+});
+```
+
+**6.2 DOMContentLoaded 事件**
+
+如前所述， window 的 load 事件会在页面中的一切都加载完毕时触发，但这个过程可能会因为要加载的外部资源过多而颇费周折。而 DOMContentLoaded 事件则在形成完整的 DOM 树之后就会触发，不理会图像、 JavaScript 文件、 CSS 文件或其他资源是否已经下载完毕。与 load 事件不同，DOMContentLoaded 支持在页面下载的早期添加事件处理程序，这也就意味着用户能够尽早地与页面进行交互。
+要处理 DOMContentLoaded 事件，可以为 document 或 window 添加相应的事件处理程序（尽管这个事件会冒泡到 window，但它的目标实际上是 document）。来看下面的例子。
+
+```javascript
+EventUtil.addHandler(document, "DOMContentLoaded", function(event){
+	alert("Content loaded");
+}); 
+```
+
+**6.3 hashchange 事件** 
+
+HTML5 新增了 hashchange 事件，以便在 URL 的参数列表（及 URL 中“#”号后面的所有字符串）发生变化时通知开发人员。之所以新增这个事件，是因为在 Ajax 应用中，开发人员经常要利用 URL 参数列表来保存状态或导航信息。
+必须要把 hashchange 事件处理程序添加给 window 对象，然后 URL 参数列表只要变化就会调用它。此时的 event 对象应该额外包含两个属性： oldURL 和 newURL。 
+
+```javascript
+EventUtil.addHandler(window, "hashchange", function(event){
+	alert("Old URL: " + event.oldURL + "\nNew URL: " + event.newURL);
+});
+
+//保证兼容性的情况下可以按照此方法调用得到当前参数列表
+EventUtil.addHandler(window, "hashchange", function(event){
+alert("Current hash: " + location.hash);
+});
+```
+
+
+
+### 第十四章 表单脚本
+
+### 14.1 表单基础知识
+
+在 HTML 中，表单是由\<form>元素来表示的，而在 JavaScript 中，表单对应的则是 HTMLFormElement 类型。HTMLFormElement 继承了 HTMLElement，因而与其他 HTML 元素具有相同的默认属性。不过， HTMLFormElement 也有它自己下列独有的属性和方法。
+
+- **acceptCharset**：服务器能够处理的字符集；等价于 HTML 中的 accept-charset 特性。
+- **action**：接受请求的 URL；等价于 HTML 中的 action 特性。
+- **elements**：表单中所有控件的集合（HTMLCollection）。
+- **enctype**：请求的编码类型；等价于 HTML 中的 enctype 特性。
+- **length**：表单中控件的数量。
+- **method**：要发送的 HTTP 请求类型，通常是"get"或"post"；等价于 HTML 的 method 特性。
+- **name**：表单的名称；等价于 HTML 的 name 特性。
+- **reset()**：将所有表单域重置为默认值。
+- **submit()**：提交表单。
+- **target**：用于发送请求和接收响应的窗口名称；等价于 HTML 的 target 特性。 
+
+
+
+#### 1.提交表单
+
+```html
+<!-- 提交表单方式一 -->
+<!-- 通用提交按钮 -->
+<input type="submit" value="Submit Form">
+<!-- 自定义提交按钮 -->
+<button type="submit">Submit Form</button>
+<!-- 图像按钮 -->
+<input type="image" src="graphic.gif">
+```
+
+以这种方式提交表单时，浏览器会在将请求发送给服务器之前触发 submit 事件。这样，我们就有机会验证表单数据，并据以决定是否允许表单提交。阻止这个事件的默认行为就可以取消表单提交。例如，下列代码会阻止表单提交。 
+
+```javascript
+var form = document.getElementById("myForm");
+EventUtil.addHandler(form, "submit", function(event){
+    //取得事件对象
+    event = EventUtil.getEvent(event);
+    //阻止默认事件
+    EventUtil.preventDefault(event);
+});
+```
+
+```javascript
+//提交表单方式二
+var form = document.getElementById("myForm");
+//提交表单
+form.submit();
+```
+
+调用 submit()方法的形式提交表单时，**不会触发 submit 事件**，因此要记得在调用此方法之前先验证表单数据 。
+
+
+
+#### 2.重置表单
+
+```html
+<!-- 通用重置按钮 -->
+<input type="reset" value="Reset Form">
+<!-- 自定义重置按钮 -->
+<button type="reset">Reset Form</button>
+```
+
+```javascript
+var form = document.getElementById("myForm");
+EventUtil.addHandler(form, "reset", function(event){
+    //取得事件对象
+    event = EventUtil.getEvent(event);
+    //阻止表单重置
+    EventUtil.preventDefault(event);
+});
+```
+
+```javascript
+var form = document.getElementById("myForm");
+//重置表单
+form.reset();
+```
+
+**与调用 submit()方法不同，调用 reset()方法会像单击重置按钮一样触发 reset 事件。**
+
+ 
+
+#### 3.表单字段
+
+```javascript
+var form = document.getElementById("form1");
+//取得表单中的第一个字段
+var field1 = form.elements[0];
+//取得名为"textbox1"的字段
+var field2 = form.elements["textbox1"];
+//取得表单中包含的字段的数量
+var fieldCount = form.elements.length;
+
+<form method="post" id="myForm">
+    <ul>
+        <li><input type="radio" name="color" value="red">Red</li>
+        <li><input type="radio" name="color" value="green">Green</li>
+        <li><input type="radio" name="color" value="blue">Blue</li>
+    </ul>
+</form>
+
+var form = document.getElementById("myForm");
+var colorFields = form.elements["color"];
+alert(colorFields.length); //3
+var firstColorField = colorFields[0];
+var firstFormField = form.elements[0];
+alert(firstColorField === firstFormField); //true
+```
+
+##### 3.1 共有的表单字段属性
+
+除了\<fieldset>元素之外，所有表单字段都拥有相同的一组属性。由于\<input>类型可以表示多种表单字段，因此有些属性只适用于某些字段，但还有一些属性是所有字段所共有的。表单字段共有的属性如下。
+
+- **disabled**：布尔值，表示当前字段是否被禁用。
+- **form**：指向当前字段所属表单的指针；**只读**。
+- **name**：当前字段的名称。
+- **readOnly**：布尔值，表示当前字段是否只读。
+- **tabIndex**：表示当前字段的切换（tab）序号。
+- **type**：当前字段的类型，如"checkbox"、 "radio"，等等。
+- **value**：当前字段将被提交给服务器的值。对文件字段来说，这个属性是只读的，包含着文件在计算机中的路径。
+
+```javascript
+var form = document.getElementById("myForm");
+var field = form.elements[0];
+//修改 value 属性
+field.value = "Another value";
+//检查 form 属性的值
+alert(field.form === form); //true
+//把焦点设置到当前字段
+field.focus();
+//禁用当前字段
+field.disabled = true;
+
+//避免多次提交表单
+EventUtil.addHandler(form, "submit", function(event){
+event = EventUtil.getEvent(event);
+var target = EventUtil.getTarget(event);
+//取得提交按钮
+var btn = target.elements["submit-btn"];
+//禁用它
+btn.disabled = true;
+});
+```
+
+##### 3.2 共有的表单字段方法 
+
+每个表单字段都有两个方法： **focus()**和 **blur()**
+
+```javascript
+//html5 新增属性 autofocus
+<input type="text" autofocus>
+
+// js 设置方式   
+EventUtil.addHandler(window, "load", function(event){
+	var element = document.forms[0].elements[0];
+    if (element.autofocus !== true){
+		element.focus(); 
+        console.log("JS focus");
+    }
+});
+document.forms[0].elements[0].blur();
+```
+
+##### 3.3 共有的表单字段事件
+
+除了支持鼠标、键盘、更改和 HTML 事件之外，所有表单字段都支持下列 3 个事件。
+**blur**：当前字段失去焦点时触发。
+**change**：对于\<input>和\<textarea>元素，在它们失去焦点且 value 值改变时触发；对于\<select>元素，在其选项改变时触发。
+**focus**：当前字段获得焦点时触发。 
+
+
+
+### 14.2 文本框脚本
+
+```javascript
+<input type="text" size="25" maxlength="50" value="initial value">
+    
+<textarea rows="25" cols="5">initial value</textarea>    
+
+var textbox = document.forms[0].elements["textbox1"];
+alert(textbox.value);
+textbox.value = "Some new value";
+```
+
+#### 1. 选择文本
+
+ 选择（**select**）事件
+
+```javascript
+//鼠标选择文本时候触发
+var textbox = document.forms[0].elements["textbox1"];
+EventUtil.addHandler(textbox, "select", function(event){
+var alert("Text selected" + textbox.value);
+});
+```
+
+获取选中的内容**selectionStart**,**selectionEnd**，设置选中的范围**setSelectionRange**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <label for="inputId">输入</label><input id="inputId" maxlength="10" value="123456789" autofocus>
+</body>
+    <script>
+        let input = document.getElementById('inputId');
+        input.addEventListener("select",function (event) {
+            console.log("选择的文本"+input.value.substring(input.selectionStart,input.selectionEnd));
+            //设置选中的范围
+            input.setSelectionRange(0,5)
+        })
+    </script>
+</html>
+```
+
+#### 2. 过滤输入(**keypress**)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <label for="inputId">输入</label><input id="inputId" type="text" autofocus>
+    <button>点击</button>
+</body>
+    <script>
+        let put = document.getElementById('inputId');
+        put.addEventListener("keypress",function (event) {
+            console.log(event.key);
+           if (!/\d/.test(event.key)){
+               event.preventDefault()
+           }
+        });
+    </script>
+</html>
+```
+
+#### 3.自动切换焦点
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <label for="inputId1">输入1</label>
+    <input id="inputId1" type="text" maxlength="3" autofocus>
+    <label for="inputId2">输入2</label>
+    <input id="inputId2" type="text" maxlength="3" autofocus>
+    <label for="inputId3">输入3</label>
+    <input id="inputId3" type="text" maxlength="3" autofocus>
+    <button>点击</button>
+</body>
+    <script>
+       //自动切换焦点
+       let inputs = document.getElementsByTagName("input");
+       for (let i=0;i<inputs.length;i++){
+           inputs[i].addEventListener("keypress",function (event) {
+               if (this.value.trim().length==this.getAttribute("maxlength")) {
+                   if (inputs[i+1]){
+                       inputs[i+1].focus()
+                   }
+               }
+           })
+       }
+    </script>
+</html>
+```
+
+#### 4. HTML5 验证约束API 
+
+```html
+<!--必填字段校验-->
+<input type="text" name="username" required>
+var isUsernameRequired = document.forms[0].elements["username"].required
+<!--邮件和网址校验-->
+<input type="email" name ="email">
+<input type="url" name="homepage">
+<!--数值范围校验-->
+<input type="number" min="0" max="100" step="5" name="count">
+input.stepUp(); //加 1
+input.stepUp(5); //加 5
+input.stepDown(); //减 1
+input.stepDown(10); //减 10
+<!--输入模式校验-->
+<input type="text" pattern="\d+" name="count">
+
+<!--禁用验证 novalidate -->
+<form method="post" action="signup.php" novalidate></form>
+
+<form method="post" action="foo.php">
+<!--这里插入表单元素-->
+<input type="submit" value="Regular Submit">
+    <input type="submit" formnovalidate name="btnNoValidate"
+value="Non-validating Submit">
+</form>
+document.forms[0].elements["btnNoValidate"].formNoValidate = true;
+```
+
+通过设置 **novalidate** 属性，可以告诉表单不进行验证。 
+
+如果一个表单中有多个提交按钮，为了指定点击某个提交按钮不必验证表单，可以在相应的按钮上添加 **formnovalidate** 属性。
+
+**约束校验** 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <label for="myInput">输入数值</label><input id="myInput" type="text" pattern="\d+" name="count">
+    <button>校验输入内容</button>
+</body>
+    <script>
+        //可以校验某一个具体的表单项或者校验整个表单
+        let myInput = document.getElementById("myInput");
+        document.getElementsByTagName("button")[0].addEventListener("click",function () {
+            let b = myInput.checkValidity();
+            //校验的明细信息
+            console.log(myInput.validity);
+            alert("校验结果:"+b)   //true or false
+        })
+    </script>
+</html>
+```
+
+与 checkValidity()方法简单地告诉你字段是否有效相比， **validity** 属性则会告诉你为什么字段有效或无效。这个对象中包含一系列属性，每个属性会返回一个布尔值。
+
+- **customError** ：如果设置了 setCustomValidity()，则为 true，否则返回 false。
+- **patternMismatch**：如果值与指定的 pattern 属性不匹配，返回 true。
+- **rangeOverflow**：如果值比 max 值大，返回 true。
+- **rangeUnderflow**：如果值比 min 值小，返回 true。
+- **stepMisMatch**：如果 min 和 max 之间的步长值不合理，返回 true。
+- **tooLong**：如果值的长度超过了 maxlength 属性指定的长度，返回 true。有的浏览器（如 Firefox 4）
+- 会自动约束字符数量，因此这个值可能永远都返回 false。
+- **typeMismatch**：如果值不是"mail"或"url"要求的格式，返回 true。
+- **valid**：如果这里的其他属性都是 false，返回 true。 checkValidity()也要求相同的值。
+- **valueMissing**：如果标注为 required 的字段中没有值，返回 true。
+- 因此，要想得到更具体的信息，就应该使用 validity 属性来检测表单的有效性。下面是一个例子。
+
+```javascript
+if (input.validity && !input.validity.valid){
+    if (input.validity.valueMissing){
+    	alert("Please specify a value.")
+    } else if (input.validity.typeMismatch){
+    	alert("Please enter an email address.");
+    } else {
+   	 alert("Value is invalid.");
+    }
+} 
+```
+
+
+
+### 14.3 选择框脚本
+
+选择框是通过\<select>和\<option>元素创建的。为了方便与这个控件交互，除了所有表单字段共有的属性和方法外， HTMLSelectElement 类型还提供了下列属性和方法。
+
+- **add(newOption, relOption)**：向控件中插入新\<option>元素，其位置在相关项（relOption）之前。
+
+- **multiple**：布尔值，表示是否允许多项选择；等价于 HTML 中的 multiple 特性。
+
+- **options**：控件中所有\<option>元素的 HTMLCollection。
+
+- **remove(index)**：移除给定位置的选项。
+
+- **selectedIndex**：基于 0 的选中项的索引，如果没有选中项，则值为-1。对于支持多选的控件，只保存选中项中第一项的索引。
+
+- **size**：选择框中可见的行数；等价于 HTML 中的 size 特性。 
+
+  ```html
+  <select name="location" id="selLocation">
+      <option value="Sunnyvale, CA">Sunnyvale</option> <!--若被选中 选择框的值为 “Sunnyvale, CA”-->
+      <option value="Los Angeles, CA">Los Angeles</option>
+      <option value="Mountain View, CA">Mountain View</option>
+      <option value="">China</option>      <!--若被选中 选择框的值为 “”-->
+      <option>Australia</option>   <!--若被选中 选择框的值为 “Australia”-->
+  </select>
+  ```
+
+在 DOM 中，每个\<option>元素都由一个 **HTMLOptionElement** 对象表示。为便于访问数据，HTMLOptionElement 对象添加了下列属性： 
+
+- **index**：当前选项在 options 集合中的索引。
+
+- **label**：当前选项的标签；等价于 HTML 中的 label 特性。
+
+- **selected**：布尔值，表示当前选项是否被选中。将这个属性设置为 true 可以选中当前选项。
+
+- **text**：选项的文本。
+
+- **value**：选项的值（等价于 HTML 中的 value 特性）。 
+
+  ```javascript
+  //推荐选择方式
+  var text = selectbox.options[0].text; //选项的文本
+  var value = selectbox.options[0].value; //选项的值
+  ```
+
+
+
+#### 1.选择选项
+
+单选情况下：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <select name="location" id="selLocation">
+        <option value="Sunnyvale, CA">Sunnyvale</option>
+        <option value="Los Angeles, CA">Los Angeles</option>
+        <option value="Mountain View, CA">Mountain View</option>
+        <option value="">China</option>
+        <option>Australia</option>
+    </select>
+</body>
+    <script>
+        //单选选择选中项
+        let selLocation = document.getElementById("selLocation");
+        selLocation.addEventListener("change",function () {
+            console.log("text : "+this.options[selLocation.selectedIndex].text);
+            console.log("value : "+this.options[selLocation.selectedIndex].value);
+        })
+    </script>
+</html>
+```
+
+多选情况下：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <select name="location" multiple id="selLocation">
+        <option value="Sunnyvale, CA">Sunnyvale</option>
+        <option value="Los Angeles, CA">Los Angeles</option>
+        <option value="Mountain View, CA">Mountain View</option>
+        <option value="">China</option>
+        <option>Australia</option>
+    </select>
+    <button id="getAll">获取全部选中项</button>
+</body>
+    <script>
+        //多选获取选择项的值
+        result=[];
+        let btn = document.getElementById("getAll");
+        btn.addEventListener("click",function () {
+            let selLocation = document.getElementById("selLocation");
+            let options = selLocation.options;
+            for (let i=0;i<options.length;i++){
+                if (options[i].selected){
+                  result.push(options[i].value);
+                }
+            }
+            console.log(result);
+        })
+    </script>
+</html>
+```
+
+#### 2.增加选项
+
+```javascript
+var newOption = new Option("Option text", "Option value");
+selectbox.add(newOption, undefined); //最佳方案
+```
+
+兼容 DOM 的浏览器要求必须指定第二个参数，因此要想编写跨浏览器的代码，就不能只传入一个参数。这时候，为第二个参数传入 undefined，就可以在所有浏览器中都将新选项插入到列表最后了。来看一个例子。 
+
+#### 3.移除选项
+
+```javascript
+selectbox.removeChild(selectbox.options[0]); //移除第一个选项
+selectbox.remove(0); //移除第一个选项
+selectbox.options[0] = null; //移除第一个选项
+//移除所有项
+function clearSelectbox(selectbox){
+    for(var i=0, len=selectbox.options.length; i < len; i++){
+    	selectbox.remove(i);
+    }
+}
+```
+
+#### 4.移动和重排选项
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <div style="float: left;">
+            <select name="location" multiple id="left" style="height: 200px;width: 100px">
+                <option value="Sunnyvale, CA">Sunnyvale</option>
+                <option value="Los Angeles, CA">Los Angeles</option>
+                <option value="Mountain View, CA">Mountain View</option>
+                <option value="">China</option>
+                <option>Australia</option>
+            </select>
+        </div>
+        <div style="float: left" >
+            <button id="moveToRight" style="display: block">》》</button>
+            <button id="moveToLeft" style="display: block">《《</button>
+        </div>
+        <div style="float: left;">
+            <select name="location" multiple id="right" style="height: 200px;width: 100px">
+                <option value="111">111</option>
+                <option value="222">222</option>
+                <option value="333">333</option>
+                <option value="444">444</option>
+            </select>
+        </div>
+    </div>
+
+</body>
+    <script>
+        //多选获取选择项的值
+        let moveToRight = document.getElementById("moveToRight");
+        let moveToLeft = document.getElementById("moveToLeft");
+        moveToRight.addEventListener("click",move);
+        moveToLeft.addEventListener("click",move);
+        function move() {
+            let fromOption;
+            let toOption;
+            if (this.id==="moveToRight") {
+                fromOption = document.getElementById("left");
+                toOption = document.getElementById("right");
+            }else
+            {
+                fromOption = document.getElementById("right");
+                toOption = document.getElementById("left");
+            }
+            let options = fromOption.options;
+            for (let i=0;i<options.length;i++){
+                if (options[i].selected){
+                    toOption.appendChild(options[i]);
+                    //选择框的options是动态变化
+                    i--;
+                }
+            }
+        }
+    </script>
+</html>
+```
+
+### 14.4 表单序列化
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="loginForm">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <select>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <label>
+            sex
+            <input type="radio" name="sex" value="man">
+            <input type="radio" name="sex" value="woman">
+        </label>
+
+        <label>
+            like
+            <input type="checkbox" name="like" value="basketball">
+            <input type="checkbox" name="like" value="football">
+            <input type="checkbox" name="like" value="swimming">
+        </label>
+
+        <button type="submit">提交</button>
+    </form>
+</body>
+    <script>
+        let loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit",function (event) {
+           let result = serialize(loginForm);
+           alert(result)
+        });
+        function serialize(form){
+            var parts = [],
+                field = null,
+                i,
+                len,
+                j,
+                optLen,
+                option,
+                optValue;
+            for (i=0, len=form.elements.length; i < len; i++){
+                field = form.elements[i];
+                switch(field.type){
+                    case "select-one":
+                    case "select-multiple":
+                        if (field.name.length){
+                            for (j=0, optLen = field.options.length; j < optLen; j++){
+                                option = field.options[j];
+                                if (option.selected){
+                                    optValue = "";
+                                    if (option.hasAttribute){
+                                        optValue = (option.hasAttribute("value") ?
+                                            option.value : option.text);
+                                    } else {
+                                        optValue = (option.attributes["value"].specified ?
+                                            option.value : option.text);
+                                    }
+                                    parts.push(encodeURIComponent(field.name) + "=" +
+                                        encodeURIComponent(optValue));
+                                }
+                            }
+                        }
+                        break;
+                    case undefined: //字段集
+                    case "file": //文件输入
+                    case "submit": //提交按钮
+                    case "reset": //重置按钮
+                    case "button": //自定义按钮
+                        break;
+                    case "radio": //单选按钮
+                    case "checkbox": //复选框
+                        if (!field.checked){
+                            break;
+                        }
+                    /* 执行默认操作 */
+                    default:
+                        //不包含没有名字的表单字段
+                        if (field.name.length){
+                            parts.push(encodeURIComponent(field.name) + "=" +
+                                encodeURIComponent(field.value));
+                        }
+                }
+            }
+            return parts.join("&");
+        }
+    </script>
+</html>
+
+<!--序列化结果
+username=122&password=22&sex=man&like=basketball&like=football-->
+```
+
