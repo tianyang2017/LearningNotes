@@ -2379,7 +2379,7 @@ btn.disabled = true;
 
 ##### 3.2 共有的表单字段方法 
 
-每个表单字段都有两个方法： **focus()**和 **blur()**
+每个表单字段都有两个方法：  即**focus()**和 **blur()**
 
 ```javascript
 //html5 新增属性 autofocus
@@ -2911,9 +2911,10 @@ username=122&password=22&sex=man&like=basketball&like=football-->
  JSON 字符串必须使用**双引号**（单引号会导致语法错误）。
 
 SON 的语法可以表示以下**三种类型**的值。
-**简单值**：使用与 JavaScript 相同的语法，可以在 JSON 中表示字符串、数值、布尔值和 null。但 JSON 不支持 JavaScript 中的特殊值 undefined。
-**对象**：对象作为一种复杂数据类型，表示的是一组无序的键值对儿。而每个键值对儿中的值可以是简单值，也可以是复杂数据类型的值。
-**数组**：数组也是一种复杂数据类型，表示一组有序的值的列表，可以通过数值索引来访问其中的值。数组的值也可以是任意类型——简单值、对象或数组。 
+
+- **简单值**：使用与 JavaScript 相同的语法，可以在 JSON 中表示字符串、数值、布尔值和 null。但 JSON 不支持 JavaScript 中的特殊值 undefined。
+- **对象**：对象作为一种复杂数据类型，表示的是一组无序的键值对儿。而每个键值对儿中的值可以是简单值，也可以是复杂数据类型的值。
+- **数组**：数组也是一种复杂数据类型，表示一组有序的值的列表，可以通过数值索引来访问其中的值。数组的值也可以是任意类型——简单值、对象或数组。 
 
 ```json
 //简单值
@@ -3345,14 +3346,15 @@ alert("Offline");
 #### 1.Cookie
 
 cookie 由浏览器保存的以下几块信息构成。
-**名称**：一个唯一确定 cookie 的名称。cookie 名称是不区分大小写的，所以 myCookie 和 MyCookie被认为是同一个 cookie。然而，实践中最好将 cookie 名称看作是区分大小写的，因为某些服务器会这样处理 cookie。 cookie 的名称必须是经过 URL 编码的。 
 
-**值**：储存在 cookie 中的字符串值。值必须被 URL 编码。
-**域**： cookie 对于哪个域是有效的。所有向该域发送的请求中都会包含这个 cookie 信息。这个值可以包含子域（subdomain，如 www.wrox.com），也可以不包含它（如.wrox.com，则对于 wrox.com的所有子域都有效）。如果没有明确设定，那么这个域会被认作来自设置 cookie 的那个域。
-**路径**：对于指定域中的那个路径，应该向服务器发送 cookie。例如，你可以指定 cookie 只有从http://www.wrox.com/books/ 中才能访问，那么 http://www.wrox.com 的页面就不会发送 cookie 信息，即使请求都是来自同一个域的。
-**失效时间**：表示 cookie 何时应该被删除的时间戳（也就是，何时应该停止向服务器发送这个cookie）。默认情况下，浏览器会话结束时即将所有 cookie 删除；不过也可以自己设置删除时间。这个值是个 GMT 格式的日期（Wdy, DD-Mon-YYYY HH:MM:SS GMT），用于指定应该删除cookie 的准确时间。因此， cookie 可在浏览器关闭后依然保存在用户的机器上。如果你设置的失
-效日期是个以前的时间，则 cookie 会被立刻删除。
-**安全标志**：指定后， cookie 只有在使用 SSL 连接的时候才发送到服务器。例如， cookie 信息只能发送给https://www.wrox.com，而 http://www.wrox.com 的请求则不能发送 cookie。 
+- **名称**：一个唯一确定 cookie 的名称。cookie 名称是不区分大小写的，所以 myCookie 和 MyCookie被认为是同一个 cookie。然而，实践中最好将 cookie 名称看作是区分大小写的，因为某些服务器会这样处理 cookie。 cookie 的名称必须是经过 URL 编码的。 
+
+- **值**：储存在 cookie 中的字符串值。值必须被 URL 编码。
+- **域**： cookie 对于哪个域是有效的。所有向该域发送的请求中都会包含这个 cookie 信息。这个值可以包含子域（subdomain，如 www.wrox.com），也可以不包含它（如.wrox.com，则对于 wrox.com的所有子域都有效）。如果没有明确设定，那么这个域会被认作来自设置 cookie 的那个域。
+- **路径**：对于指定域中的那个路径，应该向服务器发送 cookie。例如，你可以指定 cookie 只有从http://www.wrox.com/books/ 中才能访问，那么 http://www.wrox.com 的页面就不会发送 cookie 信息，即使请求都是来自同一个域的。
+- **失效时间**：表示 cookie 何时应该被删除的时间戳（也就是，何时应该停止向服务器发送这个cookie）。默认情况下，浏览器会话结束时即将所有 cookie 删除；不过也可以自己设置删除时间。这个值是个 GMT 格式的日期（Wdy, DD-Mon-YYYY HH:MM:SS GMT），用于指定应该删除cookie 的准确时间。因此， cookie 可在浏览器关闭后依然保存在用户的机器上。如果你设置的失
+- 效日期是个以前的时间，则 cookie 会被立刻删除。
+- **安全标志**：指定后， cookie 只有在使用 SSL 连接的时候才发送到服务器。例如， cookie 信息只能发送给https://www.wrox.com，而 http://www.wrox.com 的请求则不能发送 cookie。 
 
 ```
 HTTP/1.1 200 OK
