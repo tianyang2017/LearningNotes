@@ -2379,7 +2379,7 @@ btn.disabled = true;
 
 ##### 3.2 共有的表单字段方法 
 
-每个表单字段都有两个方法：  即**focus()**和 **blur()**
+每个表单字段都有两个方法：  即 **focus()** 和 **blur()**
 
 ```javascript
 //html5 新增属性 autofocus
