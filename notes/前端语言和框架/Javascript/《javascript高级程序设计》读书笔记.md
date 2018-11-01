@@ -2902,3 +2902,568 @@ function clearSelectbox(selectbox){
 username=122&password=22&sex=man&like=basketball&like=football-->
 ```
 
+
+
+## 第二十章 JSON
+
+### 20.1 语法
+
+ JSON 字符串必须使用**双引号**（单引号会导致语法错误）。
+
+SON 的语法可以表示以下**三种类型**的值。
+**简单值**：使用与 JavaScript 相同的语法，可以在 JSON 中表示字符串、数值、布尔值和 null。但 JSON 不支持 JavaScript 中的特殊值 undefined。
+**对象**：对象作为一种复杂数据类型，表示的是一组无序的键值对儿。而每个键值对儿中的值可以是简单值，也可以是复杂数据类型的值。
+**数组**：数组也是一种复杂数据类型，表示一组有序的值的列表，可以通过数值索引来访问其中的值。数组的值也可以是任意类型——简单值、对象或数组。 
+
+```json
+//简单值
+"Hello world!"
+
+//对象
+{
+    "name": "Nicholas",
+    "age": 29,
+    "school": {
+    "name": "Merrimack College",
+    "location": "North Andover, MA"
+    }
+}
+
+//数组
+[25, "hi", true]
+
+//复杂JSON对象
+[	
+    {
+		"title": "Professional JavaScript",
+		"authors": [
+			"Nicholas C. Zakas"
+		],
+		"edition": 3,
+		"year": 2011
+	},
+	{
+		"title": "Professional JavaScript",
+		"authors": [
+			"Nicholas C. Zakas"
+		],
+		"edition": 2,
+		"year": 2009
+	},
+	{
+		"title": "Professional Ajax",
+		"authors": [
+			"Nicholas C. Zakas",
+			"Jeremy McPeak",
+			"Joe Fawcett"
+		],
+		"edition": 2,
+		"year": 2008
+	},
+	{
+		"title": "Professional Ajax",
+		"authors": [
+			"Nicholas C. Zakas",
+			"Jeremy McPeak",
+			"Joe Fawcett"
+		],
+		"edition": 1,
+		"year": 2007
+	},
+	{
+		"title": "Professional JavaScript",
+		"authors": [
+			"Nicholas C. Zakas"
+		],
+		"edition": 1,
+		"year": 2006
+	}
+]
+```
+
+### 20.2 json序列化与反序列化
+
+#### 1.序列化
+
+```javascript
+//序列化
+var jsonText = JSON.stringify(book);
+//反序列化
+var bookCopy = JSON.parse(jsonText);
+```
+
+#### 2.序列化选项
+
+##### 2.1 过滤结果
+
+如果过滤器参数是数组，那么 JSON.stringify()的结果中将只包含数组中列出的属性。 
+
+```javascript
+var book = {
+    "title": "Professional JavaScript",
+    "authors": [
+    "Nicholas C. Zakas"
+    ],
+    "edition": 3,
+    "year" : 2011
+	};
+var jsonText = JSON.stringify(book, ["title", "edition"]);
+```
+
+如果第二个参数是函数，行为会稍有不同。传入的函数接收两个参数，属性（键）名和属性值。根据属性（键）名可以知道应该如何处理要序列化的对象中的属性。属性名只能是字符串，而在值并非键值对儿结构的值时，键名可以是空字符串。 
+
+```javascript
+var book = {
+    "title": "Professional JavaScript",
+    "authors": [
+    "Nicholas C. Zakas"
+    ],
+    "edition": 3,
+    "year" : 2011
+	};
+var jsonText = JSON.stringify(book, function(key, value){
+    switch(key){
+        case "authors":
+            return value.join(",")
+        case "year":
+            return 5000;
+        case "edition":
+            return undefined;
+        default:
+            return value;
+        }
+});
+//结果 {"title":"Professional JavaScript","authors":"Nicholas C. Zakas","year":5000}
+```
+
+这里，函数过滤器根据传入的键来决定结果。如果键为"authors"，就将数组连接为一个字符串；如果键为"year"，则将其值设置为 5000；如果键为"edition"，**通过返回 undefined 删除该属性。**最后，一定要提供 default 项，此时返回传入的值，以便其他值都能正常出现在结果中。 
+
+JSON.stringify()方法的第三个参数用于控制结果中的缩进和空白符。如果这个参数是一个数值，那它表示的是每个级别缩进的空格数。 如果缩进参数是一个字符串而非数值，则这个字符串将在 JSON 字符串中被用作缩进字符（不再使用空格）。 
+
+```javascript
+var jsonText = JSON.stringify(book, null, 4);
+var jsonText = JSON.stringify(book, null, " - -");
+{
+--"title": "Professional JavaScript",
+--"authors": [
+----"Nicholas C. Zakas"
+--],
+--"edition": 3,
+--"year": 2011
+}
+```
+
+##### 2.2 toJSON()方法 
+
+有时候， JSON.stringify()还是不能满足对某些对象进行自定义序列化的需求。在这些情况下，可以给对象定义 toJSON()方法，返回其自身的 JSON 数据格式。 
+
+```javascript
+var book = {
+    "title": "Professional JavaScript",
+    "authors": [
+    "Nicholas C. Zakas"
+    ],
+    "edition": 3,
+    "year" : 2011,
+    toJSON: function(){
+        return this.title;
+        }
+	};
+var jsonText = JSON.stringify(book);
+	
+```
+
+##### 2.3 解析选项
+
+JSON.parse()方法也可以接收另一个参数，该参数是一个函数，将在每个键值对儿上调用。 
+
+```javascript
+var book = {
+	"title": "Professional JavaScript",
+	"authors": [
+		"Nicholas C. Zakas"
+	],
+	"edition": 3,
+	"year": 2011,
+	"releaseDate": new Date(2011, 11, 1)
+};
+var jsonText = JSON.stringify(book);
+var bookCopy = JSON.parse(jsonText, function(key, value){
+if (key == "releaseDate"){
+    return new Date(value);
+        } else {
+        return value;
+        }
+    });
+alert(bookCopy.releaseDate.getFullYear());
+```
+
+
+
+## 第二十二章 高级技巧
+
+### 22.1 高级函数
+
+#### 1.安全类型检测
+
+任何值上调用 Object 原生的 toString()方法，都会 返回一个[object NativeConstructorName]格式的字符串。每个类在内部都有一个[[Class]]属性，这个属性中就指定了上述字符串中的构造函数名。 
+
+```javascript
+Object.prototype.toString.call(value); //"[object Array]"
+```
+
+#### 2.作用域安全的构造函数
+
+```javascript
+function Person(name, age, job){
+this.name = name;
+this.age = age;
+this.job = job;
+}
+var person = new Person("Nicholas", 29, "Software Engineer");
+
+// 没有使用new
+var person = Person("Nicholas", 29, "Software Engineer");
+alert(window.name); //"Nicholas"
+alert(window.age); //29
+alert(window.job); //"Software Engineer"
+
+//构造作用域安全的构造函数
+function Polygon(sides){
+    if (this instanceof Polygon) {
+        this.sides = sides;
+        this.getArea = function(){
+        return 0;
+        };
+    } else {
+    	return new Polygon(sides);
+    }
+}
+function Rectangle(width, height){
+    Polygon.call(this, 2);
+    this.width = width;
+    this.height = height;
+    this.getArea = function(){
+    	return this.width * this.height;
+    };
+}
+Rectangle.prototype = new Polygon();
+var rect = new Rectangle(5, 10);
+alert(rect.sides); //2
+
+```
+
+#### 3.函数绑定
+
+```javascript
+// 错误的方式
+var handler = {
+    message: "Event handled",
+    handleClick: function(event){
+    alert(this.message);
+    }
+};
+var btn = document.getElementById("my-btn");
+EventUtil.addHandler(btn, "click", handler.handleClick);//undefiend
+//此处的this指向执行的DOM元素
+
+
+//正确的方式
+function bind(fn, context){
+    return function(){
+    	return fn.apply(context, arguments);
+    };
+}
+var handler = {
+message: "Event handled",
+handleClick: function(event){
+    alert(this.message);
+    }
+};
+var btn = document.getElementById("my-btn");
+EventUtil.addHandler(btn, "click", bind(handler.handleClick, handler));
+```
+
+在这个例子中，我们用 bind()函数创建了一个保持了执行环境的函数，并将其传给 EventUtil.addHandler()。 event 对象也被传给了该函数，如下所示： 
+
+```javascript
+function bind(fn, context){
+    return function(){
+   		return fn.apply(context, arguments);
+    };
+}
+var handler = {
+    message: "Event handled",
+    handleClick: function(event){
+    alert(this.message + ":" + event.type);
+    }
+};
+var btn = document.getElementById("my-btn");
+EventUtil.addHandler(btn, "click", bind(handler.handleClick, handler));
+```
+
+ECMAScript 5 为所有函数定义了一个原生的 bind()方法，进一步简单了操作。换句话说，你不用再自己定义 bind()函数了，而是可以直接在函数上调用这个方法。例如： 
+
+```javascript
+var handler = {
+    message: "Event handled",
+    handleClick: function(event){
+    	alert(this.message + ":" + event.type);
+    }
+};
+var btn = document.getElementById("my-btn");
+EventUtil.addHandler(btn, "click", handler.handleClick.bind(handler)); //最佳实现方案
+```
+
+### 22.2 防篡改对象
+
+#### 1.不可扩展对象
+
+在调用了 Object.preventExtensions()方法后，就不能给 person 对象添加新属性和方法了。 
+
+```javascript
+var person = { name: "Nicholas" };
+Object.preventExtensions(person);
+person.age = 29;
+alert(person.age); //undefined
+alert(Object.isExtensible(person)); //true
+```
+
+2.密封的对象
+
+ECMAScript 5 为对象定义的第二个保护级别是密封对象（sealed object）。密封对象不可扩展，而且已有成员的[[Configurable]]特性将被设置为 false。这就意味着不能删除属性和方法。要密封对象，可以使用 Object.seal()方法。 
+
+```javascript
+var person = { name: "Nicholas" };
+Object.seal(person);
+person.age = 29;
+alert(person.age); //undefined
+delete person.name;
+alert(person.name); //"Nicholas"
+person.name = "tom";
+alert(person.name); //"tom"
+```
+
+使用 Object.isSealed()方法可以确定对象是否被密封了。因为被密封的对象不可扩展，所以用Object.isExtensible()检测密封的对象也会返回 false。
+
+```javascript
+var person = { name: "Nicholas" };
+alert(Object.isExtensible(person)); //true
+alert(Object.isSealed(person)); //false
+Object.seal(person);
+alert(Object.isExtensible(person)); //false
+alert(Object.isSealed(person)); //true 
+```
+
+#### 3.冻结的对象
+
+最严格的防篡改级别是冻结对象（frozen object）。冻结的对象既不可扩展，又是密封的，而且对象数据属性的[[Writable]]特性会被设置为 false。如果定义[[Set]]函数，访问器属性仍然是可写的。ECMAScript 5 定义的 Object.freeze()方法可以用来冻结对象。 
+
+```javascript
+var person = { name: "Nicholas" };
+Object.freeze(person);
+person.age = 29;
+alert(person.age); //undefined
+delete person.name;
+alert(person.name); //"Nicholas"
+person.name = "Greg";
+alert(person.name); //"Nicholas"
+```
+
+当然，也有一个 Object.isFrozen()方法用于检测冻结对象。因为冻结对象既是密封的又是不可扩展的，所以用 Object.isExtensible()和 Object.isSealed()检测冻结对象将分别返回 false和 true。 
+
+
+
+### 22.3 高级定时器
+
+#### 1.函数节流
+
+```javascript
+var processor = {
+	timeoutId: null,
+	//实际进行处理的方法
+    performProcessing: function(){
+    //实际执行的代码
+    },
+//初始处理调用的方法
+process: function(){
+    clearTimeout(this.timeoutId);
+    var that = this;
+    this.timeoutId = setTimeout(function(){
+        that.performProcessing();
+        }, 100);
+    }
+};
+//尝试开始执行
+processor.process();
+```
+
+这个模式可以使用 throttle()函数来简化，这个函数可以自动进行定时器的设置和清除，如下例所示： 
+
+```javascript
+function throttle(method, context) {
+    clearTimeout(method.tId);
+    method.tId= setTimeout(function(){
+    method.call(context);
+    }, 100);
+}
+
+// 调用
+function resizeDiv(){
+    var div = document.getElementById("myDiv");
+    div.style.height = div.offsetWidth + "px";
+}
+window.onresize = function(){
+    throttle(resizeDiv);
+};	
+```
+
+
+
+## 第二十三章 离线应用与客户端存储
+
+### 23.1 离线检测
+
+```javascript
+//检测网络是否畅通
+if (navigator.onLine){
+//正常工作
+} else {
+//执行离线状态时的任务
+}
+
+EventUtil.addHandler(window, "online", function(){
+alert("Online");
+});
+EventUtil.addHandler(window, "offline", function(){
+alert("Offline");
+});
+```
+
+### 23.2 数据存储
+
+#### 1.Cookie
+
+cookie 由浏览器保存的以下几块信息构成。
+**名称**：一个唯一确定 cookie 的名称。cookie 名称是不区分大小写的，所以 myCookie 和 MyCookie被认为是同一个 cookie。然而，实践中最好将 cookie 名称看作是区分大小写的，因为某些服务器会这样处理 cookie。 cookie 的名称必须是经过 URL 编码的。 
+
+**值**：储存在 cookie 中的字符串值。值必须被 URL 编码。
+**域**： cookie 对于哪个域是有效的。所有向该域发送的请求中都会包含这个 cookie 信息。这个值可以包含子域（subdomain，如 www.wrox.com），也可以不包含它（如.wrox.com，则对于 wrox.com的所有子域都有效）。如果没有明确设定，那么这个域会被认作来自设置 cookie 的那个域。
+**路径**：对于指定域中的那个路径，应该向服务器发送 cookie。例如，你可以指定 cookie 只有从http://www.wrox.com/books/ 中才能访问，那么 http://www.wrox.com 的页面就不会发送 cookie 信息，即使请求都是来自同一个域的。
+**失效时间**：表示 cookie 何时应该被删除的时间戳（也就是，何时应该停止向服务器发送这个cookie）。默认情况下，浏览器会话结束时即将所有 cookie 删除；不过也可以自己设置删除时间。这个值是个 GMT 格式的日期（Wdy, DD-Mon-YYYY HH:MM:SS GMT），用于指定应该删除cookie 的准确时间。因此， cookie 可在浏览器关闭后依然保存在用户的机器上。如果你设置的失
+效日期是个以前的时间，则 cookie 会被立刻删除。
+**安全标志**：指定后， cookie 只有在使用 SSL 连接的时候才发送到服务器。例如， cookie 信息只能发送给https://www.wrox.com，而 http://www.wrox.com 的请求则不能发送 cookie。 
+
+```
+HTTP/1.1 200 OK
+Content-type: text/html
+Set-Cookie: name=value; expires=Mon, 22-Jan-07 07:10:24 GMT; domain=.wrox.com
+Other-header: other-header-value
+```
+
+```javascript
+// 设置cookie
+document.cookie = "name=Nicholas";
+// 最好编码
+document.cookie = encodeURIComponent("name") + "=" +
+encodeURIComponent("Nicholas") + "; domain=.wrox.com; path=/";
+document.cookie = encodeURIComponent("name") + "=" +
+encodeURIComponent("Nicholas") + "; domain=.wrox.com; path=/";
+//cookie 工具
+var CookieUtil = {
+    get: function (name) {
+        var cookieName = encodeURIComponent(name) + "=",
+            cookieStart = document.cookie.indexOf(cookieName),
+            cookieValue = null;
+        if (cookieStart > -1) {
+            var cookieEnd = document.cookie.indexOf(";", cookieStart);
+            if (cookieEnd == -1) {
+                cookieEnd = document.cookie.length;
+            }
+            cookieValue = decodeURIComponent(document.cookie.substring(cookieStart
+                + cookieName.length, cookieEnd));
+        }
+        return cookieValue;
+    },
+    set: function (name, value, expires, path, domain, secure) {
+        var cookieText = encodeURIComponent(name) + "=" +
+            encodeURIComponent(value);
+        if (expires instanceof Date) {
+            cookieText += "; expires=" + expires.toGMTString();
+        }
+        if (path) {
+            cookieText += "; path=" + path;
+        }
+        if (domain) {
+            cookieText += "; domain=" + domain;
+        }
+        if (secure) {
+            cookieText += "; secure";
+        }
+        document.cookie = cookieText;
+    },
+    //没有删除已有 cookie 的直接方法。所以，需要使用相同的路径、域和安全选项再次设置 cookie，并将失效时间设置为过去的时间。 
+    unset: function (name, path, domain, secure) {
+        this.set(name, "", new Date(0), path, domain, secure);
+    }
+};
+```
+
+#### 2.web存储机制
+
+##### 2.1 Storage 类型
+
+Storage 类型提供最大的存储空间（因浏览器而异）来存储名值对儿。 Storage 的实例与其他对象类似，有如下方法。 
+
+- **clear()**： 删除所有值。 
+
+- **getItem(name)**：根据指定的名字 name 获取对应的值。
+- **key(index)**：获得 index 位置处的值的名字。
+- **removeItem(name)**：删除由 name 指定的名值对儿。
+- **setItem(name, value)**：为指定的 name 设置一个对应的值。
+
+##### 2.2 sessionStorage 对象 
+
+sessionStorage 对象存储特定于某个会话的数据，也就是该数据只保持到浏览器关闭。这个对象就像会话 cookie，也会在浏览器关闭后消失。 存储在 sessionStorage 中的数据只能由最初给对象存储数据的页面访问到，所以对多页面应用有限制。由于 sessionStorage 对象其实是 Storage 的一个实例，所以可以使用 setItem()或者直接设置新的属性来存储数据。下面是这两种方法的例子。  
+
+```javascript
+//使用方法存储数据
+sessionStorage.setItem("name", "Nicholas");
+//使用属性存储数据
+sessionStorage.book = "Professional JavaScript";
+
+//使用方法读取数据
+var name = sessionStorage.getItem("name");
+//使用属性读取数据
+var book = sessionStorage.book;
+
+//遍历sessionstorage
+for (var i=0, len = sessionStorage.length; i < len; i++){
+    var key = sessionStorage.key(i);
+    var value = sessionStorage.getItem(key);
+    alert(key + "=" + value);
+}
+
+//删除数据
+delete sessionStorage.name;
+//使用方法删除一个值
+sessionStorage.removeItem("book");
+```
+
+##### 2.3 localStorage 对象 
+
+要访问同一个 localStorage 对象，页面必须来自**同一个域名**（子域名无效），使用**同一种协议**，在**同一个端口**上。
+
+ 由于 localStorage 是 Storage 的实例，所以可以像使用 sessionStorage 一样来使用它。 
+
+```javascript
+//使用方法存储数据
+localStorage.setItem("name", "Nicholas");
+//使用属性存储数据
+localStorage.book = "Professional JavaScript";
+//使用方法读取数据
+var name = localStorage.getItem("name");
+//使用属性读取数据
+var book = localStorage.book;
+```
+
