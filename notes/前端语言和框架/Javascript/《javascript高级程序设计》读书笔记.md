@@ -1596,7 +1596,7 @@ document.body.appendChild(table);
 
 **1. querySelector()方法** 
 
-querySelector()方法接收一个 CSS 选择符，返回与该模式匹配的第一个元素，如果没有找到匹配的元素，返回 null。 	
+querySelector()方法接收一个 **CSS 选择符**，返回与该模式匹配的第一个元素，如果没有找到匹配的元素，返回 null。 	
 
 ```javascript
 //取得 body 元素
@@ -1611,7 +1611,7 @@ var img = document.body.querySelector("img.button");
 
 **2.querySelectorAll()方法** 
 
-querySelectorAll()方法接收的参数与 querySelector()方法一样，都是一个 CSS 选择符，但返回的是所有匹配的元素而不仅仅是一个元素。这个方法返回的是一个 NodeList 的实例。 如果没有找到匹配的元素， NodeList 就是空的。 
+querySelectorAll()方法接收的参数与 querySelector()方法一样，**都是一个 CSS 选择符**，但返回的是所有匹配的元素而不仅仅是一个元素。这个方法返回的是一个 NodeList 的实例。 如果没有找到匹配的元素， NodeList 就是空的。 
 
 ```javascript
 //取得某<div>中的所有<em>元素（类似于 getElementsByTagName("em")）
