@@ -1,4 +1,4 @@
-# 《深入理解ES6》《ECMAScript 6 入门》读书笔记
+《深入理解ES6》《ECMAScript 6 入门》读书笔记
 
 ## 第一章 块级绑定
 
@@ -1402,4 +1402,420 @@ map.delete(element);
 console.log(map.has(element)); // false
 console.log(map.get(element)); // undefined
 ```
+
+
+
+## 第八章 迭代器与生成器
+
+#### 1.迭代器
+
+```javascript
+// ES5 实现的迭代器
+function createIterator(items) {
+var i = 0;
+return {
+    next: function() {
+    var done = (i >= items.length);
+    var value = !done ? items[i++] : undefined;
+    return {
+        done: done,
+        value: value
+        };
+    }
+};
+} 
+var iterator = createIterator([1, 2, 3]);
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: 3, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+// 之后的所有调用
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+### 2.生成器
+
+生成器（generator ） 是能返回一个迭代器的函数。生成器函数由放在 function 关键字之后的一个星号（ * ） 来表示，并能使用新的 yield 关键字。将星号紧跟在 function 关键字之后，或是在中间留出空格，都是没问题的，正如下例： 
+
+```javascript
+// 生成器
+function *createIterator() {
+yield 1;
+yield 2;
+yield 3;
+} 
+// 生成器能像正规函数那样被调用，但会返回一个迭代器
+let iterator = createIterator();
+console.log(iterator.next().value); // 1
+console.log(iterator.next().value); // 2
+console.log(iterator.next().value); // 3
+
+
+// 1 .正确的生成器
+function *createIterator(items) {
+for (let i = 0; i < items.length; i++) {
+yield items[i];
+}
+} l
+et iterator = createIterator([1, 2, 3]);
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: 3, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+// 之后的所有调用
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+
+//2. 错误的生成器
+function *createIterator(items) {
+    items.forEach(function(item) {
+    // 语法错误
+    yield item + 1;
+    });
+}
+
+```
+
+yield 关键字只能用在生成器内部，用于其他任意位置都是语法错误，即使在生成器内部的函数中也不行。尽管 yield 严格位于 createIterator() 内部，此代码仍然有语法错误，因为 yield无法穿越函数边界。
+
+
+
+#### 2.1 生成器函数表达式
+
+```javascript
+let createIterator = function *(items) {
+	for (let i = 0; i < items.length; i++) {
+   	 	yield items[i];
+    }
+};
+let iterator = createIterator([1, 2, 3]);
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: 3, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+// 之后的所有调用
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+#### 2.2 生成器对象方法
+
+```javascript
+var o = {
+	createIterator: function *(items) {
+        for (let i = 0; i < items.length; i++) {
+        yield items[i];
+        }
+    }
+};
+let iterator = o.createIterator([1, 2, 3]);
+
+// 简写
+var o = {
+    *createIterator(items) {
+        for (let i = 0; i < items.length; i++) {
+        	yield items[i];
+        }
+    }
+};
+let iterator = o.createIterator([1, 2, 3]);
+```
+
+### 3.可迭代对象与 for-of 循环 
+
+迭代器紧密相关的是，可迭代对象（iterable ） 是包含 Symbol.iterator 属性的对象。这个 Symbol.iterator 知名符号定义了为指定对象返回迭代器的函数。
+
+```javascript
+let values = [1, 2, 3];
+let iterator = values[Symbol.iterator]();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: 3, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+
+//正常调用
+for (let num of values) {
+	console.log(num);
+}
+
+//检测对象是否可迭代
+function isIterable(object) {
+	return typeof object[Symbol.iterator] === "function";
+} 
+console.log(isIterable([1, 2, 3])); // true
+console.log(isIterable("Hello")); // true
+console.log(isIterable(new Map())); // true
+console.log(isIterable(new Set())); // true
+console.log(isIterable(new WeakMap())); // false
+console.log(isIterable(new WeakSet())); // false
+```
+
+### 4.创建可迭代对象
+
+```javascript
+et collection = {
+    items: [],
+    *[Symbol.iterator]() {
+        for (let item of this.items) {
+        yield item;
+        }
+    }
+};
+collection.items.push(1);
+collection.items.push(2);
+collection.items.push(3);
+for (let x of collection) {
+	console.log(x);
+}
+```
+
+### 5.内置的迭代器
+
+#### 5.1 集合的迭代器 
+
+ES6 具有三种集合对象类型：数组、 Map 与 Set 。这三种类型都拥有如下的迭代器，有助于探索它们的内容：
+
+- **entries()** ：返回一个包含键值对的迭代器；
+
+- **values()** ：返回一个包含集合中的值的迭代器；
+
+- **keys()** ：返回一个包含集合中的键的迭代器。 
+
+  **当 for-of 循环没有显式指定迭代器时，每种集合类型都有一个默认的迭代器供循环使用。values() 方法是数组与 Set 的默认迭代器，而 entries() 方法则是 Map 的默认迭代器。** 
+
+```javascript
+let colors = ["red", "green", "blue"];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set("title", "Understanding ES6");
+data.set("format", "ebook");
+for (let entry of colors.entries()) {
+  console.log(entry);
+}
+for (let entry of tracking.entries()) {
+  console.log(entry);
+}
+for (let entry of data.entries()) {
+  console.log(entry);
+}
+
+结果：
+[0, "red"]
+[1, "green"]
+[2, "blue"]
+[1234, 1234]
+[5678, 5678]
+[9012, 9012]
+["title", "Understanding ES6"]
+["format", "ebook"]
+
+
+let colors = ["red", "green", "blue"];
+let tracking = new Set([1234, 5678, 9012]);
+let data = new Map();
+data.set("title", "Understanding ES6");
+data.set("format", "ebook");
+for (let key of colors.keys()) {
+  console.log(key);
+}
+for (let key of tracking.keys()) {
+  console.log(key);
+}
+for (let key of data.keys()) {
+  console.log(key);
+}
+结果：
+0 
+1 
+2 
+1234
+5678
+9012
+"title"
+"format"
+// set 的键和值相同
+```
+
+```javascript
+//map 循环解构
+let data = new Map();
+data.set("title", "Understanding ES6");
+data.set("format", "ebook");
+// 与使用 data.entries() 相同
+for (let [key, value] of data) {
+console.log(key + "=" + value);
+}
+
+var message = "A B" ;
+for (let c of message) {
+console.log(c);
+}
+```
+
+#### 5.2 NodeList 的迭代器 
+
+```javascript
+var divs = document.getElementsByTagName("div");
+    for (let div of divs) {
+    console.log(div.id);
+}
+```
+
+#### 5.3 扩展运算符与非数组的可迭代对象 
+
+**扩展运算符能作用于所有可迭代对象**，并且会使用默认迭代器来判断需要使用哪些值。所有的值都从迭代器中被读取出来并插入数组，遵循迭代器返回值的顺序。 
+
+```javascript
+let map = new Map([ ["name", "Nicholas"], ["age", 25]]),
+array = [...map];
+console.log(array); // [ ["name", "Nicholas"], ["age", 25]]
+
+let smallNumbers = [1, 2, 3],
+bigNumbers = [100, 101, 102],
+allNumbers = [0, ...smallNumbers, ...bigNumbers];
+console.log(allNumbers.length); // 7
+console.log(allNumbers); // [0, 1, 2, 3, 100, 101, 102]
+```
+
+### 6.迭代器高级功能 
+
+#### 6.1 传递参数给迭代器 
+
+```javascript
+function *createIterator() {
+    let first = yield 1;
+    let second = yield first + 2; // 4 + 2
+    yield second + 3; // 5 + 3
+} 
+let iterator = createIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next(4)); // "{ value: 6, done: false }"
+console.log(iterator.next(5)); // "{ value: 8, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+#### 6.2在迭代器中抛出错误 
+
+```javascript
+// 抛出错误
+function *createIterator() {
+    let first = yield 1;
+    let second = yield first + 2; // yield 4 + 2 ，然后抛出错误
+    yield second + 3; // 永不会被执行
+} 
+let iterator = createIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next(4)); // "{ value: 6, done: false }"
+console.log(iterator.throw(new Error("Boom"))); // 从生成器中抛出了错误
+
+//异常捕获
+function *createIterator() {
+    let first = yield 1;
+    let second;
+    try {
+    	second = yield first + 2; // yield 4 + 2 ，然后抛出错误
+    } catch (ex) {
+   		second = 6; // 当出错时，给变量另外赋值
+    } 
+    yield second + 3;
+} 
+let iterator = createIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next(4)); // "{ value: 6, done: false }"
+console.log(iterator.throw(new Error("Boom"))); // "{ value: 9, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+#### 6.3 生成器的 Return 语句 
+
+```javascript
+function *createIterator() {
+    yield 1;
+    return;
+    yield 2;
+    yield 3;
+} 
+let iterator = createIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+#### 6.4 生成器委托 
+
+在某些情况下，将两个迭代器的值合并器一起会更有用。生成器可以用星号（ * ） 配合yield 这一特殊形式来委托其他的迭代器。 
+
+```javascript
+function *createNumberIterator() {
+    yield 1;
+    yield 2;
+} 
+function *createColorIterator() {
+    yield "red";
+    yield "green";
+} 
+function *createCombinedIterator() {
+    yield *createNumberIterator();
+    yield *createColorIterator();
+    yield true;
+} 
+var iterator = createCombinedIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: "red", done: false }"
+console.log(iterator.next()); // "{ value: "green", done: false }"
+console.log(iterator.next()); // "{ value: true, done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+
+
+//带参数传递的委托
+function *createNumberIterator() {
+    yield 1;
+    yield 2;
+    return 3;
+} 
+function *createRepeatingIterator(count) {
+    for (let i=0; i < count; i++) {
+    yield "repeat";
+}
+} 
+function *createCombinedIterator() {
+	let result = yield *createNumberIterator();
+	yield *createRepeatingIterator(result);
+} 
+var iterator = createCombinedIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+
+
+//输出返回值
+function *createNumberIterator() {
+    yield 1;
+    yield 2;
+    return 3;
+} 
+function *createRepeatingIterator(count) {
+    for (let i=0; i < count; i++) {
+    yield "repeat";
+}
+} 
+function *createCombinedIterator() {
+    let result = yield *createNumberIterator();
+    yield result; //输出返回值
+    yield *createRepeatingIterator(result);
+} 
+var iterator = createCombinedIterator();
+console.log(iterator.next()); // "{ value: 1, done: false }"
+console.log(iterator.next()); // "{ value: 2, done: false }"
+console.log(iterator.next()); // "{ value: 3, done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: "repeat", done: false }"
+console.log(iterator.next()); // "{ value: undefined, done: true }"
+```
+
+
+
+## 第九章 JS类
 
