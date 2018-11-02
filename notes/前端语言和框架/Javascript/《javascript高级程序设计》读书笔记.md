@@ -2904,6 +2904,83 @@ username=122&password=22&sex=man&like=basketball&like=football-->
 
 
 
+### 第十六章 HTML5 脚本编程
+
+### 1.媒体元素
+
+```html
+<!-- 嵌入视频 -->
+<video src="conference.mpg" id="myVideo">Video player not available.</video>
+<!-- 嵌入音频 -->
+<audio src="song.mp3" id="myAudio">Audio player not available.</audio>
+
+<!-- 嵌入视频 -->
+<video id="myVideo">
+<source src="conference.webm" type="video/webm; codecs='vp8, vorbis'">
+<source src="conference.ogv" type="video/ogg; codecs='theora, vorbis'">
+<source src="conference.mpg">
+Video player not available.
+</video>
+<!-- 嵌入音频 -->
+<audio id="myAudio">
+<source src="song.ogg" type="audio/ogg">
+<source src="song.mp3" type="audio/mpeg">
+Audio player not available.
+</audio>
+
+//检测编解码器的支持情况
+var audio = document.getElementById("audio-player");
+//很可能"maybe"
+if (audio.canPlayType("audio/mpeg")){
+//进一步处理
+}
+//可能是"probably"
+if (audio.canPlayType("audio/ogg; codecs=\"vorbis\"")){
+//进一步处理
+}
+```
+
+媒体元素都有一个 canPlayType()方法，该方法接收一种格式/编解码器字符串，返回"probably"、 "maybe"或""（ 空字符串）。 
+
+
+
+### 第十七章 错误处理
+
+```javascript
+// 异常捕获
+try {
+    someFunction();
+    } catch (error){
+    if (error instanceof TypeError){
+    //处理类型错误
+    } else if (error instanceof ReferenceError){
+    //处理引用错误
+    } else {
+    //处理其他类型的错误
+    }
+}
+
+//带 finally 语句
+function testFinally(){
+    try {
+    return 2;
+    } catch (error){
+    return 1;
+    } finally {
+    return 0;
+    }
+}
+
+//手动抛出异常
+function assert(condition, message){
+    if (!condition){
+    throw new Error(message);
+    }
+}
+```
+
+
+
 ## 第二十章 JSON
 
 ### 20.1 语法
