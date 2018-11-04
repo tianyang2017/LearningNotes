@@ -1,4 +1,4 @@
-《深入理解ES6》《ECMAScript 6 入门》读书笔记
+# 《深入理解ES6》《ECMAScript 6 入门》读书笔记
 
 ## 第一章 块级绑定
 
@@ -2359,3 +2359,456 @@ console.log(y instanceof Shape); // true
 ```
 
 ## 第十章 增强的数组功能
+
+### 1.创建数组
+
+#### 1.1  Array.of() 方法 
+
+```javascript
+let items = Array.of(1, 2);
+console.log(items.length); // 2
+console.log(items[0]); // 1
+console.log(items[1]); // 2
+items = Array.of(2);
+console.log(items.length); // 1
+console.log(items[0]); // 2
+items = Array.of("2");
+console.log(items.length); // 1
+console.log(items[0]); // "2
+```
+
+#### 1.2 Array.from() 方法 
+
+```javascript
+//映射转换
+function translate() {
+return Array.from(arguments, (value) => value + 1);
+} 
+let numbers = translate(1, 2, 3);
+console.log(numbers); // 2,3,4
+
+// 可以手动传递第三个参数给Array.from() 方法，从而指定映射函数内部的 this 值。
+let helper = {
+    diff: 1,
+    add(value) {
+    return value + this.diff;
+    }
+};
+function translate() {
+	return Array.from(arguments, helper.add, helper);
+} 
+let numbers = translate(1, 2, 3);
+console.log(numbers); // 2,3,4
+```
+
+### 2.所有数组上的方法
+
+#### 2.1 find() 与 findIndex() 
+
+find() 与 findIndex() 方法均接受两个参数：一个回调函数、一个可选值用于指定回调函数内部的 this 。该回调函数可接收三个参数：数组的某个元素、该元素对应的索引位置、以及该数组自身。
+
+```javascript
+let numbers = [25, 30, 35, 40, 45];
+console.log(numbers.find(n => n > 33)); // 35
+console.log(numbers.findIndex(n => n > 33)); // 2
+```
+
+#### 2.2 fill() 方法 
+
+```javascript
+let numbers = [1, 2, 3, 4];
+numbers.fill(1);
+console.log(numbers.toString()); // 1,1,1,1
+
+//指定位置
+let numbers = [1, 2, 3, 4];
+numbers.fill(1, 2);
+console.log(numbers.toString()); // 1,2,1,1
+numbers.fill(0, 1, 3);
+console.log(numbers.toString()); // 1,0,0,1
+```
+
+#### 2.3 copyWithin() 方法 
+
+copyWithin() 方法允许你在数组内部复制自身元素。为此你需要传递两个参数给 copyWithin() 方法：从什么位置开始进行填充，以及被用来复制的数据的起始位置索引。
+
+```javascript
+let numbers = [1, 2, 3, 4];
+// 从索引 2 的位置开始粘贴
+// 从数组索引 0 的位置开始复制数据
+numbers.copyWithin(2, 0);
+console.log(numbers.toString()); // 1,2,1,2
+
+let numbers = [1, 2, 3, 4];
+// 从索引 2 的位置开始粘贴
+// 从数组索引 0 的位置开始复制数据
+// 在遇到索引 1 时停止复制
+numbers.copyWithin(2, 0, 1);
+console.log(numbers.toString()); // 1,2,1,4
+```
+
+## 第十二章 代理与反射接口
+
+1.通过调用 new Proxy() ，你可以创建一个代理用来替代另一个对象（被称为目标） ，这个代理对目标对象进行了虚拟，因此该代理与该目标对象表面上可以被当作同一个对象来对待。 
+
+| 代理陷阱                 | 被重写的行为                                                 | 默认行为                           |
+| ------------------------ | ------------------------------------------------------------ | ---------------------------------- |
+| get                      | 读取一个属性的值                                             | Reflect.get()                      |
+| set                      | 写入一个属性                                                 | Reflect.set()                      |
+| has                      | in 运算符                                                    | Reflect.has()                      |
+| deleteProperty           | delete 运算符                                                | Reflect.deleteProperty()           |
+| getPrototypeOf           | Object.getPrototypeOf()                                      | Reflect.getPrototypeOf()           |
+| setPrototypeOf           | Object.setPrototypeOf()                                      | Reflect.setPrototypeOf()           |
+| isExtensible             | Object.isExtensible()                                        | Reflect..isExtensible()            |
+| preventExtensions        | Object.preventExtensions()                                   | Reflect.preventExtensions()        |
+| getOwnPropertyDescriptor | Object.getOwnPropertyDescriptor()                            | Reflect.getOwnPropertyDescriptor() |
+| defineProperty           | Object.defineProperty()                                      | Reflect.defineProperty()           |
+| ownKeys                  | Object.keys 、 Object.getOwnPropertyNames() 与 Object.getOwnPropertySymbols() | Reflect.ownKeys()                  |
+| apply                    | 调用一个函数                                                 | Reflect.apply()                    |
+| construct                | 使用 new 调用一个函数                                        | Reflect.construct()                |
+
+```javascript
+// 创建简单代理对象
+let target = {};
+let proxy = new Proxy(target, {});
+proxy.name = "proxy";
+console.log(proxy.name); // "proxy"
+console.log(target.name); // "proxy"
+target.name = "target";
+console.log(proxy.name); // "target"
+console.log(target.name); // "target"
+```
+
+#### 1.使用 set 陷阱函数验证属性值 
+
+1. trapTarget ：将接收属性的对象（即代理的目标对象） ；
+2. key ：需要写入的属性的键（字符串类型或符号类型） ；
+3. value ：将被写入属性的值；
+4. receiver ：操作发生的对象（通常是代理对象） 。 
+
+```javascript
+let target = {
+  name: "target"
+};
+let proxy = new Proxy(target, {
+  set(trapTarget, key, value, receiver) {
+// 忽略已有属性，避免影响它们
+    if (!trapTarget.hasOwnProperty(key)) {
+      if (isNaN(value)) {
+        throw new TypeError("Property must be a number.");
+      }
+    }
+    // 添加属性
+    return Reflect.set(trapTarget, key, value, receiver);
+  }
+});
+// 添加一个新属性
+proxy.count = 1;
+console.log(proxy.count); // 1
+console.log(target.count); // 1
+// 你可以为 name 赋一个非数值类型的值，因为该属性已经存在
+proxy.name = "proxy";
+console.log(proxy.name); // "proxy"
+console.log(target.name); // "proxy"
+// 抛出错误
+proxy.anotherName = "proxy";
+```
+
+#### 2.使用 get 陷阱函数进行对象外形验证 
+
+1. trapTarget ：将会被读取属性的对象（即代理的目标对象） ；
+2. key ：需要读取的属性的键（字符串类型或符号类型） ；
+3. receiver ：操作发生的对象（通常是代理对象） 。 
+
+```javascript
+let proxy = new Proxy({}, {
+  get(trapTarget, key, receiver) {
+    if (!(key in receiver)) {
+      throw new TypeError("Property " + key + " doesn't exist.");
+    }
+    return Reflect.get(trapTarget, key, receiver);
+  }
+});
+// 添加属性的功能正常
+proxy.name = "proxy";
+console.log(proxy.name); // "proxy"
+// 读取不存在属性会抛出错误
+console.log(proxy.nme); // 抛出错误
+```
+
+#### 3.使用 has 陷阱函数隐藏属性 
+
+1. trapTarget ：需要读取属性的对象（即代理的目标对象） ；
+2. key ：需要检查的属性的键（字符串类型或符号类型） 。 
+
+```javascript
+let target = {
+  name: "target",
+  value: 42
+};
+let proxy = new Proxy(target, {
+  has(trapTarget, key) {
+    if (key === "value") {
+      return false;
+    } else {
+      return Reflect.has(trapTarget, key);
+    }
+  }
+});
+console.log("value" in proxy); // false
+console.log("name" in proxy); // true
+console.log("toString" in proxy); // true
+```
+
+#### 4.使用 deleteProperty 陷阱函数避免属性被删除 
+
+1. trapTarget ：需要删除属性的对象（即代理的目标对象） ；
+2. key ：需要删除的属性的键（字符串类型或符号类型） 。 
+
+```javascript
+let target = {
+  name: "target",
+  value: 42
+};
+let proxy = new Proxy(target, {
+  deleteProperty(trapTarget, key) {
+    if (key === "value") {
+      return false;
+    } else {
+      return Reflect.deleteProperty(trapTarget, key);
+    }
+  }
+});
+// 尝试删除 proxy.value
+console.log("value" in proxy); // true
+let result1 = delete proxy.value;
+console.log(result1); // false
+console.log("value" in proxy); // true
+// 尝试删除 proxy.name
+console.log("name" in proxy); // true
+let result2 = delete proxy.name;
+console.log(result2); // true
+console.log("name" in proxy); // false
+```
+
+## 第十三章 用模块封装代码
+
+1. 模块代码自动运行在严格模式下，并且没有任何办法跳出严格模式；
+2. 在模块的顶级作用域创建的变量，不会被自动添加到共享的全局作用域，它们只会在模块顶级作用域的内部存在；
+3. 模块顶级作用域的 this 值为 undefined ； 
+4. 对于需要让模块外部代码访问的内容，模块必须导出它们；
+5. 允许模块从其他模块导入绑定。 
+
+### 1.基本的导出
+
+```javascript
+// 导出数据
+export var color = "red";
+export let name = "Nicholas";
+export const magicNumber = 7;
+// 导出函数
+export function sum(num1, num2) {
+return num1 + num1;
+} 
+// 导出类
+export class Rectangle {
+constructor(length, width) {
+this.length = length;
+this.width = width;
+}
+} 
+// 此函数为模块私有
+function subtract(num1, num2) {
+return num1 - num2;
+} 
+// 定义一个函数……
+function multiply(num1, num2) {
+return num1 * num2;
+} 
+// ……稍后将其导出
+export { multiply };
+```
+
+### 2.基本的导入
+
+```javascript
+//导入绑定的列表看起来与对象解构相似，但实则并无关联。
+import { identifier1, identifier2 } from "./example.js";
+
+
+// 单个导入
+import { sum } from "./example.js";
+console.log(sum(1, 2)); // 3
+sum = 1; // 出错 不能修改它的值
+
+// 多个导入
+import { sum, multiply, magicNumber } from "./example.js";
+console.log(sum(1, magicNumber)); // 8
+console.log(multiply(1, 2)); // 2
+
+// 完全导入一个模块
+import * as example from "./example.js";
+console.log(example.sum(1,
+example.magicNumber)); // 8
+console.log(example.multiply(1, 2)); // 2
+
+//只会执行一次
+import { sum } from "./example.js";
+import { multiply } from "./example.js";
+import { magicNumber } from "./example.js";
+```
+
+然而要记住，无论你对同一个模块使用了多少次 import 语句，该模块都只会被执行一次。在导出模块的代码执行之后，已被实例化的模块就被保留在内存中，并随时都能被其他import 所引用。 尽管此处的模块使用了三个 import 语句，但 example.js 只会被执行一次。 
+
+#### 2.1导入绑定的一个微妙怪异点
+
+```javascript
+export var name = "Nicholas";
+export function setName(newName) {
+	name = newName;
+}
+
+import { name, setName } from "./example.js";
+console.log(name); // "Nicholas"
+setName("Greg");
+console.log(name); // "Greg"
+name = "Nicholas"; // error
+
+```
+
+### 3.重命名导出与导入
+
+```javascript
+function sum(num1, num2) {
+	return num1 + num2;
+} 
+export { sum as add };
+import { add } from "./example.js";
+
+import { add as sum } from "./example.js";
+console.log(typeof add); // "undefined"
+console.log(sum(1, 2)); // 3
+```
+
+### 4.模块的默认值
+
+#### 4.1导出默认值
+
+三种方式：
+
+```javascript
+// 方式一
+export default function(num1, num2) {
+	return num1 + num2;
+}
+
+// 方式二
+function sum(num1, num2) {
+	return num1 + num2;
+} 
+export default sum;
+
+// 方式三
+function sum(num1, num2) {
+	return num1 + num2;
+} 
+export { sum as default };
+```
+
+efault 标识符有特别含义，既作为重命名导出，又标明了模块需要使用的默认值。由于default 在 JS 中是一个关键字，它就不能被用作变量、函数或类的名称（但它可以被用作属性名称） 。因此使用 default 来重命名一个导出是个特例，与非默认导出的语法保持了一致性。
+
+#### 4.2导入默认值
+
+```javascript
+// 导入默认值
+import sum from "./example.js";
+console.log(sum(1, 2)); // 3
+```
+
+对于既导出了默认值、又导出了一个或更多非默认的绑定的模块，你可以使用单个语句来导入它的所有导出绑定。例如，假设你有这么一个模块：
+
+```javascript
+export let color = "red";
+export default function(num1, num2) {
+	return num1 + num2;
+}
+
+
+import sum, { color } from "./example.js";
+console.log(sum(1, 2)); // 3
+console.log(color); // "red"
+
+
+// 等价于上个例子 重命名
+import { default as sum, color } from "example";
+console.log(sum(1, 2)); // 3
+console.log(color); // "red
+```
+
+### 5.绑定的再导出
+
+```javascript
+export { sum } from "./example.js";
+
+export { sum as add } from "./example.js";
+
+export * from "./example.js";
+```
+
+使用完全导出，就可以导出目标模块的默认值及其所有具名导出，但这可能影响你从当前模块所能导出的值。例如，假设 example.js 具有一个默认导出，当你使用这种语法时，你就无法为当前模块另外再定义一个默认导出。 即不能同时有两个默认导出。
+
+### 6.无绑定的导入
+
+有些模块也许没有进行任何导出，相反只是修改全局作用域的对象。尽管这种模块的顶级变量、函数或类最终并不会自动被加入全局作用域，但这并不意味着该模块无法访问全局作用域。诸如 Array 与 Object 之类的内置对象的共享定义在模块内部是可访问的，并且对于这些对象的修改会反映到其他模块中。
+
+例如，若你想为所有数组添加一个 pushAll() 方法，你可以像下面这样定义一个模块： 
+
+```javascript
+// 没有导出与导入的模块
+Array.prototype.pushAll = function(items) {
+// items 必须是一个数组
+if (!Array.isArray(items)) {
+	throw new TypeError("Argument must be an array.");
+} 
+// 使用内置的 push() 与扩展运算符
+	return this.push(...items);
+};
+```
+
+这是一个有效的模块，尽管此处没有任何导出与导入。此代码可以作为模块或脚本来使用。由于它没有导出任何东西，你可以使用简化的导入语法来执行此模块的代码，而无须导入任何绑定： 
+
+```javascript
+import "./example.js";
+let colors = ["red", "green", "blue"];
+let items = [];
+items.pushAll(colors);
+```
+
+此代码导入并执行了包含 pushAll() 的模块，于是 pushAll() 就被添加到数组的原型上。这意味着现在 pushAll() 在当前模块内的所有数组上都可用。 
+
+### 7.浏览器模块说明符方案
+
+浏览器要求模块说明符应当为下列格式之一：
+
+- 以 / 为起始，表示从根目录开始解析；
+- 以 ./ 为起始，表示从当前目录开始解析；
+- 以 ../ 为起始，表示从父级目录开始解析；
+- URL 格式。 
+
+```javascript
+// 从 https://www.example.com/modules/example1.js 导入
+import { first } from "./example1.js";
+// 从 from https://www.example.com/example2.js 导入
+import { second } from "../example2.js";
+// 从 from https://www.example.com/example3.js 导入
+import { third } from "/example3.js";
+// 从 from https://www2.example.com/example4.js 导入
+import { fourth } from "https://www2.example.com/example4.js";
+
+
+// 无效：没有以 / 、 ./ 或 ../ 开始
+import { first } from "example.js";
+// 无效：没有以 / 、 ./ 或 ../ 开始
+import { second } from "example/index.js";
+```
+
