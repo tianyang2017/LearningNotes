@@ -5,6 +5,7 @@
  📂[前端语言和框架](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Javascript](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《javascript高级程序设计》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript/《javascript高级程序设计》读书笔记.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《深入理解ES6》.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript/《深入理解ES6》.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Vue](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Vue) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[自动化构建工具](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/自动化构建工具) </br>
  📂[后端语言和框架](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架) </br>
@@ -12,6 +13,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[dubbo](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/dubbo) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[javaEE](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/javaEE) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[java基础](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[Java核心编程（卷1）.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/Java核心编程（卷1）.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[Java核心编程（卷2）.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/Java核心编程（卷2）.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[mybatis](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/mybatis) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[spring](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/spring) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[springboot](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/springboot) </br>
@@ -29,3 +32,4 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Linux](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Linux) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Nginx](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Nginx) </br>
  📂[算法和数据结构](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[算法基础.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构/算法基础.md) </br>
