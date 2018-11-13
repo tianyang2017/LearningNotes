@@ -8,11 +8,17 @@
 
 ![java集合类图](D:\学习笔记\picture\java集合类图.png)
 
+
+
 **A</br>![java集合类图](https://github.com/heibaiying/LearningNotes/blob/master/picture/java集合类图.png)bsctractCollection 提供了部分通用方法的实现。**
+
+
 
 ​                                                                         ![Collection](D:\学习笔记\picture\Collection.png)
 
-**ava.util.Coll6ction\</br>![Collection](https://github.com/heibaiying/LearningNotes/blob/master/picture/Collection.png)<E>**  :
+
+
+**Java.util.Collection\</br>![Collection](https://github.com/heibaiying/LearningNotes/blob/master/picture/Collection.png)<E>**  :
 
 ```java
 • Iterator <E> iterator()

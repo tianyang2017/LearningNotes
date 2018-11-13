@@ -8,11 +8,17 @@
 
 ![java集合类图](D:\学习笔记\picture\java集合类图.png)
 
+
+
 **AbsctractCollection 提供了部分通用方法的实现。**
+
+
 
 ​                                                                         ![Collection](D:\学习笔记\picture\Collection.png)
 
-**ava.util.Coll6ction\<E>**  :
+
+
+**Java.util.Collection\<E>**  :
 
 ```java
 • Iterator <E> iterator()
