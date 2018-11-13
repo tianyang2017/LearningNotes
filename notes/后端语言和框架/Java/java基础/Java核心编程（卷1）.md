@@ -6,7 +6,7 @@
 
 #### 9.1.1 java 集合框架
 
-![java集合类图](D:\学习笔记\picture\java集合类图.png)
+![java集合类图](D:\学习笔记\picture\java集合类图.png)</br>![java集合类图](https://github.com/heibaiying/LearningNotes/blob/master/picture/java集合类图.png)</br>
 
 
 
@@ -14,7 +14,7 @@
 
 
 
-​                                                                         ![Collection](D:\学习笔记\picture\Collection.png)
+​                                                                         ![Collection](D:\学习笔记\picture\Collection.png)</br>![Collection](https://github.com/heibaiying/LearningNotes/blob/master/picture/Collection.png)</br>
 
 
 
