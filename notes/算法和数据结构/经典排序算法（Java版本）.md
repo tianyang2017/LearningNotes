@@ -369,9 +369,9 @@ public class MergeSort implements IArraySort {
 
 **2. 动图演示**
 
-![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+![六、快速排序](D:\学习笔记\picture\六、快速排序.gif)
 
-
+![六、快速排序](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.gif)
 
 **3. Java 代码实现**
 
@@ -436,9 +436,9 @@ public class QuickSort implements IArraySort {
 
 **2. 动图演示**
 
-![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+![七、堆排序](D:\学习笔记\picture\七、堆排序.gif)
 
-
+![七、堆排序](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%B8%83%E3%80%81%E5%A0%86%E6%8E%92%E5%BA%8F.gif)
 
 **3. Java 代码实现**
 
