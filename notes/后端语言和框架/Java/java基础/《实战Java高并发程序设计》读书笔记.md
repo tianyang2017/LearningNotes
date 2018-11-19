@@ -2,7 +2,7 @@
 
 ## 第二章 Java并行程序基础
 
-### 2.1 初始线程：线程的基本操作
+### 2.1 线程的基本操作
 
 #### 2.1.1 线程中断
 
@@ -65,7 +65,7 @@ public class Test {
 
 这两个方法在Object 下，意味着任何对象都可以调用这两个方法。
 
-如果是一个线程调用了wait,那么它就会进入object对象的等待队列。notify()**随机唤醒(并非先等待先唤醒，不是公平的唤醒)**等待队列中的一个队列，notifyAll() 唤醒全部等待。
+如果是一个线程调用了wait,那么它就会进入object对象的等待队列。notify()  **随机唤醒(并非先等待先唤醒，不是公平的唤醒)**  等待队列中的一个队列，notifyAll() 唤醒全部等待。
 
 ```java
 // 正常情况
@@ -246,7 +246,7 @@ public class Test {
 
 - 使得内存可见性。所以， 如果你的字段是 volatile ，在读指令前插入读屏障，可以让高速缓存中的数据失效，重新从主内存加载数据。在写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。
 
-### 2.3 分门别类的管理 线程组
+### 2.3 线程组
 
 ```java
 public class Test {
@@ -469,4 +469,328 @@ public class Test {
 
 
 ## 第三章 JDK 并发包
+
+### 3.1 同步控制
+
+#### 3.1.1 可重入锁
+
+- lock()：获得锁，如果锁已经被占用，则等待；
+- lockInterruptibly(): 获得锁，但优先响应中断；
+- tryLock():尝试获得锁，如果成功，返回true,失败返回false。该方法不等待，立即返回；
+- tryLock(long time,TimeUnit unit):在给定的时间内尝试获得锁；
+- unlock():释放锁
+
+```java
+// 线程安全的
+public class Test {
+
+    public static ReentrantLock reentrantLock=new ReentrantLock();
+    private static Integer i=0;
+    static class IncreaseTask implements Runnable{
+        @Override
+        public void run() {
+            for (int j = 0; j < 100000; j++) {
+                   try {
+                       reentrantLock.lock();
+                       i++;
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }finally {
+                       reentrantLock.unlock();
+                   }
+
+            }
+        }
+        
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread1= new Thread(new IncreaseTask());
+        Thread thread2= new Thread(new IncreaseTask());
+        thread1.start();
+        thread2.start();
+        //等待结束后 才打印返回值
+        thread1.join();
+        thread2.join();
+        //并打印返回值
+        System.out.println(i);
+    }
+}
+    
+ // 可重入性
+  static class IncreaseTask implements Runnable{
+        @Override
+        public void run() {
+            for (int j = 0; j < 100000; j++) {
+                   try {
+                       reentrantLock.lock();
+                       reentrantLock.lock();
+                       reentrantLock.lock();
+                       i++;
+                   }catch (Exception e){
+                       e.printStackTrace();
+                   }finally {
+                       reentrantLock.unlock();
+                       reentrantLock.unlock();
+                       reentrantLock.unlock();
+                   }
+
+            }
+        }
+
+    }  
+```
+
+
+
+##### **1.锁申请等待超时**
+
+使用 reentrantLock.tryLock 方法，超过指定时间则不等待。
+
+```java
+public class Test {
+
+    public static ReentrantLock reentrantLock=new ReentrantLock();
+
+    private static Integer i=0;
+
+    static class IncreaseTask implements Runnable {
+        @Override
+        public void run() {
+
+            try {
+               if ( reentrantLock.tryLock(5, TimeUnit.SECONDS)){
+                   Thread.sleep(6000);
+               }else {
+                   System.out.println("获得锁失败");
+               }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread1= new Thread(new IncreaseTask());
+        Thread thread2= new Thread(new IncreaseTask());
+        thread1.start();
+        thread2.start();
+        //等待结束后 才打印返回值
+        thread1.join();
+        thread2.join();
+        //并打印返回值
+        System.out.println(i);
+    }
+}
+```
+
+##### **2.公平锁**
+
+```java
+new ReentrantLock(true); //创建锁的时候指定参数
+
+public class Test {
+
+    public static ReentrantLock fairLock = new ReentrantLock(true);
+
+
+    static class IncreaseTask implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                fairLock.lock();
+                System.out.println(Thread.currentThread().getName() + "获得锁");
+                fairLock.unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(new IncreaseTask());
+        Thread thread2 = new Thread(new IncreaseTask());
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+公平锁需要维护一个有序队列，需要额外的开销，所以需要考虑场景使用。使用synchronized 实现的锁默认是不公平的。
+
+#### 3.1.2 condition 条件
+
+- await() 方法会使当前线程等待，**同时释放当前锁**，当其他线程中使用singnal()或者singnalAll()方法时，线程会**重新获得锁**并继续执行。或者当线程被中断时候，也能跳出等待。这和Object.wait() 方法很相似。
+- awaitUninterruptibly() 方法与await()方法基本相同，但是它并不会在等待过程中响应中断。
+- singal() 方法用于唤醒一个在等待中的线程。相对的singalAll()方法会唤醒所有在等待中的线程。
+
+```java
+public class Test {
+
+    public static ReentrantLock lock = new ReentrantLock();
+    public static Condition condition = lock.newCondition();
+
+    static class IncreaseTask implements Runnable {
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                condition.await();
+                System.out.println(Thread.currentThread().getName() + "获得锁");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread1 = new Thread(new IncreaseTask());
+        thread1.start();
+        Thread.sleep(2000);
+        lock.lock();
+        condition.signal();
+        lock.unlock();
+    }
+}
+```
+
+流程：在调用await()方法前线程必须获得重入锁，调用await()方法后线程会释放当前占用的锁。同理在调用signal()方法时当前线程也必须获得相应重入锁，调用signal()方法后系统会从condition.await()等待队列中唤醒一个线程。当线程被唤醒后，它就会尝试重新获得与之绑定的重入锁，一旦获取成功将继续执行。所以调用signal()方法后一定要释放当前占用的锁，这样被唤醒的线程才能有获得锁的机会，才能继续执行。
+
+#### 3.1.3 信号量（Semaphore）
+
+广义上说，信号量是对锁的扩展，无论是内部锁synchronized 还是 重入锁 ReentrantLock,一次都只允许一个线程访问一个资源，而信号量却允许指定多个线程，同时访问某一个资源。
+
+- acquire()方法尝试获得一个准入的许可，若无法获得，则线程会等待，直到有线程释放一个许可或者当前线程被中断；
+- acquireUninterruptibly()方法和acquire()类似，但是不响应中断；
+- tryAcquire() 尝试获得一个许可，如果成功返回true,失败则返回false,它不会进行等待，立即返回；
+- release() 用于在线程访问资源结束后，释放一个许可，以使其他等待许可的线程可以进行资源访问。
+
+```java
+public class Test {
+
+    public static Semaphore semaphore=new Semaphore(5);
+
+    static class IncreaseTask implements Runnable {
+        @Override
+        public void run() {
+            try {
+                semaphore.acquire();
+                System.out.println(Thread.currentThread().getId()+"获得锁!");
+                Thread.sleep(2000);
+                semaphore.release();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        IncreaseTask task = new IncreaseTask();
+        for (int i = 0; i < 20; i++) {
+            new Thread(task).start();
+        }
+    }
+}
+```
+
+#### 3.1.4 ReadWriteLock 读写锁
+
+```java
+ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
+ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
+```
+
+```java
+public class Test {
+
+    // 可重入锁
+    public static ReentrantLock reentrantLock = new ReentrantLock();
+    // 读写锁
+    public static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    // 读锁
+    public static ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
+    // 写锁
+    public static ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
+
+    //待写入或者带赋值的变量
+    private static String i = "";
+
+    //写方法
+    static class Write implements Runnable {
+
+        private Lock lock;
+        private String value;
+
+        Write(Lock lock, String value) {
+            this.lock = lock;
+            this.value = value;
+        }
+
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                Thread.sleep(1000);
+                i = value;
+                System.out.println(Thread.currentThread().getName() + "写入值" + i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    //读方法
+    static class Read implements Runnable {
+
+        private Lock lock;
+
+        Read(Lock lock) {
+            this.lock = lock;
+        }
+
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                Thread.sleep(1000);
+                System.out.println(Thread.currentThread().getName() + "读取到值" + i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+
+        // 耗时 2 秒 读锁是并行的
+        for (int j = 0; j < 2; j++) {
+            Thread thread = new Thread(new Write(writeLock, String.valueOf(j)));
+            thread.start();
+            thread.join();
+        }
+        for (int j = 0; j < 18; j++) {
+            Thread thread = new Thread(new Read(readLock));
+            thread.start();
+        }
+
+
+        // 耗时20秒
+        for (int j = 0; j < 2; j++) {
+            Thread thread = new Thread(new Write(reentrantLock, String.valueOf(j)));
+            thread.start();
+            thread.join();
+        }
+        for (int j = 0; j < 18; j++) {
+            Thread thread = new Thread(new Read(reentrantLock));
+            thread.start();
+        }
+    }
+}
+```
 
