@@ -472,7 +472,7 @@ public class Test {
 
 ### 3.1 同步控制
 
-#### 3.1.1 可重入锁
+#### 3.1.1 可重入锁(ReentrantLock)
 
 - lock()：获得锁，如果锁已经被占用，则等待；
 - lockInterruptibly(): 获得锁，但优先响应中断；
@@ -616,7 +616,7 @@ public class Test {
 
 公平锁需要维护一个有序队列，需要额外的开销，所以需要考虑场景使用。使用synchronized 实现的锁默认是不公平的。
 
-#### 3.1.2 condition 条件
+#### 3.1.2  条件（condition）
 
 - await() 方法会使当前线程等待，**同时释放当前锁**，当其他线程中使用singnal()或者singnalAll()方法时，线程会**重新获得锁**并继续执行。或者当线程被中断时候，也能跳出等待。这和Object.wait() 方法很相似。
 - awaitUninterruptibly() 方法与await()方法基本相同，但是它并不会在等待过程中响应中断。
@@ -693,7 +693,16 @@ public class Test {
 }
 ```
 
-#### 3.1.4 ReadWriteLock 读写锁
+#### 3.1.4 读写锁（ReadWriteLock ）
+
+**读写锁访问约束情况**
+
+|      | 读     | 写   |
+| :--: | ------ | ---- |
+|  读  | 非阻塞 | 阻塞 |
+|  写  | 阻塞   | 阻塞 |
+
+
 
 ```java
 ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
@@ -790,6 +799,523 @@ public class Test {
             Thread thread = new Thread(new Read(reentrantLock));
             thread.start();
         }
+    }
+}
+```
+
+#### 3.1.5 倒计时（CountDown）
+
+```java
+
+```
+
+#### 3.1.6 循环栅栏（CyclicBarrier）
+
+```java
+/* 
+ * @param   需要等待的线程数
+ * @param   指定数量的线程到达后执行的操作
+ */
+public CyclicBarrier(int parties, Runnable barrierAction)
+```
+
+```java
+// 每次有五个人完成 则算一个小组任务完成
+public class Test {
+
+    public static CyclicBarrier cyclicBarrier = new CyclicBarrier(5, new Runnable() {
+        @Override
+        public void run() {
+            System.out.println("五人小组任务执行完成");
+        }
+    });
+
+    static class Task implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                long l = new Double(Math.random() * 5000).longValue();
+                Thread.sleep(l);
+                System.out.println("任务"+Thread.currentThread().getId()+"执行完成");
+                cyclicBarrier.await();
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        ExecutorService executorService = Executors.newFixedThreadPool(20);
+        for (int j = 0; j < 10; j++) {
+            executorService.submit(new Task());
+        }
+        executorService.shutdown();
+    }
+}
+```
+
+#### 3.1.7 线程阻塞工具类（LockSupport）
+
+LockSupport的静态方法park() 可以阻塞当前线程，类似的还有parkNanos() 和parkUntil()等方法。他们实现了一个限时的等待。
+
+LockSupport类使用类似信号量的机制，它为每一个线程准备一个许可，如果许可可用，那么park()函数就会立即返回，并且消费这个许可（也就是将许可变为不可用），如果许可不可用，就会阻塞。而unpark()则使得一个许可变为可用（但是和信号量不同的是，许可不能累加，你不可能拥有超过一个许可，它永远只有一个）。
+
+```java
+public class Test {
+
+    static class Task implements Runnable {
+
+        @Override
+        public void run() {
+            long id = Thread.currentThread().getId();
+            System.out.println("线程"+ id +"开始阻塞");
+            LockSupport.park();
+            System.out.println("线程"+ id +"解除阻塞");
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread01 = new Thread(new Task());
+        Thread thread02 = new Thread(new Task());
+        thread01.start();
+        thread02.start();
+        Thread.sleep(3000);
+        System.out.println("主线程干预");
+        LockSupport.unpark(thread01);
+        LockSupport.unpark(thread02);
+    }
+}
+```
+
+### 3.2 线程池
+
+![Executors](D:\学习笔记\picture\Executors.png)
+
+#### 3.2.1 JDK对线程池的支持
+
+**newFixedThreadPool()方法**：该方法返回一个固定线程数量的线程池。该线程池中的线程数量始终不变。当有一个新的任务提交时，线程池中若有空闲的线程，则立即执行。若没有，则新的任务会被暂时存在一个任务队列中，待有线程空闲时，便处理在任务队列中的任务。
+
+**newSingleThreadExecutor()方法**： 该方法返回一个只有一个线程的线程池。若多余一个任务被提交到该线程池，任务会被保存在一个任务队列中，带线程空闲，按照先入先出的顺序执行队列中的任务。
+
+**newCachedThreadPool()**方法：根据实际情况动态调整线程数量。
+
+**newSingleThreadScheduledExecutor()方法**：该方法返回一个ScheduledExecutorService对象，线程池大小为1。SeheduledExectorService接口在ExecutorService接口之上扩展了在给定时间执行某任务的功能，如在某个固定的延时之后执行，或者周期性执行某个任务。
+
+**newScheduledThreadPool()方法**：该方法也返回一个ScheduledExecutorService对象，但该线程池可以指定线程数量。
+
+```java
+// 线程池举例
+public class Test {
+
+    static class Task implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + "正在执行");
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 100; i++) {
+            executorService.submit(new Task());
+        }
+    }
+
+}
+```
+
+##### 1.计划任务
+
+```java
+// 在给定的时间，对任务进行一次调度
+public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
+public <V> ScheduledFuture<V> schedule(Callable<V> callable,long delay, TimeUnit unit);
+
+// 以上一个任务开始执行时间为起点，之后的period时间，调度下一次任务，如果任务耗时大于period，则上一次任务结束后立即执行下一次任务
+public ScheduledFuture<?> scheduleAtFixedRate(Runnable command,long initialDelay,long period,
+                                                  TimeUnit unit);
+// 以上一个任务开始执行时间为起点，再经过delay时间，调度下一次任务，不论任务耗时如何，上一次任务结束后都需要等待delay时间之后才可以执行下一次任务
+public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay,long delay,
+                                                  TimeUnit unit);
+
+
+
+public class Test {
+
+    public static long cacheTime = System.currentTimeMillis();
+
+    static class Task implements Runnable {
+
+        private String type;
+
+        Task(String type) {
+            this.type = type;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(5000);
+                long nowTime = System.currentTimeMillis();
+                long period = (nowTime - cacheTime);
+                System.out.println(type + Thread.currentThread().getId() + "执行耗时" + period + "毫秒");
+                cacheTime = nowTime;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(10);
+        // 只执行一次
+        ScheduledFuture<?> schedule = pool.schedule(new Task("schedule"), 2, TimeUnit.SECONDS);
+        // 指定2秒为固定周期执行，如果项目执行耗时5秒，则项目结束后立马执行下一次任务，所以输出的时间间隔为5秒
+        pool.scheduleAtFixedRate(new Task("FixedRate"), 0, 2, TimeUnit.SECONDS);
+        // 总是在上一次项目结束后间隔指定周期执行，所以项目耗时5秒，还需要间隔2秒执行，所以输出的时间间隔为7秒
+        pool.scheduleWithFixedDelay(new Task("WithFixedDelay"),0,2,TimeUnit.SECONDS);
+    }
+
+}
+```
+
+
+
+#### 3.2.2 线程池内部实现
+
+```java
+public ThreadPoolExecutor(int corePoolSize,                          //核心线程数量
+                              int maximumPoolSize,                   //最大线程数量   
+                              long keepAliveTime,                    //超过核心线程数量的线程的存活时间
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,     //任务队列
+                              ThreadFactory threadFactory,           //线程工厂
+                              RejectedExecutionHandler handler)      //拒绝策略
+```
+
+##### **1.JDK内置的拒绝策略**
+
+**AbortPolicy策略**：该策略会直接抛出异常，阻止系统正常工作；
+
+**CallerRunsPolicy策略**：只要线程池未关闭，该策略直接在调用线程中运行当前被丢弃的任务。这种情况下，提交任务的线程性能可能会急剧下降。
+
+**DiscardOledestPolicy策略**：该策略将丢弃最老的一个请求，也就是即将被执行的一个任务，并尝试再次提交当前任务。
+
+**DiscardPolicy策略**：默认丢弃无法处理的任务，不予任何处理。
+
+```java
+public class Test {
+
+    private  static int i=0;
+    private static CountDownLatch latch=new CountDownLatch(1000);
+    static class Task implements Runnable {
+
+        @Override
+        public void run() {
+            increase();
+        }
+
+        private void increase(){
+            synchronized (this){
+                i++;
+            }
+            System.out.println(Thread.currentThread().getName()+"输出:"+i);
+            latch.countDown();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        // 自定义线程
+        ExecutorService executorService = new ThreadPoolExecutor(10, 20,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(),
+                r -> {
+                    Thread thread = new Thread(r);
+                    thread.setDaemon(true);
+                    System.out.println("create" + thread.getName());
+                    return thread;
+                });
+
+        Task task = new Task();
+        for (int i = 0; i < 1000; i++) {
+            executorService.submit(task);
+        }
+        latch.await();
+        System.out.println("最后的结果是"+i);
+        executorService.shutdown();
+    }
+}
+```
+
+##### 2.线程池的扩展
+
+ThreadPoolExecutor是一个可以拓展的线程池，它提供了beforeExecute()、afterExecute()和terminated() 三个接口对线程池进行扩展。
+
+```java
+public class Test {
+
+    private static int i = 0;
+
+    private static CountDownLatch latch = new CountDownLatch(1000);
+
+    static class Task implements Runnable {
+
+        @Override
+        public void run() {
+            increase();
+        }
+
+        private void increase() {
+            synchronized (this) {
+                i++;
+            }
+            System.out.println(Thread.currentThread().getName() + "输出:" + i);
+            latch.countDown();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        // 自定义线程
+        ExecutorService executorService = new ThreadPoolExecutor(10, 20,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>()) {
+
+            @Override
+            protected void beforeExecute(Thread t, Runnable r) {
+                System.out.println("线程" + t.getName() + "准备执行");
+            }
+
+            @Override
+            protected void afterExecute(Runnable r, Throwable t) {
+                System.out.println("线程" + r + "执行结束");
+            }
+
+            @Override
+            protected void terminated() {
+                System.out.println("线程池退出");
+            }
+        };
+
+        Task task = new Task();
+        for (int i = 0; i < 1000; i++) {
+            executorService.submit(task);
+        }
+        latch.await();
+        System.out.println("最后的结果是" + i);
+        executorService.shutdown();
+    }
+}
+```
+
+##### 3.合理优化线程池的数量
+
+![合理线程池数量](D:\学习笔记\picture\合理线程池数量.png)
+
+
+
+#### 3.2.3 Fork/Join 框架
+
+ ForkJoin主要提供了两个主要的执行任务的接口。RecurisiveAction与RecurisiveTask：
+
+- RecurisiveAction ：没有返回值的接口;
+- RecurisiveTask ：带有返回值的接口。
+
+ForkJoinPool提供如下两个常用的构造器：
+
+- ForkJoinPool(int parallelism)  创建一个包含parallelism个并行线程的ForkJoinPool;
+
+- ForkJoinPool()  以Runtime.availableProcessors()方法的返回值作为parallelism参数来创建ForkJoinPool。
+
+```java
+public class CountTask extends RecursiveTask<Long> {
+
+    private Long start;
+
+    private Long end;
+
+    private static long hold=50L;
+
+    CountTask(Long start,Long end){
+        this.start=start;
+        this.end=end;
+    }
+
+    @Override
+    protected Long compute() {
+        long sum=0L;
+        // 一定要保证能够进进入if中的终止条件，如果无限制的拆分,可能会导致栈溢出
+        if (end-start<=hold){
+            // 假设一个最小计算单元都是耗时的
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (long i = start; i < end; i++) {
+                sum+=i;
+            }
+        }else {
+            List<CountTask> countTasks=new ArrayList<>();
+            long l = (end - start) / hold;
+            for (int i = 0; i <l; i++) {
+                CountTask task = new CountTask(start + i * hold, start + (i + 1) * hold);
+                countTasks.add(task);
+                task.fork();
+                if (i==l-1){
+                    CountTask countTask = new CountTask(start + (i + 1) * hold, end);
+                    countTasks.add(countTask);
+                    countTask.fork();
+                }
+            }
+            for (CountTask countTask:countTasks){
+                sum+=countTask.join();
+            }
+        }
+        return sum;
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ForkJoinPool forkJoinPool=new ForkJoinPool(100);
+        CountTask task = new CountTask(0L, 10000L);
+        ForkJoinTask<Long> result = forkJoinPool.submit(task);
+        Long aLong = result.get();
+        System.out.println("结果为"+aLong);
+    }
+}
+
+```
+
+### 3.3 并发容器
+
+#### 3.3.1 并发集合简介
+
+- **ConcurrentHashMap**:线程安全的HashMap;
+- **CopyOnWriteArrayList**:在读多写少的场合，这个List的性能非常好，远远好于Vector。CopyOnWriteArrayList读取是完全不用加锁的，写入也不会阻塞读取操作，只有写入与写入之间需要加锁。
+- **ConcurrentLinkedQueue**:高效的并发队列，使用链表实现。可以看作一个线程安全的LinkList，算是在高并发环境下性能最好的队列;
+- **BlockingQuene**:这是一个接口，JDK内部通过链表（LinkedBlockingQueue），数组（ArrayBlockingQueue）等方式实现了这个接口。表示阻塞队列，非常适合用于作为数据共享的通道；
+- **ConcurrentSkipListMap**:跳表的实现。这是一个Map,使用调表的数据结构进行快速查找。
+
+
+
+## 第四章 锁的优化及注意事项
+
+### 4.2 Java虚拟机对锁优化锁做的努力
+
+作为一款公用平台，JDK 本身也为并发程序的性能绞尽脑汁，在 JDK 内部也想尽一切办法提供并发时的系统吞吐量。
+
+#### 1. 锁偏向
+
+锁偏向是一种针对加锁操作的优化手段。
+
+**如果一个线程获得了锁，那么锁就进入偏向模式。当这个线程再次请求锁时，无须再做任何同步操作。这样就节省了大量有关锁申请的操作，从而提高了程序性能。**
+
+因此，对于几乎没有锁竞争的场合，偏向锁有比较红啊的优化效果，因为连续多次极有可能是同一个线程请求相同的锁。而对于锁竞争比较激烈的场合，其效果不佳。因为在竞争激烈的场合，最有可能的情况是每次都是不同的线程来请求相同的锁。使用Java虚拟机参数-XX:UseBiasedLocking 可以开启偏向锁。
+
+#### 2. 轻量级锁
+
+**如果偏向锁失败，即上一个请求的锁的线程和这个线程不是同一个。偏向锁失败意味者不能避免做同步操作。**此时，虚拟机并不会立即挂起线程。他会使用一种成为轻量级锁的优化手段。 
+
+轻量级锁的操作也很方便，它只是简单地将对象头部作为指针，指向蚩尤锁的线程堆栈的内部，来判断一个线程是否持有对象锁。 如果线程获得轻量级锁成功，则可以顺利进入临界区。如果轻量级锁失败，则表示其他线程抢先争夺了锁，那么当前线程的锁请求就会膨胀为重量级锁。
+
+#### 3. 自选锁
+
+**锁膨胀后，虚拟机为了避免线程真实地在操作系统层面挂起，虚拟机还会在做最后的努力–自选锁。**由于当前线程暂时无法获得锁，但是什么时候可以获得锁是一个未知数。也许在CPU几个时钟周期后，就可以得到锁。如果这样，简单粗暴的挂起线程可能是一种得不偿失的操作，因此系统会进行一次赌注：它会假设在不久的将来，线程可以得到这把锁。
+
+因此虚拟机让当前线程做个空循环，在经过若干次循环后，如果可以得到锁，那么就顺利进入临界区。如果还不能得到锁，才会真实地将线程在操作系统层面挂起。
+
+#### 4. 锁消除
+
+**锁消除是一种更彻底的锁优化。Java虚拟机在JIT编译时，通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁。通过锁消除，可以节省毫无意义的请求锁时间。**
+
+下面这种这种情况，我们使用vector， 而vector内部使用了synchronize请求锁。
+
+```java
+public String []  createStrings(){
+    Vector<String>  v= new Vector<String>();
+    for(int i=0;i<100;i++){
+        v.add(Integer.toString(i));
+    }
+    return v.toArray(new String[]{});
+}
+```
+
+由于V只在函数  createStrnigs  中使用，因此它只是一个单纯的局部变量。局部变量是在线程栈上分配的，属于线程私有额数据，因此不可能被其他线程访问。所以，在这种情况下，Vector内部所有加锁同步都是没有必要的。如果虚拟机检测到这种情况，就会将这些无用的锁操作去除。
+
+**锁消除涉及的一项关键技术为逃逸分析。所谓逃逸分析就是观察某一个变量是否会逃出某一个作用域。**在本例中，变量v显然没有逃出createString  函数之外。以此为基础，虚拟机才可以大胆的将v内部的加锁操作去除。如果createStrings  返回的不是String数组，而是v本身，那么就认为变量v逃逸出了当前函数，也就是说v有可能被其他线程访问。如是这样，虚拟机就不能消除v中的锁操作。
+
+**逃逸分析必须在 -server 模式下进行，可以使用 -XX:DoEscapeAnalysis 参数打开逃逸分析，使用 -XX:+EliminateLocks 参数可以打开锁消除。**
+
+
+
+### 4.3 人手一只笔（ThreadLocal）
+
+```java
+// SimpleDateFormat.parse() 不是线程安全的方法
+public class Test {
+    public static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    static class Task implements Runnable{
+        private int i;
+        Task(int i){
+            this.i=i;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Date parse = sdf.parse("2018-08-08 08:08:" + i / 60);
+                System.out.println(i+":"+parse);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 1000; i++) {
+            executorService.execute(new Task(i));
+        }
+    }
+}
+
+```
+
+使用threadLocal优化：
+
+```java
+public class Test {
+
+    private static ThreadLocal<SimpleDateFormat> threadLocal=new ThreadLocal<>();
+
+    static class Task implements Runnable{
+        private int i;
+        Task(int i){
+            this.i=i;
+        }
+
+        @Override
+        public void run() {
+            try {
+                if (threadLocal.get()==null){
+                    threadLocal.set(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+                }
+                Date parse = threadLocal.get().parse("2018-08-08 08:08:" + i / 60);
+                System.out.println(i+":"+parse);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 1000; i++) {
+            executorService.execute(new Task(i));
+        }
+        executorService.shutdown();
     }
 }
 ```
