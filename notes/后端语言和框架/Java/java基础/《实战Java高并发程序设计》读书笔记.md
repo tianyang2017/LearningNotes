@@ -1320,3 +1320,325 @@ public class Test {
 }
 ```
 
+
+
+### 4.4 无锁
+
+CAS的全称是Compare And Swap 即比较交换，其算法核心思想如下
+
+```java
+执行函数：CAS(V,E,N)
+```
+
+其包含3个参数
+
+- V表示要更新的变量
+
+- E表示预期值
+
+- N表示新值
+
+
+如果V值等于E值，则将V的值设为N。若V值和E值不同，则说明已经有其他线程做了更新，则当前线程什么都不做。通俗的理解就是CAS操作需要我们提供一个期望值，当期望值与当前线程的变量值相同时，说明还没线程修改该值，当前线程可以进行修改，也就是执行CAS操作，但如果期望值与当前线程不符，则说明该值已被其他线程修改，此时不执行更新操作，但可以选择重新读取该变量再尝试再次修改该变量，也可以放弃操作。
+
+![原子包](D:\学习笔记\picture\原子包.png)
+
+```java
+// 原子类
+public class Test {
+
+    private static int i=0;
+    private static AtomicInteger j=new AtomicInteger(0);
+    // AtomicReference 对普通对象的封装
+    private static AtomicReference<Integer> k=new AtomicReference<>(0);
+
+    static class Task implements Runnable{
+
+        private CountDownLatch latch;
+
+        Task(CountDownLatch latch){
+            this.latch=latch;
+        }
+
+        @Override
+        public void run() {
+            i++;
+            j.incrementAndGet();
+            k.getAndUpdate(x->x+1);
+            latch.countDown();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        int number = 10000;
+        CountDownLatch latch=new CountDownLatch(number);
+        Semaphore semaphore=new Semaphore(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        Task task = new Task(latch);
+        for (int i = 0; i < number; i++) {
+            semaphore.acquire();
+            executorService.execute(task);
+            semaphore.release();
+        }
+        latch.await();
+        System.out.println("输出i的值"+i);
+        System.out.println("输出j的值"+j.get());
+        System.out.println("输出K的值"+k.get());
+        executorService.shutdown();
+    }
+}
+```
+
+**1. 无锁数组**
+
+```java
+public class Test {
+
+    private static int number = 100000;
+
+    private static int capacity = 10;
+
+    // 保证对集合内元素的操作具有原子性
+    private static AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(capacity);
+
+    // 对集合本生的操作线程安全 对集合内元素的操作线程不安全
+    private static LinkedBlockingQueue<Integer> LinkedBlockingQueue = new LinkedBlockingQueue<>();
+
+    //对集合本生的操作线程安全  对集合内元素的操作线程不安全
+    private static Vector<Integer> vector = new Vector<>(10);
+
+    //普通集合
+    private static ArrayList<Integer> arrayList = new ArrayList<>(capacity);
+    private static ArrayList<Integer> list = new ArrayList<>();
+
+    static {
+        for (int i = 0; i < capacity; i++) {
+            arrayList.add(i, 0);
+            vector.add(i, 0);
+        }
+    }
+
+    static class Task implements Runnable {
+
+        private CountDownLatch latch;
+        private int number;
+
+        Task(CountDownLatch latch, int number) {
+            this.latch = latch;
+            this.number = number;
+        }
+
+        @Override
+        public void run() {
+            LinkedBlockingQueue.add(1);
+            list.add(1);
+            int num = number % capacity;
+            arrayList.set(num, arrayList.get(num) + 1);
+            vector.set(num, arrayList.get(num) + 1);
+            atomicIntegerArray.getAndIncrement(num);
+            latch.countDown();
+
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(number);
+        Semaphore semaphore = new Semaphore(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < number; i++) {
+            semaphore.acquire();
+            executorService.execute(new Task(latch, i));
+            semaphore.release();
+        }
+        latch.await();
+        System.out.println("arrayList:" + arrayList);
+        System.out.println("atomicIntegerArray:" + atomicIntegerArray);
+        System.out.println("vector:" + vector);
+        System.out.println("list:" + list.size());
+        System.out.println("LinkedBlockingQueue:" + LinkedBlockingQueue.size());
+        executorService.shutdown();
+    }
+}
+
+// arrayList:[9999, 9998, 9985, 8542, 9998, 10000, 9996, 9999, 9995, 9998]
+// atomicIntegerArray:[10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000]
+// vector:[10000, 9999, 9986, 8543, 9999, 10001, 9997, 10000, 9996, 9999]
+// list:99847
+// LinkedBlockingQueue:100000
+```
+
+**2. AtomicIntegerFieldUpdater**
+
+AtomicIntegerFieldUpdater让普通变量也能具备原子性的操作。
+
+- AtomicIntegerFieldUpdater只能修改它可见范围内的变量，其是通过反射得到这个变量的，如果不可见，就会出错；
+- 为保证变量被正确的读取，它必须是volatile类型的；
+- 由于CSA操作会通过对象实例中的偏移量直接进行赋值，因此，它不支持static字段。
+
+```java
+public class Test {
+
+    static class Task implements Runnable {
+
+        private Candidate candidate;
+        private CountDownLatch latch;
+        private AtomicIntegerFieldUpdater fieldUpdater;
+
+        Task(CountDownLatch latch, Candidate candidate,AtomicIntegerFieldUpdater fieldUpdater) {
+            this.candidate = candidate;
+            this.latch=latch;
+            this.fieldUpdater=fieldUpdater;
+        }
+
+        @Override
+        public void run() {
+            fieldUpdater.incrementAndGet(candidate);
+            latch.countDown();
+        }
+    }
+    
+    public static void main(String[] args) throws InterruptedException {
+        int number = 10000;
+        CountDownLatch latch = new CountDownLatch(number);
+        Semaphore semaphore = new Semaphore(10);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        Candidate candidate = new Candidate("候选人", 0);
+        AtomicIntegerFieldUpdater<Candidate> fieldUpdater=AtomicIntegerFieldUpdater.newUpdater(Candidate.class,"score");
+        for (int i = 0; i < number; i++) {
+            semaphore.acquire();
+            executorService.execute(new Task(latch, candidate,fieldUpdater));
+            semaphore.release();
+        }
+        latch.await();
+        System.out.println(candidate.getName() + "获得票数:" + candidate.getScore());
+        executorService.shutdown();
+    }
+
+
+    private static class Candidate {
+
+        private String name;
+
+        // 1. 不能声明为 private  2. 必须用 volatile 关键字修饰
+        public volatile int score;
+
+        Candidate(String name, int score) {
+            this.name = name;
+            this.score = score;
+        }
+        public int getScore() {
+            return score;
+        }
+        public void setScore(int score) {
+            this.score = score;
+        }
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+}
+```
+
+**3. SynchronousQueue队列  实现线程之间通讯**
+
+SynchronousQueue内部没有容量，但是由于一个插入操作总是对应一个移除操作，反过来同样需要满足。那么一个元素就不会再SynchronousQueue 里面长时间停留，一旦有了插入线程和移除线程，元素很快就从插入线程移交给移除线程。也就是说这更像是一种信道（管道），资源从一个方向快速传递到另一方向。显然这是一种**快速传递元素的方式**，也就是说在这种情况下元素总是以最快的方式从插入着（生产者）传递给移除着（消费者），这在多任务队列中是最快处理任务的方式。
+
+```java
+public class Test {
+
+
+    public static SynchronousQueue<Double> queue = new SynchronousQueue<>();
+
+    static class ReadThread implements Runnable {
+
+        @Override
+        public void run() {
+            System.out.println("读线程启动");
+            while (true){
+                try {
+                    Double peek = queue.take();
+                    System.out.println("读线程获取值:" + peek);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    static class WriteThread implements Runnable {
+
+        @Override
+        public void run() {
+            System.out.println("写线程写入值");
+            try {
+                queue.put(Math.random());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(new ReadThread()).start();
+        Thread.sleep(3000);
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(3);
+        pool.scheduleAtFixedRate(new WriteThread(),0,2,TimeUnit.SECONDS);
+    }
+}
+
+结果：
+读线程启动
+写线程写入值
+读线程获取值:0.4200400971747895
+写线程写入值
+读线程获取值:0.5515246887760102
+写线程写入值
+读线程获取值:0.37153976270075484
+写线程写入值
+读线程获取值:0.5244714268587413
+```
+
+## 第五章 并行模式与算法
+
+### 5.5 JDK中的Future
+
+```java
+public class Test {
+
+    static class Task implements Callable<Double> {
+
+        @Override
+        public Double call() throws Exception {
+            Thread.sleep(3000);
+            return Math.random();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService executors = Executors.newFixedThreadPool(100);
+        List<Future<Double>> futureList = new ArrayList<>();
+        Task task = new Task();
+        for (int i = 0; i < 100; i++) {
+            Future<Double> submit = executors.submit(task);
+            futureList.add(submit);
+        }
+        // 模拟主线程执行另外一个耗时的计算
+        Thread.sleep(3000);
+        for (int i = 0; i < futureList.size(); i++) {
+            try {
+                Double aDouble = futureList.get(i).get();
+                System.out.println("获得任务" + i + "结果" + aDouble);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        executors.shutdown();
+    }
+}
+```
+
