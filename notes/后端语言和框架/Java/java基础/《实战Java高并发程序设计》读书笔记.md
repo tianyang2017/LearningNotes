@@ -8,6 +8,9 @@
 
 **interrupt**是设置终止标志位，并非真正的去终止线程。用户当线程检测到终止标志位为真时，可以执行对应的终止逻辑。
 
+- interrupted()是静态方法：内部实现是调用的当前线程的isInterrupted()，并且会重置当前线程的中断状态
+- isInterrupted()是实例方法，是调用该方法的对象所表示的那个线程的isInterrupted()，不会重置当前线程的中断状态
+
 ```java
 // Thread 类
 public void interrupt()         	// 停止线程
@@ -113,6 +116,22 @@ public class Test {
     }
 }
 
+//输出：
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+    线程1
+
 // 等待与唤醒
 public class Test {
     private static final Object object = new Object();
@@ -176,6 +195,92 @@ public class Test {
 }
 ```
 
+**（1）wait() 与 notify/notifyAll 方法必须在同步代码块中使用**
+
+wait() 与 notify/notifyAll() 是Object类的方法，在执行两个方法时，要先获得锁。因此，wait()  与  notify/notifyAll()  经常与synchronized搭配使用，即在synchronized修饰的同步代码块或方法里面调用wait() 与   notify/notifyAll()方法。
+
+**（2）wait() 与  notify/notifyAll() 的执行过程**
+
+由于 wait() 与  notify/notifyAll() 是放在同步代码块中的，因此线程在执行它们时，肯定是进入了临界区中的，即该线程肯定是获得了锁的。
+
+当线程执行wait()时，会把当前的锁释放，然后让出CPU，进入等待状态。
+
+ 当执行notify/notifyAll方法时，会唤醒一个处于等待该 对象锁 的线程，然后继续往下执行，直到执行完退出对象锁锁住的区域（synchronized修饰的代码块）后再释放锁。
+
+从这里可以看出，notify/notifyAll()执行后，并不立即释放锁，而是要等到执行完临界区中代码后，再释放。故在实际编程中，我们应该尽量在线程调用notify/notifyAll()后，立即退出临界区。即不要在notify/notifyAll()后面再写一些耗时的代码。
+
+```java
+public class Test {
+
+    //通过wait() 和 notify() 实现一个阻塞的队列
+    static class BlockArray<E> {
+
+        private final Object object;
+
+        BlockArray(){
+            this.object=new Object();
+        }
+
+        private ArrayList<E> arrayList = new ArrayList<>();
+
+        E take() throws InterruptedException {
+            if (arrayList.size()>0 && arrayList.get(0)!= null){
+                return pop();
+            }else {
+                // 如果不使用同步代码块 则会报 illegalmonitorstateexception 异常
+                synchronized (object){
+                    object.wait();
+                    }
+                return pop();
+                }
+        }
+
+        private E pop() {
+            E e = arrayList.get(0);
+            arrayList.remove(0);
+            return e;
+        }
+
+        void put(E e) {
+            arrayList.add(arrayList.size(), e);
+            synchronized (object){
+                object.notify();
+            }
+        }
+
+    }
+
+    public static void main(String[] args) {
+        BlockArray<Double> blockArray = new BlockArray<>();
+        new Thread(() -> {
+            while (true) {
+                Double take;
+                try {
+                    take = blockArray.take();
+                    System.out.println("读取线程：获得数据："+take);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(10);
+        pool.scheduleAtFixedRate(() -> {
+            double random = Math.random();
+            System.out.println("写入线程：写入数据："+random);
+            blockArray.put(random);
+        },0,3,TimeUnit.SECONDS);
+    }
+}
+
+结果：
+写入线程：写入数据：0.19934473742252068
+读取线程：获得数据：0.19934473742252068
+写入线程：写入数据：0.06838214167831369
+读取线程：获得数据：0.06838214167831369
+写入线程：写入数据：0.5146915352784022
+读取线程：获得数据：0.5146915352784022
+```
+
 
 
 #### 2.1.3 等待线程结束（join）和谦让（yield）
@@ -185,6 +290,8 @@ public static native void yield();
 ```
 
 yield 会使得当前线程让出CPU,但是在让出后，还会进行CPU资源的争夺，这意味这有可能会再次获得CPU的执行权。
+
+join方法的主要作用就是同步，它可以使得线程之间的并行执行变为串行执行。
 
 ```java
 public class Test {
@@ -245,6 +352,11 @@ public class Test {
 - 先于这个内存屏障的指令必须先执行，后于这个内存屏障的指令必须后执行 
 
 - 使得内存可见性。所以， 如果你的字段是 volatile ，在读指令前插入读屏障，可以让高速缓存中的数据失效，重新从主内存加载数据。在写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。
+
+ **使用场景**：synchronized关键字是防止多个线程同时执行一段代码，那么就会很影响程序执行效率，而volatile关键字在某些情况下性能要优于synchronized，但是要注意volatile关键字是无法替代synchronized关键字的，因为volatile关键字无法保证操作的原子性。通常来说，使用volatile必须具备以下2个条件：
+
+- 　对变量的写操作不依赖于当前值
+- 　该变量没有包含在具有其他变量的不变式中
 
 ### 2.3 线程组
 
@@ -631,8 +743,8 @@ public class Test {
     static class IncreaseTask implements Runnable {
         @Override
         public void run() {
-            lock.lock();
             try {
+                lock.lock();
                 condition.await();
                 System.out.println(Thread.currentThread().getName() + "获得锁");
             } catch (InterruptedException e) {
@@ -738,8 +850,8 @@ public class Test {
 
         @Override
         public void run() {
-            lock.lock();
             try {
+                lock.lock();
                 Thread.sleep(1000);
                 i = value;
                 System.out.println(Thread.currentThread().getName() + "写入值" + i);
@@ -762,8 +874,8 @@ public class Test {
 
         @Override
         public void run() {
-            lock.lock();
             try {
+                lock.lock();
                 Thread.sleep(1000);
                 System.out.println(Thread.currentThread().getName() + "读取到值" + i);
             } catch (InterruptedException e) {
@@ -806,7 +918,31 @@ public class Test {
 #### 3.1.5 倒计时（CountDown）
 
 ```java
+public class Test {
 
+    private static int number=10000000;
+    private static CountDownLatch latch=new CountDownLatch(number);
+    private static AtomicInteger integer=new AtomicInteger(0);
+
+    static class IncreaseTask implements Runnable {
+        @Override
+        public void run() {
+            integer.incrementAndGet();
+            latch.countDown();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        IncreaseTask task = new IncreaseTask();
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        for (int i = 0; i <number ; i++) {
+            executorService.submit(task);
+        }
+        latch.await();
+        System.out.println("integer："+integer);
+        executorService.shutdown();
+    }
+}
 ```
 
 #### 3.1.6 循环栅栏（CyclicBarrier）
@@ -898,7 +1034,7 @@ public class Test {
 
 **newSingleThreadExecutor()方法**： 该方法返回一个只有一个线程的线程池。若多余一个任务被提交到该线程池，任务会被保存在一个任务队列中，带线程空闲，按照先入先出的顺序执行队列中的任务。
 
-**newCachedThreadPool()**方法：根据实际情况动态调整线程数量。
+**newCachedThreadPool()方法**：根据实际情况动态调整线程数量。
 
 **newSingleThreadScheduledExecutor()方法**：该方法返回一个ScheduledExecutorService对象，线程池大小为1。SeheduledExectorService接口在ExecutorService接口之上扩展了在给定时间执行某任务的功能，如在某个固定的延时之后执行，或者周期性执行某个任务。
 
@@ -1190,7 +1326,7 @@ public class CountTask extends RecursiveTask<Long> {
 
 ### 3.3 并发容器
 
-#### 3.3.1 并发集合简介
+#### 3.3.1 并发集合简介（java.util.concurrent）
 
 - **ConcurrentHashMap**:线程安全的HashMap;
 - **CopyOnWriteArrayList**:在读多写少的场合，这个List的性能非常好，远远好于Vector。CopyOnWriteArrayList读取是完全不用加锁的，写入也不会阻塞读取操作，只有写入与写入之间需要加锁。
@@ -1212,23 +1348,23 @@ public class CountTask extends RecursiveTask<Long> {
 
 **如果一个线程获得了锁，那么锁就进入偏向模式。当这个线程再次请求锁时，无须再做任何同步操作。这样就节省了大量有关锁申请的操作，从而提高了程序性能。**
 
-因此，对于几乎没有锁竞争的场合，偏向锁有比较红啊的优化效果，因为连续多次极有可能是同一个线程请求相同的锁。而对于锁竞争比较激烈的场合，其效果不佳。因为在竞争激烈的场合，最有可能的情况是每次都是不同的线程来请求相同的锁。使用Java虚拟机参数-XX:UseBiasedLocking 可以开启偏向锁。
+因此，对于几乎没有锁竞争的场合，偏向锁有比较好的优化效果，因为连续多次极有可能是同一个线程请求相同的锁。而对于锁竞争比较激烈的场合，其效果不佳。因为在竞争激烈的场合，最有可能的情况是每次都是不同的线程来请求相同的锁。使用Java虚拟机参数-XX:UseBiasedLocking 可以开启偏向锁。
 
 #### 2. 轻量级锁
 
-**如果偏向锁失败，即上一个请求的锁的线程和这个线程不是同一个。偏向锁失败意味者不能避免做同步操作。**此时，虚拟机并不会立即挂起线程。他会使用一种成为轻量级锁的优化手段。 
+**如果偏向锁失败，即上一个请求的锁的线程和这个线程不是同一个。偏向锁失败意味者不能避免做同步操作**。此时，虚拟机并不会立即挂起线程。他会使用一种成为轻量级锁的优化手段。 
 
 轻量级锁的操作也很方便，它只是简单地将对象头部作为指针，指向蚩尤锁的线程堆栈的内部，来判断一个线程是否持有对象锁。 如果线程获得轻量级锁成功，则可以顺利进入临界区。如果轻量级锁失败，则表示其他线程抢先争夺了锁，那么当前线程的锁请求就会膨胀为重量级锁。
 
 #### 3. 自选锁
 
-**锁膨胀后，虚拟机为了避免线程真实地在操作系统层面挂起，虚拟机还会在做最后的努力–自选锁。**由于当前线程暂时无法获得锁，但是什么时候可以获得锁是一个未知数。也许在CPU几个时钟周期后，就可以得到锁。如果这样，简单粗暴的挂起线程可能是一种得不偿失的操作，因此系统会进行一次赌注：它会假设在不久的将来，线程可以得到这把锁。
+**锁膨胀后，虚拟机为了避免线程真实地在操作系统层面挂起，虚拟机还会在做最后的努力–自选锁**。由于当前线程暂时无法获得锁，但是什么时候可以获得锁是一个未知数。也许在CPU几个时钟周期后，就可以得到锁。如果这样，简单粗暴的挂起线程可能是一种得不偿失的操作，因此系统会进行一次赌注：它会假设在不久的将来，线程可以得到这把锁。
 
 因此虚拟机让当前线程做个空循环，在经过若干次循环后，如果可以得到锁，那么就顺利进入临界区。如果还不能得到锁，才会真实地将线程在操作系统层面挂起。
 
 #### 4. 锁消除
 
-**锁消除是一种更彻底的锁优化。Java虚拟机在JIT编译时，通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁。通过锁消除，可以节省毫无意义的请求锁时间。**
+**锁消除是一种更彻底的锁优化。Java虚拟机在JIT编译时，通过对运行上下文的扫描，去除不可能存在共享资源竞争的锁。通过锁消除，可以节省毫无意义的请求锁时间**。
 
 下面这种这种情况，我们使用vector， 而vector内部使用了synchronize请求锁。
 
@@ -1244,7 +1380,7 @@ public String []  createStrings(){
 
 由于V只在函数  createStrnigs  中使用，因此它只是一个单纯的局部变量。局部变量是在线程栈上分配的，属于线程私有额数据，因此不可能被其他线程访问。所以，在这种情况下，Vector内部所有加锁同步都是没有必要的。如果虚拟机检测到这种情况，就会将这些无用的锁操作去除。
 
-**锁消除涉及的一项关键技术为逃逸分析。所谓逃逸分析就是观察某一个变量是否会逃出某一个作用域。**在本例中，变量v显然没有逃出createString  函数之外。以此为基础，虚拟机才可以大胆的将v内部的加锁操作去除。如果createStrings  返回的不是String数组，而是v本身，那么就认为变量v逃逸出了当前函数，也就是说v有可能被其他线程访问。如是这样，虚拟机就不能消除v中的锁操作。
+**锁消除涉及的一项关键技术为逃逸分析。所谓逃逸分析就是观察某一个变量是否会逃出某一个作用域**。在本例中，变量v显然没有逃出createString  函数之外。以此为基础，虚拟机才可以大胆的将v内部的加锁操作去除。如果createStrings  返回的不是String数组，而是v本身，那么就认为变量v逃逸出了当前函数，也就是说v有可能被其他线程访问。如是这样，虚拟机就不能消除v中的锁操作。
 
 **逃逸分析必须在 -server 模式下进行，可以使用 -XX:DoEscapeAnalysis 参数打开逃逸分析，使用 -XX:+EliminateLocks 参数可以打开锁消除。**
 
@@ -1640,5 +1776,319 @@ public class Test {
         executors.shutdown();
     }
 }
+```
+
+## 第六章  JAVA 8 并发
+
+```java
+public static void main(String[] args) {
+        String[] strings={"1","2","3","4","5","6","7","8","9","10"};
+        Consumer consumer = System.out::println;
+        Consumer consumerErr = System.err::println;
+        Arrays.stream(strings).forEach(consumer.andThen(consumerErr));
+    }
+```
+
+### 6.5 增强的Future(CompletableFuture)
+
+1. 当一个Future可能需要显示地完成时，使用`CompletionStage`接口去支持完成时触发的函数和操作。
+
+```java
+public class Test {
+
+    static class Compute implements Runnable {
+
+        private CompletableFuture<Integer> future;
+
+        Compute(CompletableFuture<Integer> future){
+            this.future=future;
+        }
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("子线程等待主线程运算完成····");
+                Integer integer = future.get();
+                System.out.println("子线程完成后续运算:"+integer*integer);
+            } catch (InterruptedException|ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        CompletableFuture<Integer> future=new CompletableFuture<>();
+        System.out.println("主线程开始计算");
+        new Thread(new Compute(future)).start();
+        int i=0;
+        for (int j = 0; j <100; j++) {
+            i=i+j;
+        }
+        Thread.sleep(2000);
+        System.out.println("主线程计算完成");
+        future.complete(i);
+    }
+}
+
+
+主线程开始计算
+子线程等待主线程运算完成····
+主线程计算完成
+子线程完成后续运算:24502500
+```
+
+2. `CompletableFuture`中4个异步执行任务静态方法：
+
+```java
+public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier) {
+    return asyncSupplyStage(asyncPool, supplier);
+}
+
+public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier,Executor executor) {
+    return asyncSupplyStage(screenExecutor(executor), supplier);
+}
+
+public static CompletableFuture<Void> runAsync(Runnable runnable) {
+    return asyncRunStage(asyncPool, runnable);
+}  
+
+public static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor) {
+    return asyncRunStage(screenExecutor(executor), runnable);
+}
+```
+
+其中supplyAsync用于有返回值的任务，runAsync则用于没有返回值的任务。Executor参数可以手动指定线程池，否则默认ForkJoinPool.commonPool()系统级公共线程池，**这些线程都是Daemon线程，这意味着如果主线程退出，这些线程无论是否完成，都会退出**。
+
+```java
+public class Test {
+
+    private static Integer compute() {
+        int i=0;
+        for (int j = 0; j <100; j++) {
+            i=i+j;
+        }
+        System.out.println("运算方法所在的线程："+Thread.currentThread().getId());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        System.out.println(Thread.currentThread().getId()+"线程开始计算");
+        CompletableFuture<Integer> supplyAsync = CompletableFuture.supplyAsync(Test::compute);
+        Integer integer = supplyAsync.get();
+        System.out.println(Thread.currentThread().getId()+"线程计算完成:"+integer*integer);
+
+    }
+    
+1线程开始计算
+运算方法所在的线程：11
+1线程计算完成:24502500
+```
+
+3. 流式调用
+
+```java
+public class Test {
+
+    private static Integer compute() {
+        System.out.println("compute所在线程："+Thread.currentThread().getId());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 100;
+    }
+
+    private static Integer epr(Integer integer) {
+        try {
+            System.out.println("epr所在线程："+Thread.currentThread().getId());
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return integer*integer;
+    }
+
+    private static void accept(Integer integer){
+        System.out.println("accept所在线程："+Thread.currentThread().getId());
+        System.out.println("accept方法消费掉计算结果:"+integer);
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(Test::compute)
+                .thenApply(Test::epr)
+                .thenAccept(Test::accept)   //值在这一步被消费掉了
+                .thenAccept(x-> System.out.println("运算结果:"+x));
+        future.get(); //如果缺少这一步，不会有任何输出。原因：supplyAsync 默认使用的线程池中的线程全部是守护线程
+    }
+}
+
+compute所在线程：11
+epr所在线程：11
+accept所在线程：11
+accept方法消费掉计算结果:10000
+运算结果:null
+```
+
+4. 异常捕获 exceptionally
+
+```java
+public class Test {
+
+    private static Integer compute() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        int i = 100 / 0;
+        return 100;
+    }
+
+    private static Integer dealException(Throwable e){
+        e.printStackTrace();
+        return 0;
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(Test::compute)
+                .exceptionally(Test::dealException)
+                .thenAccept(System.out::println);
+        future.get();
+    }
+}
+```
+
+5.组合多个CompletableFuture ( thenCompose方法 和 thenCombineAsync方法)
+
+```java
+public class Test {
+
+    private static Integer compute() {
+        System.out.println("compute 所在线程："+Thread.currentThread().getId());
+        return 100;
+    }
+
+    private static Integer epr(Integer integer) {
+        System.out.println("epr 所在线程："+Thread.currentThread().getId());
+        return integer*integer;
+    }
+
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        // 组合实现方式1 thenCompose 一个计算的输入依赖另外一个计算的结果
+        CompletableFuture<Void> future01 = CompletableFuture.supplyAsync(Test::compute)
+                .thenCompose(x->CompletableFuture.supplyAsync(()->epr(x)))
+                .thenAccept(x-> System.out.println("运算结果:"+x));
+        future01.get();
+
+        System.out.println();
+
+        // 组合实现方式2 thenCombineAsync 两个计算之间不依赖
+        CompletableFuture<Integer> future02 = CompletableFuture.supplyAsync(Test::compute);
+        CompletableFuture<Integer> future03 = CompletableFuture.supplyAsync(()->Test.epr(100));
+        CompletableFuture<Integer> futureAll = future02.thenCombineAsync(future03, (x, y) -> x + y);
+        System.out.println("运算结果:"+futureAll.get());
+
+    }
+}
+
+compute 所在线程：11
+epr 所在线程：11
+运算结果:10000
+
+compute 所在线程：11
+epr 所在线程：11
+运算结果:10100
+```
+
+### 6.6  StampedLock
+
+```java
+public class Point {
+    private double x, y;//内部定义表示坐标点
+    private final StampedLock s1 = new StampedLock();//定义了StampedLock锁
+
+    void move(double deltaX, double deltaY) {
+        long stamp = s1.writeLock();
+        try {
+            x += deltaX;
+            y += deltaY;
+        } finally {
+            s1.unlockWrite(stamp);//退出临界区,释放写锁
+        }
+    }
+
+    double distanceFormOrigin() {//只读方法
+        long stamp = s1.tryOptimisticRead();  
+        double currentX = x, currentY = y;
+        if (!s1.validate(stamp)) {
+            stamp = s1.readLock()
+            try {
+                currentX = x;
+                currentY = y;
+            } finally {
+                s1.unlockRead(stamp);//退出临界区,释放读锁
+            }
+        }
+        return Math.sqrt(currentX * currentX + currentY * currentY);
+    }
+}
+```
+
+### 6.7 LongAdder 和 LongAccumulator
+
+```java
+public class Test {
+
+    private static int number=1000000;
+    private static CountDownLatch latch=new CountDownLatch(number);
+    private static int anInt= 0 ;
+    private static AtomicLong atomicLong=new AtomicLong(0L);
+    // 比 AtomicLong 性能更好  适用于求和的场景
+    private static LongAdder longAdder=new LongAdder();
+    // 对 LongAccumulator 增加 构造函数支持传入对应的运算函数
+    private static LongAccumulator longAccumulator=new LongAccumulator((x,y)->x+y,0);
+
+    static class Task implements Runnable{
+
+        @Override
+        public void run() {
+            anInt++;
+            atomicLong.incrementAndGet();
+            longAdder.add(1);
+            longAccumulator.accumulate(1);
+            latch.countDown();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Semaphore semaphore = new Semaphore(1000);
+        Task task = new Task();
+        for (int i = 0; i < number; i++) {
+            semaphore.acquire();
+            executor.submit(task);
+            semaphore.release();
+        }
+        latch.await();
+        System.out.println("int:"+anInt);
+        System.out.println("atomicLong:"+atomicLong.intValue());
+        System.out.println("longAdder:"+longAdder.intValue());
+        System.out.println("longAccumulator:"+longAccumulator.intValue());
+        executor.shutdown();
+    }
+}
+
+
+int:998719
+atomicLong:1000000
+longAdder:1000000
+longAccumulator:1000000
 ```
 
