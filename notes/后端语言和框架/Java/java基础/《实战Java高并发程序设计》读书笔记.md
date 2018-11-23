@@ -1026,7 +1026,7 @@ public class Test {
 
 ### 3.2 线程池
 
-![Executors](D:\学习笔记\picture\Executors.png)
+![Executors](D:\学习笔记\picture\Executors.png)</br>![Executors](https://github.com/heibaiying/LearningNotes/blob/master/picture/Executors.png)</br>
 
 #### 3.2.1 JDK对线程池的支持
 
@@ -1248,7 +1248,7 @@ public class Test {
 
 ##### 3.合理优化线程池的数量
 
-![合理线程池数量](D:\学习笔记\picture\合理线程池数量.png)
+![合理线程池数量](D:\学习笔记\picture\合理线程池数量.png)</br>![合理线程池数量](https://github.com/heibaiying/LearningNotes/blob/master/picture/合理线程池数量.png)</br>
 
 
 
@@ -1477,7 +1477,7 @@ CAS的全称是Compare And Swap 即比较交换，其算法核心思想如下
 
 如果V值等于E值，则将V的值设为N。若V值和E值不同，则说明已经有其他线程做了更新，则当前线程什么都不做。通俗的理解就是CAS操作需要我们提供一个期望值，当期望值与当前线程的变量值相同时，说明还没线程修改该值，当前线程可以进行修改，也就是执行CAS操作，但如果期望值与当前线程不符，则说明该值已被其他线程修改，此时不执行更新操作，但可以选择重新读取该变量再尝试再次修改该变量，也可以放弃操作。
 
-![原子包](D:\学习笔记\picture\原子包.png)
+![原子包](D:\学习笔记\picture\原子包.png)</br>![原子包](https://github.com/heibaiying/LearningNotes/blob/master/picture/原子包.png)</br>
 
 ```java
 // 原子类
