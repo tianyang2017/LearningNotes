@@ -29,6 +29,7 @@
  📂[服务器](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Docker](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Docker) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Linux](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Linux) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《linux就该这么学》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Linux/《linux就该这么学》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Nginx](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Nginx) </br>
  📂[算法和数据结构](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[算法基础.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构/算法基础.md) </br>
