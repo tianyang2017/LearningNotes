@@ -1187,9 +1187,9 @@ userdel命令用于删除用户，格式为“userdel [选项] 用户名”。
 >
 > p：管道文件。
 
-![文件权限的字符与数字表示](D:\学习笔记\picture\文件权限的字符与数字表示.png)
+![文件权限的字符与数字表示](D:\学习笔记\picture\文件权限的字符与数字表示.png)</br>![文件权限的字符与数字表示](https://github.com/heibaiying/LearningNotes/blob/master/picture/文件权限的字符与数字表示.png)</br>
 
-![文件属性信息](D:\学习笔记\picture\文件属性信息.png)
+![文件属性信息](D:\学习笔记\picture\文件属性信息.png)</br>![文件属性信息](https://github.com/heibaiying/LearningNotes/blob/master/picture/文件属性信息.png)</br>
 
 ### 5.3 文件的特殊权限
 
@@ -1355,7 +1355,7 @@ sudo 命令用于给普通用户提供额外的权限来完成原本 root 管理
 >
 > 逻辑分区从编号5开始。
 
-![设备文件名称](D:\学习笔记\picture\设备文件名称.png)
+![设备文件名称](D:\学习笔记\picture\设备文件名称.png)</br>![设备文件名称](https://github.com/heibaiying/LearningNotes/blob/master/picture/设备文件名称.png)</br>
 
 ### 6.4 挂载硬件设备
 
@@ -1495,7 +1495,7 @@ iptables服务把用于处理或过滤流量的策略条目称之为规则，多
 | -A          | 在规则链的末尾加入新规则                     |
 | -I num      | 在规则链的头部加入新规则                     |
 | -D num      | 删除某一条规则                               |
-| -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
+| -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这��IP外 |
 | -d          | 匹配目标地址                                 |
 | -i 网卡名称 | 匹配从这块网卡流入的数据                     |
 | -o 网卡名称 | 匹配从这块网卡流出的数据                     |

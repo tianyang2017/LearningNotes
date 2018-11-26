@@ -1,0 +1,141 @@
+# 《Redis开发与运维》读书笔记
+
+## 第二章 API的理解与使用
+
+### 2.1 预备
+
+#### 2.1.1 全局命令
+
+1. 查看所有键： **keys *** 
+
+2. 查看键总数：**dbsize**  
+
+3. 检查键是否存在：**exists key**
+
+4. 删除键：**del key [key ...]**   支持删除多个键
+
+5. 键过期：**expire key seconds**
+
+   ttl命令会返回键的剩余过期时间， 它有3种返回值：
+
+   - 大于等于0的整数： 键剩余的过期时间。
+   - -1： 键没设置过期时间。
+   - -2： 键不存在 
+
+6. 键的数据结构 **type key**
+
+#### 2.1.2 数据结构和内部编码
+
+type命令实际返回的就是当前键的数据结构类型， 它们分别是：**string**（字符串） 、 **hash**（哈希） 、 **list**（列表） 、 **set**（集合） 、 **zset**（有序集合） 
+
+#### 2.1.3 单线程架构
+
+1. 纯内存访问， Redis将所有数据放在内存中， 内存的响应时长大约为100纳秒， 这是Redis达到每秒万级别访问的重要基础。
+2. 非阻塞I/O， Redis使用epoll作为I/O多路复用技术的实现， 再加上Redis自身的事件处理模型将epoll中的连接、 读写、 关闭都转换为事件， 不在网络I/O上浪费过多的时间， 如图2-6所示。 
+3. 单线程避免了线程切换和竞态产生的消耗。 
+
+### 2.2 字符串
+
+| 作用                   | 格式                                                         | 参数或示例                                                   |
+| ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 设置值                 | set key value \[ex seconds] \[px milliseconds] [nx\|xx]<br/>setnx<br/>setex | ex seconds： 为键设置秒级过期时间。<br/>px milliseconds： 为键设置毫秒级过期时间。
+nx： 键必须不存在， 才可以设置成功， 用于添加。
+xx： 与nx相反， 键必须存在， 才可以设置成功， 用于更新。 |
+| 获取值                 | get key                                                      | r如果获取的键不存在 ，则返回nil(空)                          |
+| 批量设置               | mset key value [key value ...]                               | mset a 1 b 2 c 3 d 4                                         |
+| 批量获取值             | mget key [key ...]                                           | mget a b c d                                                 |
+| 计数                   | incr key<br>decr key<br/>incrby key increment（指定数值自增）
+decrby key decrement（指定数值自减）
+incrbyfloat key increment （浮点数自增） | 值不是整数， 返回错误。<br/>值是整数， 返回自增或自减后的结果。
+键不存在，创建键，并按照值为0自增或自减， 返回结果为1。 |
+| 追加值                 | append key value                                             | 向字符串的默认追加值                                         |
+| 字符串长度             | strlen key                                                   | 获取字符串长度，中文占用三个字节                             |
+| 设置并返回原值         | getset key value                                             |                                                              |
+| 设置指定位置的租字符串 | setrange key offeset value                                   |                                                              |
+| 获取部分字符串         | getrange key start end                                       |                                                              |
+
+### 2.3 哈希
+
+| 作用                      | 格式                                                         | 参数或示例                                                   |
+| ------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 设置值                    | hset key field value                                         | hset user:1 name tom<br/>hset user:1 age 12                  |
+| 获取值                    | hget key field                                               | hget user:1 name                                             |
+| 删除field                 | hdel key field [field ...]                                   |                                                              |
+| 计算field个数             | hlen key                                                     |                                                              |
+| 批量设置或获取field-value | hmget key field [field]<br/>hmset key field value [field value...] | hmset user:1 name mike age 12 city tianjin<br/>hmget user:1 name city |
+| 判断field是否存在         | hexists key field                                            |                                                              |
+| 获取所有field             | hkeys key                                                    |                                                              |
+| 获取所有value             | hvals key                                                    |                                                              |
+| 获取所有的filed-value     | hgetall key                                                  | 如果哈希元素个数比较多， 会存在阻塞Redis的可能。<br/>获取全部 可以使用hscan命令， 该命令会渐进式遍历哈希类型 |
+| 计数                      | hincrby key field<br/>hincrbyfloat key field                 |                                                              |
+
+### 2.4 列表
+
+| 作用     | 格式                                                         | 参数或示例                                                   |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 增       | 左侧插入：lpush key value [value ...]<br/>右侧插入：rpush key value [value ...]<br/>某个指定元素前后插入：linsert key before\|after pivot value |                                                              |
+| 查       | 获取指定范围内的元素列表：lrange key start end<br/>获取列表指定索引下标的元素：lindex key index<br/>获取列表指定长度：llen key | lrange listkey 0 -1                                          |
+| 删       | 从列表左侧弹出元素：lpop key<br/>从列表右侧弹出元素：rpop key<br/>删除指定元素：lrem key count value<br/>截取列表：ltrim key start end | count>0， 从左到右， 删除最多count个元素。<br/>count<0， 从右到左， 删除最多count绝对值个元素。
+count=0， 删除所有 |
+| 改       | 修改指定索引下标的元素：lset key index newValue              |                                                              |
+| 阻塞操作 | blpop key [key ...] timeout<br/>brpop key [key ...] timeout  | key[key...]： 多个列表的键。<br/>timeout： 阻塞时间\|等待时间（单位： 秒） |
+
+### 2.5 集合
+
+集合（set） 类型也是用来保存多个的字符串元素， 但和列表类型不一样的是， **集合中不允许有重复元素**， 并且集合中的元素是无序的， **不能通过索引下标获取元素**。  
+
+**集合内操作**：
+
+| 作用                 | 格式                           | 参数或示例                                |
+| -------------------- | ------------------------------ | ----------------------------------------- |
+| 添加元素             | sadd key element [element ...] | 返回结果为添加成功的元素个数              |
+| 删除元素             | srem key element [element ...] | 返回结果为成功删除的元素个数              |
+| 计算元素个数         | scard key                      |                                           |
+| 判断元素是否在集合中 | sismember key element          |                                           |
+| 随机返回             | srandmember key [count]        | 随机从集合返回指定个数元素，count 默认为1 |
+| 从集合随机弹出元素   | spop key                       | srandmember 不会从集合中删除元素，spop 会 |
+| 获取集合中所有元素   | smembers key                   | 可用sscan 代替                            |
+
+**集合间操作**：
+
+| 作用                         | 格式                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| 求多个集合的交集             | sinter key [key ...]                                         |
+| 求多个集合的并集             | suinon key [key ...]                                         |
+| 求多个集合的差集             | sdiff key [key ...]                                          |
+| 将交集、并集、差集的结果保存 | sinterstore destination key [key ...]<br/>suionstore destination key [key ...]
+sdiffstore destination key [key ...] |
+
+### 2.6 有序集合
+
+有序集合中的元素可以排序。 但是它和列表使用索引下标作为排序依据不同的是， 它给每个元素设置一个分数（score） 作为排序的依据。  
+
+**集合内操作**：
+
+| 作用                     | 格式                                                         | 参数或示例                                                   |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 添加成员                 | zadd key score member [score member ...]                     | nx： member必须不存在， 才可设置成功， 用于添加。<br/>xx： member必须存在， 才可以设置成功， 用于更新。
+ch： 返回此次操作后， 有序集合元素和分数发生变化的个数
+incr： 对score做增加， 相当于后面介绍的zincrby。 |
+| 计算成员个数             | zcard key                                                    |                                                              |
+| 计算某个成员的分数       | zscore key member                                            |                                                              |
+| 计算某个成员的排名       | zrank key member <br/>zrevrank key member                    | zrank是从分数从低到高返回排名， zrevrank反之。               |
+| 删除成员                 | zrem key member [member ...]                                 |                                                              |
+| 增加成员分数             | zincrby key increment member                                 | zincrby user:ranking 9 tom                                   |
+| 返回指定排名范围的成员   | zrange key start end [withscores]<br/>zrange key start end [withscores] | zrange是从低到高返回， zrevrange反之。                       |
+| 返回指定分数范围内的成员 | zrangebyscore key min max \[withscores] [limit offset count]<br/>zrevrangebyscore key max min \[withscores] [limit offset count] | 其中zrangebyscore按照分数从低到高返回， zrevrangebyscore反之。<br/>[limit offset count]选项可以限制输出的起始位置和个数：<br/>同时min和max还支持开区间（小括号） 和闭区间（中括号） ， -inf和+inf分别代表无限小和无限大 |
+| 删除指定排名内的升序元素 | zremrangerank key start end                                  |                                                              |
+| 删除指定分数范围的成员   | zremrangebyscore key min max                                 |                                                              |
+
+### 2.7 键管理
+
+| 作用 | 格式                                                         |
+| ---- | ------------------------------------------------------------ |
+| 交集 | zinterstore destination numkeys key \[key ...]  [weights weight [weight ...]] \[aggregate sum\|min\|max] |
+| 并集 | zunionstore destination numkeys key \[key ...] [weights weight [weight ...]] \[aggregate sum\|min\|max] |
+
+- destination： 交集计算结果保存到这个键。
+- numkeys： 需要做交集计算键的个数。
+- key[key...]： 需要做交集计算的键。 
+- weights weight[weight...]： 每个键的权重， 在做交集计算时， 每个键中的每个member会将自己分数乘以这个权重， 每个键的权重默认是1。
+- aggregate sum|min|max： 计算成员交集后， 分值可以按照sum（和） 、min（最小值） 、 max（最大值） 做汇总， 默认值是sum。 
