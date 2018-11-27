@@ -388,7 +388,7 @@ monitor命令用于监控Redis正在执行的命令。monitor命令能够监听�
 3. **client_biggest_input_buf**： 当前所有输入缓冲区中占用的最大容量。
 4. **blocked_clients**： 正在执行阻塞命令（例如blpop、 brpop、brpoplpush） 的客户端个数。 
 
-#### 
+
 
 ### 第五章 持久化
 
