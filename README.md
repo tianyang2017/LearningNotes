@@ -26,6 +26,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[oracle](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Redis](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[1.linux下安装redis及常见报错解决方案.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/1.linux下安装redis及常见报错解决方案.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《Redis开发与运维》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/《Redis开发与运维》读书笔记.md) </br>
  📂[服务器](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Docker](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Docker) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Linux](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Linux) </br>

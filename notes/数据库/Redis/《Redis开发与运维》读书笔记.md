@@ -116,7 +116,7 @@ type命令实际返回的就是当前键的数据结构类型， 它们分别是
 | 删除成员                 | zrem key member [member ...]                                 |                                                              |
 | 增加成员分数             | zincrby key increment member                                 | zincrby user:ranking 9 tom                                   |
 | 返回指定排名范围的成员   | zrange key start end [withscores] zrange key start end [withscores] | zrange是从低到高返回， zrevrange反之。                       |
-| 返回指定分数范围内的成员 | zrangebyscore key min max [withscores] [limit offset count] zrevrangebyscore key max min [withscores] [limit offset count] | 其中zrangebyscore按照分数从低到高返回， zrevrangebyscore反之。 [limit offset count]选项可以限制输出的起始位置和个数： 同时min和max还支持开区间（小括号） 和闭区间（中括号） ， -inf和+inf分别代表无限小和无限大 |
+| 返回指定分数范围内的成员 | zrangebyscore key min max \[withscores][limit offset count] zrevrangebyscore key max min \[withscores][limit offset count] | 其中zrangebyscore按照分数从低到高返回， zrevrangebyscore反之。 [limit offset count]选项可以限制输出的起始位置和个数： 同时min和max还支持开区间（小括号） 和闭区间（中括号） ， -inf和+inf分别代表无限小和无限大 |
 | 删除指定排名内的升序元素 | zremrangerank key start end                                  |                                                              |
 | 删除指定分数范围的成员   | zremrangebyscore key min max                                 |                                                              |
 
@@ -186,3 +186,211 @@ scan cursor \[match pattern] \[count number]
 ##### 2.flushdb/flushall 
 
 flushdb/flushall命令用于清除数据库， 两者的区别的是flushdb只清除当前数据库， flushall会清除所有数据库。 
+
+
+
+### 第三章 小功能 大用处
+
+#### 3.1 慢查询分析
+
+##### 3.1.1 慢查询的两个配置参数
+
+```shell
+# 设置慢查询阈值 耗时高于阈值的操作将被记录
+config set slowlog-log-slower-than 20000
+# 设置慢查询维护日志的记录长度
+config set slowlog-max-len 1000
+# 将配置持久化到本地配置文件
+config rewrite  
+
+# 获取慢查询日志
+slowlog get [n]
+# 获取慢查询日志当前的长度
+slowlog len
+# 慢查询日志重置
+slowlog reset
+```
+
+
+
+#### 3.2 redis shell
+
+##### 3.2.1 redis-cli
+
+```shell
+# 1. -r （repeat）选项代表将执行多次命令
+redis-cli -r 3 ping
+
+# 2. -i (interval) 选项代表每隔几秒执行一次命令
+redis-cli -r 5 -i 1 ping
+
+# 3. -x 选项代表从标准输入（stdin）读取数据作为redis-cli 的最后一个参数
+echo "world" | redis-cli -x set hello
+
+# 4. --salve 选项是把当前客户端模拟成当前Redis节点的从节点，可以用来获取当前Redis节点的更新操作
+redis-cli --salve
+
+# 5. --stat 选项可以实时获取Redis的重要统计信息
+redis-cli --stat
+
+# --no-raw 选项要求命令的返回结果必须是原始的格式
+# --raw 返回格式化之后的结果
+$ redis-cli set hello "你好"
+$ redis-cli get hello
+ "\xe4\xbd\xa0\xe5\xa5\xbd"
+$redis-cli --no-raw get hello
+ "\xe4\xbd\xa0\xe5\xa5\xbd"
+$redis-cli --raw get hello 
+ 你好
+```
+
+##### 3.2.2 redis-server
+
+```shell
+# --test-memory 选项用来检测当前操作系统能否稳定地分配指定容量给Redis
+redis-server --test-memory 1024
+```
+
+##### 3.2.3 redis-benchmark
+
+```shell
+# 1. -c (client) 选项代表客户端的并发数量（默认是50）
+# 2. -n (num）选项代表客户端请求总量（默认是100000）
+redis-benchmark -c 100 -n 20000  代表100个客户端同时请求Redis,一共执行20000次
+
+# 3.-q 选项仅仅显示 redis-benchmark 的 requests per second 信息
+redis-benchmark -c 100 -n 20000 -g
+
+# 4.-r 执行 redis-benchmark 的时候插入更多随机的键
+redis-benchmark -c 100 -n 20000 -r 10000
+# -r 选项会在key,count键上加一个12位的后缀，-r 10000 代表只对后四位做随机处理（-r 不是随机数的个数）
+
+# 5.-P选项代表每个请求pipeline的数据量（默认为1）
+
+# 6.-k<boolean>
+# -k 选项代表客户端是否使用keepalive,1为使用，0为不使用，默认值为 1。
+
+# 7.-t 选项可以对指定命令进行基准测试
+redis-benchmark -t get,set -q
+
+# 8.--csv 选项会将结果按照csv格式输出，便于后续处理
+```
+
+
+
+#### 3.3 Pipeline
+
+原生批量命令与Pipeline对比 :
+
+- 原生批量命令是原子的， Pipeline是非原子的。
+- 原生批量命令是一个命令对应多个key， Pipeline支持多个命令。
+- 原生批量命令是Redis服务端支持实现的， 而Pipeline需要服务端和客户端的共同实现。 
+
+
+
+#### 3.4 事务与Lua
+
+1. **multi**命令代表事务开始， **exec**命令代表事务结束 ,如果要停止事务的执行， 可以使用**discard**命令代替exec命令即可。 
+2. **Redis并不支持回滚功能** 。
+3. 有些应用场景需要在事务之前， 确保事务中的key没有被其他客户端修改过， 才执行事务， 否则不执行（类似乐观锁） ， Redis提供了**watch**命令来解决这类问题 。
+
+
+
+#### 3.5 Bitmaps
+
+```shell
+# 1.设置值
+setbit key offset value
+
+# 2.获取值
+getbit key offset
+
+# 3.获取BitMaps指定范围值为1的个数
+bitcount [start][end]
+
+# 4.Bitmaps 间的运算
+bitop op destkey key[key...]
+# op 可以为 and (交集)、or(并集)、not(非)、xor(异或)操作
+
+# 计算Bitmaps中第一个值为targetBit的偏移量
+bitpos key tartgetBit [start] [end]
+```
+
+#### 3.6 HyperLogLog
+
+#### 3.7 发布订阅
+
+#### 3.8 GEO
+
+### 第四章 客户端
+
+#### 4.4 客户端管理
+
+##### 4.4.1 客户端API
+
+**1.client list**
+
+```shell
+127.0.0.1:6379> client list
+id=1610 addr=10.0.2.2:58879 fd=9 name= age=2169 idle=1590 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=0 obl=0 oll=0 omem=0 events=r cmd=scan
+id=1612 addr=10.0.2.2:59560 fd=10 name=heibairuiwen age=1642 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=26 qbuf-free=32742 obl=0 oll=0 omem=0 events=r cmd=client
+```
+
+| 参数      | 含义                                                         |
+| --------- | ------------------------------------------------------------ |
+| id        | 客户端连接id                                                 |
+| addr      | 客户端连接IP和端口                                           |
+| fd        | socket 的文件描述符                                          |
+| name      | 客户端连接名<br/>client setName 设置当前客户端名字；<br/>client getName 获取当前客户端名字 |
+| age       | 客户端连接存活时间                                           |
+| idle      | 客户端连接空闲时间                                           |
+| flags     | 客户端类型类型标识                                           |
+| db        | 当前客户端正在使用的数据库索引下标                           |
+| sub/psub  | 当前客户端订阅的频道或者模式                                 |
+| multi     | 当前事务中已执行命令个数                                     |
+| qbuf      | 输入缓冲区总容量<br/>输入缓冲区会根据内容动态调整，但大小不能超过1G |
+| qbuf-free | 输入缓冲区剩余容量                                           |
+| obl       | 输出固定缓冲区的长度                                         |
+| oll       | 输出动态缓冲区列表长度                                       |
+| omem      | 固定缓冲区和动态缓冲区使用的容量。输出缓冲区的容量控制：<br/>client-output-buffer-limit  \<class>  \<hard limit>   \<soft limit>   \<soft seconds><br/>\<class>： 客户端类型分为三种。normal： 普通客户端；slave： slave客户端， 用于复制；pubsub： 发布订阅客户端。<br/>\<hard limit>： 如果客户端使用的输出缓冲区大于\<hard limit>， 客户端会被立即关闭。<br/>\<soft limit>和\<soft seconds>： 如果客户端使用的输出缓冲区超过了\<soft limit>并且持续了\<soft limit>秒， 客户端会被立即关闭。<br/>示例：client-output-buffer-limit normal 20mb 10mb 120 |
+| events    | 文件描述符事作件（r/w）: r 和 w 分别代表客户端套接字可读和可写 |
+| cmd       | 当前客户端最后一次执行的命令，不包含参数                     |
+**2.客户端的限制maxclients和timeout** 
+
+Redis提供了maxclients参数来限制最大客户端连接数， 一旦连接数超过maxclients， 新的连接将被拒绝。 maxclients默认值是10000， 可以通过info clients来查询当前Redis的连接数。
+
+可以通过config set maxclients对最大客户端连接数进行动态设置。
+
+**3.client kill** 
+
+client kill ip:port  此命令用于杀掉指定IP地址和端口的客户端。
+
+**4.client pause** 
+
+client pause timeout(毫秒)   client pause命令用于阻塞客户端timeout毫秒数， 在此期间客户端连接将被阻塞。
+
+**5.monitor**
+
+monitor命令用于监控Redis正在执行的命令。monitor命令能够监听其他客户端正在执行的命令， 并记录了详细的时间戳。
+
+##### 4.4.2 客户端相关配置
+
+1. **timeout**： 检测客户端空闲连接的超时时间， 一旦idle时间达到了timeout， 客户端将会被关闭， 如果设置为0就不进行检测。
+2. **tcp-keepalive**： 检测TCP连接活性的周期， 默认值为0， 也就是不进行检测， 如果需要设置， 建议为60， 那么Redis会每隔60秒对它创建的TCP连接进行活性检测， 防止大量死连接占用系统资源。
+3. **tcp-backlog**： TCP三次握手后， 会将接受的连接放入队列中， tcpbacklog就是队列的大小， 它在Redis中的默认值是511。  
+
+##### 4.4.3 客户端统计片段  
+
+**info clients** 
+
+1. **connected_clients**： 代表当前Redis节点的客户端连接数， 需要重点监控， 一旦超过maxclients， 新的客户端连接将被拒绝。
+2. **client_longest_output_list**： 当前所有输出缓冲区中队列对象个数的最大值。
+3. **client_biggest_input_buf**： 当前所有输入缓冲区中占用的最大容量。
+4. **blocked_clients**： 正在执行阻塞命令（例如blpop、 brpop、brpoplpush） 的客户端个数。 
+
+#### 
+
+### 第五章 持久化
+
+
+
