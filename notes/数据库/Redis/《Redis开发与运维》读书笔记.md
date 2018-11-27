@@ -1,5 +1,48 @@
 # 《Redis开发与运维》读书笔记
 
+## 目录
+
+[第二章 API的理解与使用](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#第二章-API的理解与使用)<br/>
+  [2.1 预备](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#21-预备)<br/>
+​    [2.1.1 全局命令](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#211-全局命令)<br/>
+​    [2.1.2 数据结构和内部编码](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#212-数据结构和内部编码)<br/>
+​    [2.1.3 单线程架构](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#213-单线程架构)<br/>
+  [2.2 字符串](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#22-字符串)<br/>
+  [2.3 哈希](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#23-哈希)<br/>
+  [2.4 列表](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#24-列表)<br/>
+  [2.5 集合](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#25-集合)<br/>
+  [2.6 有序集合](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#26-有序集合)<br/>
+  [2.7 键管理](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#27-键管理)<br/>
+​    [2.7.1 单个键管理：](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#271-单个键管理：)<br/>
+​      [1.键重命名](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#1键重命名)<br/>
+​      [2. 随机返回键](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#2-随机返回键)<br/>
+​      [3.键过期](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#3键过期)<br/>
+​    [2.7.2 键遍历](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#272-键遍历)<br/>
+​      [1. 全量键遍历](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#1-全量键遍历)<br/>
+​      [2. 渐进式遍历](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#2-渐进式遍历)<br/>
+​    [2.7.3 数据库管理](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#273-数据库管理)<br/>
+​      [1.切换数据库](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#1切换数据库)<br/>
+​      [2.flushdb/flushall](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#2flushdb/flushall)<br/>
+  [第三章 小功能](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#第三章-小功能)<br/>
+​    [3.1 慢查询分析](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#31-慢查询分析)<br/>
+​      [3.1.1 慢查询的两个配置参数](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#311-慢查询的两个配置参数)<br/>
+​    [3.2 redis](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#32-redis)<br/>
+​      [3.2.1 redis-cli](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#321-redis-cli)<br/>
+​      [3.2.2 redis-server](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#322-redis-server)<br/>
+​      [3.2.3 redis-benchmark](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#323-redis-benchmark)<br/>
+​    [3.3 Pipeline](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#33-Pipeline)<br/>
+​    [3.4 事务与Lua](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#34-事务与Lua)<br/>
+​    [3.5 Bitmaps](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#35-Bitmaps)<br/>
+​    [3.6 HyperLogLog](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#36-HyperLogLog)<br/>
+​    [3.7 发布订阅](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#37-发布订阅)<br/>
+​    [3.8 GEO](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#38-GEO)<br/>
+  [第四章 客户端](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#第四章-客户端)<br/>
+​    [4.4 客户端管理](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#44-客户端管理)<br/>
+​      [4.4.1 客户端API](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#441-客户端API)<br/>
+​      [4.4.2 客户端相关配置](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#442-客户端相关配置)<br/>
+​      [4.4.3 客户端统计片段](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#443-客户端统计片段)<br/>
+  [第五章 持久化](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#第五章-持久化)<br/>
+
 ## 第二章 API的理解与使用
 
 ### 2.1 预备
