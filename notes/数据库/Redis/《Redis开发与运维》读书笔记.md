@@ -13,7 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-集合">2.5 集合</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#26-有序集合">2.6 有序集合</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#27-键管理">2.7 键管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#271-单个键管理：">2.7.1 单个键管理：</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#271-单个键管理">2.7.1 单个键管理 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1键重命名">1.键重命名</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-随机返回键">2. 随机返回键</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3键过期">3.键过期</a><br/>
@@ -191,7 +191,7 @@ type命令实际返回的就是当前键的数据结构类型， 它们分别是
 
 ### 2.7 键管理
 
-#### 2.7.1 单个键管理：
+#### 2.7.1 单个键管理
 
 ##### 1.键重命名  
 
