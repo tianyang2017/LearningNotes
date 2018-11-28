@@ -3,6 +3,7 @@
 ## 目录
 
 [第二章 API的理解与使用](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#第二章-API的理解与使用)<br/>
+  <a href="#21-预备">页面锚点</a>
   [2.1 预备](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#21-预备)<br/>
 ​    [2.1.1 全局命令](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#211-全局命令)<br/>
 ​    [2.1.2 数据结构和内部编码](https://github.com/heibaiying/LearningNotes/blob/master/notes\数据库\Redis\《Redis开发与运维》读书笔记.md#212-数据结构和内部编码)<br/>
