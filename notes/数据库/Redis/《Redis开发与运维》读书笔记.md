@@ -23,27 +23,25 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#273-数据库管理">2.7.3 数据库管理</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1切换数据库">1.切换数据库</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2flushdb/flushall">2.flushdb/flushall</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第三章-小功能">第三章 小功能</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-慢查询分析">3.1 慢查询分析</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-慢查询的两个配置参数">3.1.1 慢查询的两个配置参数</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-redis">3.2 redis</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-redis-cli">3.2.1 redis-cli</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-redis-server">3.2.2 redis-server</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-redis-benchmark">3.2.3 redis-benchmark</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-Pipeline">3.3 Pipeline</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-事务与Lua">3.4 事务与Lua</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-Bitmaps">3.5 Bitmaps</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36-HyperLogLog">3.6 HyperLogLog</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37-发布订阅">3.7 发布订阅</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38-GEO">3.8 GEO</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第四章-客户端">第四章 客户端</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-客户端管理">4.4 客户端管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#441-客户端API">4.4.1 客户端API</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#442-客户端相关配置">4.4.2 客户端相关配置</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#443-客户端统计片段">4.4.3 客户端统计片段</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第五章-持久化">第五章 持久化</a><br/>
-
-
+<a href="#第三章-小功能">第三章 小功能</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-慢查询分析">3.1 慢查询分析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-慢查询的两个配置参数">3.1.1 慢查询的两个配置参数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-redis">3.2 redis</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-redis-cli">3.2.1 redis-cli</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-redis-server">3.2.2 redis-server</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-redis-benchmark">3.2.3 redis-benchmark</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-Pipeline">3.3 Pipeline</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-事务与Lua">3.4 事务与Lua</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-Bitmaps">3.5 Bitmaps</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36-HyperLogLog">3.6 HyperLogLog</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37-发布订阅">3.7 发布订阅</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38-GEO">3.8 GEO</a><br/>
+<a href="#第四章-客户端">第四章 客户端</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-客户端管理">4.4 客户端管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#441-客户端API">4.4.1 客户端API</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#442-客户端相关配置">4.4.2 客户端相关配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#443-客户端统计片段">4.4.3 客户端统计片段</a><br/>
+<a href="#第五章-持久化">第五章 持久化</a><br/>
 
 ## 第二章 API的理解与使用
 
@@ -234,11 +232,11 @@ flushdb/flushall命令用于清除数据库， 两者的区别的是flushdb只�
 
 
 
-### 第三章 小功能 大用处
+## 第三章 小功能 大用处
 
-#### 3.1 慢查询分析
+### 3.1 慢查询分析
 
-##### 3.1.1 慢查询的两个配置参数
+#### 3.1.1 慢查询的两个配置参数
 
 ```shell
 # 设置慢查询阈值 耗时高于阈值的操作将被记录
@@ -258,9 +256,9 @@ slowlog reset
 
 
 
-#### 3.2 redis shell
+### 3.2 redis shell
 
-##### 3.2.1 redis-cli
+#### 3.2.1 redis-cli
 
 ```shell
 # 1. -r （repeat）选项代表将执行多次命令
@@ -289,14 +287,14 @@ $redis-cli --raw get hello
  你好
 ```
 
-##### 3.2.2 redis-server
+#### 3.2.2 redis-server
 
 ```shell
 # --test-memory 选项用来检测当前操作系统能否稳定地分配指定容量给Redis
 redis-server --test-memory 1024
 ```
 
-##### 3.2.3 redis-benchmark
+#### 3.2.3 redis-benchmark
 
 ```shell
 # 1. -c (client) 选项代表客户端的并发数量（默认是50）
@@ -323,7 +321,7 @@ redis-benchmark -t get,set -q
 
 
 
-#### 3.3 Pipeline
+### 3.3 Pipeline
 
 原生批量命令与Pipeline对比 :
 
@@ -333,7 +331,7 @@ redis-benchmark -t get,set -q
 
 
 
-#### 3.4 事务与Lua
+### 3.4 事务与Lua
 
 1. **multi**命令代表事务开始， **exec**命令代表事务结束 ,如果要停止事务的执行， 可以使用**discard**命令代替exec命令即可。 
 2. **Redis并不支持回滚功能** 。
@@ -341,7 +339,7 @@ redis-benchmark -t get,set -q
 
 
 
-#### 3.5 Bitmaps
+### 3.5 Bitmaps
 
 ```shell
 # 1.设置值
@@ -361,17 +359,19 @@ bitop op destkey key[key...]
 bitpos key tartgetBit [start] [end]
 ```
 
-#### 3.6 HyperLogLog
+### 3.6 HyperLogLog
 
-#### 3.7 发布订阅
+### 3.7 发布订阅
 
-#### 3.8 GEO
+### 3.8 GEO
 
-### 第四章 客户端
 
-#### 4.4 客户端管理
 
-##### 4.4.1 客户端API
+## 第四章 客户端
+
+### 4.4 客户端管理
+
+#### 4.4.1 客户端API
 
 **1.client list**
 
@@ -418,13 +418,13 @@ client pause timeout(毫秒)   client pause命令用于阻塞客户端timeout毫
 
 monitor命令用于监控Redis正在执行的命令。monitor命令能够监听其他客户端正在执行的命令， 并记录了详细的时间戳。
 
-##### 4.4.2 客户端相关配置
+#### 4.4.2 客户端相关配置
 
 1. **timeout**： 检测客户端空闲连接的超时时间， 一旦idle时间达到了timeout， 客户端将会被关闭， 如果设置为0就不进行检测。
 2. **tcp-keepalive**： 检测TCP连接活性的周期， 默认值为0， 也就是不进行检测， 如果需要设置， 建议为60， 那么Redis会每隔60秒对它创建的TCP连接进行活性检测， 防止大量死连接占用系统资源。
 3. **tcp-backlog**： TCP三次握手后， 会将接受的连接放入队列中， tcpbacklog就是队列的大小， 它在Redis中的默认值是511。  
 
-##### 4.4.3 客户端统计片段
+#### 4.4.3 客户端统计片段
 
 **info clients** 
 
@@ -435,7 +435,7 @@ monitor命令用于监控Redis正在执行的命令。monitor命令能够监听�
 
 
 
-### 第五章 持久化
+## 第五章 持久化
 
 
 
