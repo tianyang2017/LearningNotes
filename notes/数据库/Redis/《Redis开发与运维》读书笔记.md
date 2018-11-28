@@ -2,47 +2,46 @@
 
 ## 目录
 
-
 <a href="#第二章-API的理解与使用">第二章 API的理解与使用</a><br/>
-​    <a href="#21-预备">2.1 预备</a><br/>
-​        <a href="#211-全局命令">2.1.1 全局命令</a><br/>
-​        <a href="#212-数据结构和内部编码">2.1.2 数据结构和内部编码</a><br/>
-​        <a href="#213-单线程架构">2.1.3 单线程架构</a><br/>
-​    <a href="#22-字符串">2.2 字符串</a><br/>
-​    <a href="#23-哈希">2.3 哈希</a><br/>
-​    <a href="#24-列表">2.4 列表</a><br/>
-​    <a href="#25-集合">2.5 集合</a><br/>
-​    <a href="#26-有序集合">2.6 有序集合</a><br/>
-​    <a href="#27-键管理">2.7 键管理</a><br/>
-​        <a href="#271-单个键管理：">2.7.1 单个键管理：</a><br/>
-​            <a href="#1键重命名">1.键重命名</a><br/>
-​            <a href="#2-随机返回键">2. 随机返回键</a><br/>
-​            <a href="#3键过期">3.键过期</a><br/>
-​        <a href="#272-键遍历">2.7.2 键遍历</a><br/>
-​            <a href="#1-全量键遍历">1. 全量键遍历</a><br/>
-​            <a href="#2-渐进式遍历">2. 渐进式遍历</a><br/>
-​        <a href="#273-数据库管理">2.7.3 数据库管理</a><br/>
-​            <a href="#1切换数据库">1.切换数据库</a><br/>
-​            <a href="#2flushdb/flushall">2.flushdb/flushall</a><br/>
-​    <a href="#第三章-小功能">第三章 小功能</a><br/>
-​        <a href="#31-慢查询分析">3.1 慢查询分析</a><br/>
-​            <a href="#311-慢查询的两个配置参数">3.1.1 慢查询的两个配置参数</a><br/>
-​        <a href="#32-redis">3.2 redis</a><br/>
-​            <a href="#321-redis-cli">3.2.1 redis-cli</a><br/>
-​            <a href="#322-redis-server">3.2.2 redis-server</a><br/>
-​            <a href="#323-redis-benchmark">3.2.3 redis-benchmark</a><br/>
-​        <a href="#33-Pipeline">3.3 Pipeline</a><br/>
-​        <a href="#34-事务与Lua">3.4 事务与Lua</a><br/>
-​        <a href="#35-Bitmaps">3.5 Bitmaps</a><br/>
-​        <a href="#36-HyperLogLog">3.6 HyperLogLog</a><br/>
-​        <a href="#37-发布订阅">3.7 发布订阅</a><br/>
-​        <a href="#38-GEO">3.8 GEO</a><br/>
-​    <a href="#第四章-客户端">第四章 客户端</a><br/>
-​        <a href="#44-客户端管理">4.4 客户端管理</a><br/>
-​            <a href="#441-客户端API">4.4.1 客户端API</a><br/>
-​            <a href="#442-客户端相关配置">4.4.2 客户端相关配置</a><br/>
-​            <a href="#443-客户端统计片段">4.4.3 客户端统计片段</a><br/>
-​    <a href="#第五章-持久化">第五章 持久化</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-预备">2.1 预备</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211-全局命令">2.1.1 全局命令</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212-数据结构和内部编码">2.1.2 数据结构和内部编码</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213-单线程架构">2.1.3 单线程架构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-字符串">2.2 字符串</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-哈希">2.3 哈希</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#24-列表">2.4 列表</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-集合">2.5 集合</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#26-有序集合">2.6 有序集合</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#27-键管理">2.7 键管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#271-单个键管理：">2.7.1 单个键管理：</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1键重命名">1.键重命名</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-随机返回键">2. 随机返回键</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3键过期">3.键过期</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#272-键遍历">2.7.2 键遍历</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-全量键遍历">1. 全量键遍历</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-渐进式遍历">2. 渐进式遍历</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#273-数据库管理">2.7.3 数据库管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1切换数据库">1.切换数据库</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2flushdb/flushall">2.flushdb/flushall</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第三章-小功能">第三章 小功能</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-慢查询分析">3.1 慢查询分析</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-慢查询的两个配置参数">3.1.1 慢查询的两个配置参数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-redis">3.2 redis</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-redis-cli">3.2.1 redis-cli</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-redis-server">3.2.2 redis-server</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-redis-benchmark">3.2.3 redis-benchmark</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-Pipeline">3.3 Pipeline</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-事务与Lua">3.4 事务与Lua</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-Bitmaps">3.5 Bitmaps</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36-HyperLogLog">3.6 HyperLogLog</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#37-发布订阅">3.7 发布订阅</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#38-GEO">3.8 GEO</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第四章-客户端">第四章 客户端</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-客户端管理">4.4 客户端管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#441-客户端API">4.4.1 客户端API</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#442-客户端相关配置">4.4.2 客户端相关配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#443-客户端统计片段">4.4.3 客户端统计片段</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第五章-持久化">第五章 持久化</a><br/>
 
 
 
