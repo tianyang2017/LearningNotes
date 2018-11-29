@@ -2,6 +2,7 @@
 
  📂[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[RabbitMQ](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《RabbitMQ实战指南》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ/《RabbitMQ实战指南》读书笔记.md) </br>
  📂[前端语言和框架](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Javascript](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《javascript高级程序设计》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript/《javascript高级程序设计》读书笔记.md) </br>
@@ -25,7 +26,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[mysql](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/mysql) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[oracle](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Redis](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis) </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[1.linux下安装redis及常见报错解决方案.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/1.linux下安装redis及常见报错解决方案.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[linux下安装redis及常见报错解决方案.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/linux下安装redis及常见报错解决方案.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📃[《Redis开发与运维》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/《Redis开发与运维》读书笔记.md) </br>
  📂[服务器](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📂[Docker](https://github.com/heibaiying/LearningNotes/tree/master/notes/服务器/Docker) </br>
