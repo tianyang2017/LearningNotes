@@ -2,7 +2,22 @@
 
 ## 第一章 RabbitMQ的安装以及简单使用
 
-**linux下安装步骤：**
+**linux下安装步骤（docker）：**
+
+1.docker pull rabbitmq:management
+
+2.docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -v `pwd`/data:/var/lib/rabbitmq --hostname myRabbit -e RABBITMQ_DEFAULT_VHOST=my_vhost  -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin 镜像ID
+
+说明：
+
+- d 后台运行容器；
+- name 指定容器名；
+- p 指定服务运行的端口（5672：应用访问端口；15672：控制台Web端口号）；
+- v 映射目录或文件；
+- hostname  主机名（RabbitMQ的一个重要注意事项是它根据所谓的 “节点名称” 存储数据，默认为主机名）；
+- e 指定环境变量；（RABBITMQ_DEFAULT_VHOST：默认虚拟机名；RABBITMQ_DEFAULT_USER：默认的用户名；RABBITMQ_DEFAULT_PASS：默认用户名的密码）
+
+3.访问 http://宿主机地址:15672
 
 **简单使用**：
 
@@ -196,7 +211,7 @@ factory.setPassword(PASSWORD);
 Connection connection = factory.newConnection();
 
 // 2.url 连接
-ConnectionFactory factory =口 ew ConnectionFactory();
+ConnectionFactory factory new ConnectionFactory();
 factory.setUri( "amqp://userName:password@ipAddress:portNumber/virtualHost");
 Connection conn = factory.newConnection();
 ```
@@ -583,26 +598,174 @@ channel.queueDeclare("myqueue " , false , false , false , args) ;
 
 **通过在 channel.queueDeclare 方法中设置 x-dead-letter-exchange 参数来为这个队列添加 DLX**  
 
+```java
+ //创建 DLX: dlx_exchange
+ channel.exchangeDeclare("dlx_exchange " , "direct ");
+ Map<String, Object> args = new HashMap<String, Object>();
+ args.put("x-dead-letter-exchange" , " dlx_exchange ");
+ //也可以为这个 DLX 指定路由键，如果没有特殊指定，则使用原队列的路由键:
+ args.put("x-dead-letter-routing-key" , "dlx-routing-key");
+ //为队列 myqueue 添加 DLX
+ channel.queueDeclare("myqueue" , false , false , false , args);
+```
 
+```java
+  // 声明用于DXL队列的交换器
+  channel.exchangeDeclare("exchange.dlx", "direct", true);
+  // 声明正常交换器
+  channel.exchangeDeclare("exchange.normal ", "fanout ", true);
+  // 为正常队列绑定DXL交换器
+  Map<String, Object> args = new HashMap<String, Object>();
+  args.put("x-message - ttl ", 10000);
+  args.put("x-dead-letter-exchange ", "exchange.dlx"); //DXL队列与DXL交换器的原路由键
+  args.put("x-dead-letter-routing-key", " routingkey");
+  channel.queueDeclare(" queue.norma1 ", true, false, false, args);
+  // 正常队列与正常交换器绑定
+  channel.queueBind("queue.normal", "exchange.normal", "");
+  // 声明DXL队列
+  channel.queueDeclare(" queue.d1x ", true, false, false, null);
+  // DXL队列与信DXL交换器绑定
+  channel.queueBind("queue.dlx ", "exchange.dlx ", "routingkey");
+  // 发送一条信息 10s超时后成为死信
+  channel.basicPublish("exchange.normal", " rk",
+  MessageProperties.PERSISTENT_TEXT_PLAIN, "message".getBytes());
+```
 
 ### 4.4 延迟队列
 
+利用死信队列来实现：
+
+![延迟队列](D:\学习笔记\picture\延迟队列.png)
+
 ### 4.5 优先级队列
+
+**设置队列优先级**：
+
+```java
+Map<String, Object> args = new HashMap<String, Object>();
+args.put("x-max-priority ", 10);
+channel.queueDeclare(" queue . priority", true, false, false, args);
+```
+
+**设置消息优先级**：
+
+```java
+AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder();
+builder.priority(5);
+AMQP.BasicProperties properties = builder.build();
+channel.basicPublish("exchange_priority", " rk_priority ", properties, "message".getBytes());
+```
 
 ### 4.6 RPC 实现
 
+Java版本可参考博客：https://blog.csdn.net/u013256816/article/details/55218595
+
+python版本可参考官网：http://www.rabbitmq.com/tutorials/tutorial-six-python.html
+
 ### 4.7 持久化
+
+**交换器的持久化**：通过在声明队列是将 durable 参数置为 true 实现的；
+
+**队列的持久化**：是通过在声明队列时将 durable 参数置为 true 实现的；  
+
+**消息的持久化** ：通过将消息的投递模式(BasicProperties中的 deliveryMode 属性) 设置为 2 即可实现
 
 ### 4.8 生产者确认
 
-#### 4.8.1 事务机制
+当消息的生产者将消息发送出去之后，消息到底有没有正确地到达服务器呢? RabbitMQ 针对这个问题，提供了两种解决方式:
 
-#### 4.8.2 发送方确认机制
+- 通过事务机制实现:
+- 通过发送方确认 C publisher confirm ) 机制实现。 
+
+#### 4.8.1 事务机制(不推荐)
+
+RabbitMQ 客户端中与事务机制相关的方法有 三个:
+
+- **channel.txSelect **用于将当前的信道设置成事务模式;
+- **channel.txCommit** 用于提交事务 ;
+- **channel.txRollback** 用于事务回滚。 
+
+```java
+// 單條消息
+try {
+    channel.txSelect();
+    channel.basicPublish(exchange, routekey, MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
+    int result = 1 / 0;
+    channel.txCommit();
+} catch (Exception e) {
+    e.printStackTrace();
+    channel.txRollback();
+} 
+ 
+//多條消息
+channel.txSelect();
+for (int i = 0; i < NUM; i++) {
+    try {
+        channel.basicPublish(exchange, routekey, MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
+        channel.txCommit();
+    } catch (Exception e) {
+        e.printStackTrace();
+        channel.txRollback();
+    }
+}
+```
+
+#### 4.8.2 发送方确认机制（推荐）
+
+生产者将信道设置成 confirm（确认)模式，一旦信道进入 confirm模式，所有在该信道上面发布的消息都会被指派一个唯一的ID(从 1开始)，一旦消息被投递到所有匹配的队列之后，RabbitMQ 就会发送一个确认(Basic.Ack) 给生产者(包含消息的唯一 ID) ，这就使得生产者知晓消息已经正确到达了目的地了。 
+
+```java
+try {
+ // 将信到置为 publisher confirm 模式  
+ channel.confirmSelect();  hannel.basicPublish(EXCHANGE_NAME,ROUTING_KEY,MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
+    // 这样意味着还是同步阻塞的 性能并不比事务方式好（不推荐）
+ if (!channel.waitForConfirms()){
+ 	System.out.println("send message failed");
+ 	// do something else ...
+ 	}
+ } catch (Exception e) {
+ e.printStackTrace();
+}
+```
+
+**异步confirm模式（推荐）**的编程实现最复杂，Channel对象提供的ConfirmListener()回调方法只包含deliveryTag（当前Chanel发出的消息序号），我们需要自己为每一个Channel维护一个unconfirm的消息序号集合，每publish一条数据，集合中元素加1，每回调一次handleAck方法，unconfirm集合删掉相应的一条（multiple=false）或多条（multiple=true）记录。从程序运行效率上看，这个unconfirm集合最好采用有序集合SortedSet存储结构。
+
+**注：不论是handleAck还是handleNack都证明消息被收到了，并没有丢失。**
+
+```java
+SortedSet<Long> confirmSet = Collections.synchronizedSortedSet(new TreeSet<Long>());
+        channel.confirmSelect();
+        channel.addConfirmListener(new ConfirmListener() {
+            
+            public void handleAck(long deliveryTag, boolean multiple) throws IOException {
+                if (multiple) {
+                    confirmSet.headSet(deliveryTag + 1).clear();
+                } else {
+                    confirmSet.remove(deliveryTag);
+                }
+            }
+
+            public void handleNack(long deliveryTag, boolean multiple) throws IOException {
+                System.out.println("Nack, SeqNo: " + deliveryTag + ", multiple: " + multiple);
+                if (multiple) {
+                    confirmSet.headSet(deliveryTag + 1).clear();
+                } else {
+                    confirmSet.remove(deliveryTag);
+                }
+                // 添加消息重发逻辑
+            }
+        });
+        while (true) {
+            long nextSeqNo = channel.getNextPublishSeqNo();
+            channel.basicPublish(ConfirmConfig.exchangeName, ConfirmConfig.routingKey, 	MessageProperties.PERSISTENT_TEXT_PLAIN, ConfirmConfig.msg_10B.getBytes());
+            // 将需要发送消息的id放入Set中
+            confirmSet.add(nextSeqNo);
+        }
+```
 
 ### 4.9 消费端要点介绍
 
 #### 4.9.1 消息分发
 
-#### 4.9.2 消息顺序性
+**channel.basicQos 方法允许限制信道上的消费者所能保持的最大未确认消息的数量。**
 
-### 4.10 消息传输保障
