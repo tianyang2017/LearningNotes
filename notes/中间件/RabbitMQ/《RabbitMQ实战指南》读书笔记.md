@@ -681,7 +681,7 @@ python版本可参考官网：http://www.rabbitmq.com/tutorials/tutorial-six-pyt
 
 RabbitMQ 客户端中与事务机制相关的方法有 三个:
 
-- **channel.txSelect **用于将当前的信道设置成事务模式;
+- **channel.txSelect** 用于将当前的信道设置成事务模式;
 - **channel.txCommit** 用于提交事务 ;
 - **channel.txRollback** 用于事务回滚。 
 
