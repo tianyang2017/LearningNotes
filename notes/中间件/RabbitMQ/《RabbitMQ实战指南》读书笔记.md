@@ -117,7 +117,7 @@ public class Rabbit {
 
 #### 2.1.2 队列
 
-**Queue（队列）** 是 RabbitMQ的内部对象，用于**存��消息**。多个消费者可以订阅同一个消息，这时候队列中的消息会被平均分摊（Round-Robin,即轮训）给多个消费者进行处理，而不是每个消费者都收到所有消费并处理。
+**Queue（队列）** 是 RabbitMQ的内部对象，用于**存储消息**。多个消费者可以订阅同一个消息，这时候队列中的消息会被平均分摊（Round-Robin,即轮训）给多个消费者进行处理，而不是每个消费者都收到所有消费并处理。
 
 #### 2.1.3 交换器、路由键、绑定
 
@@ -490,7 +490,7 @@ conn.close() ;
 
 ### 4.1 消息何去何从
 
-mandatory 和 immediate 是 channel.basicPublish 方法中的两个参数，它们都有**当消息传递过程中不可达目的地时将消息返回给生产者的功能**。 RabbitMQ 提供的备份交换器(Altemate Exchange) ��以将未能被交换器路由的消息(没有绑定队列或者没有匹配的绑定〉存储起来，而不用返回给客户端。 
+mandatory 和 immediate 是 channel.basicPublish 方法中的两个参数，它们都有**当消息传递过程中不可达目的地时将消息返回给生产者的功能**。 RabbitMQ 提供的备份交换器(Altemate Exchange) 用以将未能被交换器路由的消息(没有绑定队列或者没有匹配的绑定〉存储起来，而不用返回给客户端。 
 
 #### 4.1.1 mandatory 参数
 
@@ -712,7 +712,7 @@ for (int i = 0; i < NUM; i++) {
 
 #### 4.8.2 发送方确认机制（推荐）
 
-生产者将信道设置成 confirm（确认)模式，一旦信道进入 confirm模式，所有在该信道上面发布的消息都会被指派一个唯一的ID(从 1开始)，一旦消息被投递到所有匹配的队列之后，RabbitMQ 就会发送一个确认(Basic.Ack) 给生产者(包含消息的唯一 ID) ，��就使得生产者知晓消息已经正确到达了目的地了。 
+生产者将信道设置成 confirm（确认)模式，一旦信道进入 confirm模式，所有在该信道上面发布的消息都会被指派一个唯一的ID(从 1开始)，一旦消息被投递到所有匹配的队列之后，RabbitMQ 就会发送一个确认(Basic.Ack) 给生产者(包含消息的唯一 ID) ，这就使得生产者知晓消息已经正确到达了目的地了。 
 
 ```java
 try {
@@ -844,7 +844,7 @@ rabbitmqctl [-n node] \[-t timeout] [-q] \{command} [command options...]
 | rabbitmqctl wait [pid_file]      | 等待 RabbitMQ 应用的启动。它会等到 pid_file 的创建，然后等待 pid_file 中所代表的进程启动。当指定的进程没有启动 RabbitMQ 应用而关闭时将会返回失败。 |
 | rabbitmqctl reset                | RabbitMQ 节点重置还原到最初状态。包括从原来所在的集群中删除此节点，从管理数据库中删除所有的配置数据，如己配置的用户、 vhost 等，以及删除所有的持久化消息。执行rabbitmqctl reset 命令前必须停止RabbitMQ应用(比如先执行 rabbitmqctlstop_app) 。 |
 | rabbitmqctl force_reset          | 强制将 RabbitMQ 节点重置还原到最初状态。不同于 rabbitmqctl reset 命令，rabbitmqctl force reset 命令不论当前管理数据库的状态和集群配置是什么，都会无条件地重置节点。它只能在数据库或集群配置己损坏的情况下使用。与 rabbitmqctl reset命令一样，执行 rabbitmqctl force reset 命令前必须先停止 RabbitMQ 应用。 |
-| rabbitmqctl rotate_logs {suffix} | 指示 RabbitMQ 节点轮换日志文件。 RabbitMQ 节点会将原来的日志文件中的内容追加到"原始名称+后缀"的日志文件中，然后再将新的日志内容记录到新创建的日志中(与原日志文件同名)。当目标文件不存在时，会��新创建。如果不指定后缀 suffix. 则日志文件只是重新打开而不会进行轮换。 |
+| rabbitmqctl rotate_logs {suffix} | 指示 RabbitMQ 节点轮换日志文件。 RabbitMQ 节点会将原来的日志文件中的内容追加到"原始名称+后缀"的日志文件中，然后再将新的日志内容记录到新创建的日志中(与原日志文件同名)。当目标文件不存在时，会新创建。如果不指定后缀 suffix. 则日志文件只是重新打开而不会进行轮换。 |
 
 #### 5.4.2 集群管理
 
@@ -1010,7 +1010,7 @@ rabbitmqctl [-n node] \[-t timeout] [-q] \{command} [command options...]
 #### 8.其他状态
 
 **rabbitmqctl node_health_check**
-对 RabbitMQ 节点进行健康检查 ， 确���应用是否正常运行。
+对 RabbitMQ 节点进行健康检查 ， 确定应用是否正常运行。
 
 **rabbitmqctl environment**
 显示每个运行程序环境中每个变量的名称和值。
