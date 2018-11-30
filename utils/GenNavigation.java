@@ -85,7 +85,7 @@ public class GenNavigation {
 
     private static List<Pair<String, String>> getAllTitle(String content) {
         List<Pair<String, String>> list = new ArrayList<>();
-        Pattern pattern = Pattern.compile("(?m)^(#{2,10})\\s?(.*)");
+        Pattern pattern = Pattern.compile("(?m)^(#{2,10})\\s?(\\S+\\s?\\S+)");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
             String group2 = matcher.group(2);

@@ -1,6 +1,7 @@
 # 《Redis开发与运维》读书笔记
 
-## 目录<br/>
+## 目录
+
 <a href="#第二章-API的理解与使用">第二章 API的理解与使用</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-预备">2.1 预备</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211-全局命令">2.1.1 全局命令</a><br/>
@@ -12,20 +13,20 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-集合">2.5 集合</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#26-有序集合">2.6 有序集合</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#27-键管理">2.7 键管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#271-单个键管理">2.7.1 单个键管理</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1键重命名--">1.键重命名  </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-随机返回键-">2. 随机返回键 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#271-单个键管理">2.7.1 单个键管理 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1键重命名">1.键重命名</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-随机返回键">2. 随机返回键</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3键过期">3.键过期</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#272-键遍历">2.7.2 键遍历</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-全量键遍历">1. 全量键遍历</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-渐进式遍历">2. 渐进式遍历</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#273-数据库管理">2.7.3 数据库管理</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1切换数据库">1.切换数据库</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2flushdb/flushall-">2.flushdb/flushall </a><br/>
-<a href="#第三章-小功能-大用处">第三章 小功能 大用处</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2flushdb/flushall">2.flushdb/flushall</a><br/>
+<a href="#第三章-小功能">第三章 小功能</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-慢查询分析">3.1 慢查询分析</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-慢查询的两个配置参数">3.1.1 慢查询的两个配置参数</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-redis-shell">3.2 redis shell</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-redis">3.2 redis</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-redis-cli">3.2.1 redis-cli</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-redis-server">3.2.2 redis-server</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-redis-benchmark">3.2.3 redis-benchmark</a><br/>
@@ -51,11 +52,9 @@
 <a href="#第十章-集群">第十章 集群</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#101-数据分区">10.1 数据分区</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#102-搭建集群">10.2 搭建集群</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#104--集群扩容">10.4  集群扩容</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#104">10.4</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1042-扩容集群">10.4.2 扩容集群</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1043-收缩集群">10.4.3 收缩集群</a><br/>
-
-## 正文<br/>
 
 ## 第二章 API的理解与使用
 
