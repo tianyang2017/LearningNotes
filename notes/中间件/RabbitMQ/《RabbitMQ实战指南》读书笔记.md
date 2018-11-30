@@ -848,17 +848,17 @@ rabbitmqctl [-n node] \[-t timeout] [-q] \{command} [command options...]
 
 #### 5.4.2 集群管理
 
-| 命令                                              | 作用                                                         |
-| ------------------------------------------------- | ------------------------------------------------------------ |
-| rabbitmqctl join_cluster {cluster_node} [-- ram]  | 将节点加入指定集群中。<br/>在这个命令执行前需要停止RabbitMQ应用并重置节点。 |
-| rabbitmqctl cluster_status                        | 显示集群状态                                                 |
-| rabbitmqctl change_cluster_node_type {disc\|ram}  | 修改集群节点的类型。<br/>在这个命令执行前需要停止RabbitMQ应用。 |
-| rabbitmqctl forget_cluster_node [--offine]        | 将节点重集群中删除，允许离线执行                             |
-| rabbitmqctl update_cluster_nodes {clusternode}    | 在集群中的节点应用启动前咨询clusternode节点的最新信息，并更新相应的集群信息。 |
-| rabbitmqctl force_boot                            | 确保节点可以启动，即使它不是最后一个关闭的节点。             |
-| rabbitmqctl sync_queue [- p vhost] {queue}        | 指示未同步队列 queue 的 slave 镜像可以同步 master 镜像行的内容。同步期间此队列会被阻塞(所有此队列的生产消费者都会被阻塞)，直到同步完成。此条命令执行成功的前提是队列queue 配置了镜像。注意 ， 未同步队列中的消息被耗尽后 ， 最终也会变成同步，此命令主要用于未耗尽的队列。 |
-| rabbitmqctl cancel_sync_queue [- p vhost] {queue} | 取消队列queue同步镜像的操作。                                |
-| rabbitmqctl set_cluster_name {name}               | 设置集群名称。集群名称默认是集群中第一个节点的名称。         |
+| 命令                                             | 作用                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| rabbitmqctl join_cluster {cluster_node} [-- ram] | 将节点加入指定集群中。<br/>在这个命令执行前需要停止RabbitMQ应用并重置节点。 |
+| rabbitmqctl cluster_status                       | 显示集群状态                                                 |
+| rabbitmqctl change_cluster_node_type {disc\|ram} | 修改集群节点的类型。<br/>在这个命令执行前需要停止RabbitMQ应用。 |
+| rabbitmqctl forget_cluster_node [--offine]       | 将节点重集群中删除，允许离线执行                             |
+| rabbitmqctl update_cluster_nodes {clusternode}   | 在集群中的节点应用启动前咨询clusternode节点的最新信息，并更新相应的集群信息。 |
+| rabbitmqctl force_boot                           | 确保节点可以启动，即使它不是最后一个关闭的节点。             |
+| rabbitmqctl sync_queue [- p vhost] {queue}       | 指示未同步队列 queue 的 slave 镜像可以同步 master 镜像行的内容。同步期间此队列会被阻塞(所有此队列的生产消费者都会被阻塞)，直到同步完成。此条命令执行成功的前提是队列queue 配置了镜像。注意 ， 未同步队列中的消息被耗尽后 ， 最终也会变成同步，此命令主要用于未耗尽的队列。 |
+| rabbitmqctl cancel_sync_queue [-p vhost] {queue} | 取消队列queue同步镜像的操作。                                |
+| rabbitmqctl set_cluster_name {name}              | 设置集群名称。集群名称默认是集群中第一个节点的名称。         |
 
 ### 5.5 服务端状态
 
