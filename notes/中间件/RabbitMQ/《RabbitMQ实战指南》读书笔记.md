@@ -1,5 +1,64 @@
 # 《RabbitMQ实战指南》读书笔记
 
+## 目录<br/>
+<a href="#第一章-RabbitMQ的安装以及简单使用">第一章 RabbitMQ的安装以及简单使用</a><br/>
+<a href="#第二章-RabbitMQ入门">第二章 RabbitMQ入门</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-相关概念介绍">2.1 相关概念介绍</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211-生产者和消费者">2.1.1 生产者和消费者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212-队列">2.1.2 队列</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213-交换器、路由键、绑定">2.1.3 交换器、路由键、绑定</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#214-交换器类型">2.1.4 交换器类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#215-RabbitMQ运转流程">2.1.5 RabbitMQ运转流程</a><br/>
+<a href="#第三章-客户端开发向导">第三章 客户端开发向导</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-连接RabbitMQ">3.1 连接RabbitMQ</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-使用交换器和队列">3.2 使用交换器和队列</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-exchangDeclare-方法详解">3.2.1 exchangDeclare 方法详解</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-queneDeclare方法详解">3.2.2 queneDeclare方法详解</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-queueBind方法详解">3.2.3 queueBind方法详解</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#324-exchangeBind方法详解">3.2.4 exchangeBind方法详解</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-发送消息（basicPublish）">3.3 发送消息（basicPublish）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-消费消息">3.4 消费消息</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#341-推模式">3.4.1 推模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#342-拉模式">3.4.2 拉模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#35-消费端的确认与拒绝">3.5 消费端的确认与拒绝</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#36-关闭连接">3.6 关闭连接</a><br/>
+<a href="#第四章-RabbitMQ进阶">第四章 RabbitMQ进阶</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41-消息何去何从">4.1 消息何去何从</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#411-mandatory-参数">4.1.1 mandatory 参数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#412-immedidate-参数">4.1.2 immedidate 参数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#413-备份交换器">4.1.3 备份交换器</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-过期时间（TTL）">4.2 过期时间（TTL）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421设置消息的TTL">4.2.1设置消息的TTL</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#422-设置队列的TTL">4.2.2 设置队列的TTL</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-死信队列DLX--">4.3 死信队列DLX  </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-延迟队列">4.4 延迟队列</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#45-优先级队列">4.5 优先级队列</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#46-RPC-实现">4.6 RPC 实现</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#47-持久化">4.7 持久化</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#48-生产者确认">4.8 生产者确认</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#481-事务机制(不推荐)">4.8.1 事务机制(不推荐)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#482-发送方确认机制（推荐）">4.8.2 发送方确认机制（推荐）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#49-消费端要点介绍">4.9 消费端要点介绍</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#491-消息分发">4.9.1 消息分发</a><br/>
+<a href="#第五章-RabbitMQ-管理">第五章 RabbitMQ 管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51-虚拟主机与权限">5.1 虚拟主机与权限</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52-用户管理">5.2 用户管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53-web端管理">5.3 web端管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#54-应用与集群管理">5.4 应用与集群管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#541-应用管理">5.4.1 应用管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#542-集群管理">5.4.2 集群管理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55-服务端状态">5.5 服务端状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-队列状态">1. 队列状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-交换机状态">2. 交换机状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-绑定状态">3. 绑定状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-TCP|IP-连接状态">4. TCP|IP 连接状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5-信道状态">5. 信道状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6消费者状态">6.消费者状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#7Brokder的状态">7.Brokder的状态</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#8其他状态">8.其他状态</a><br/>
+
+## 正文<br/>
+
 ## 第一章 RabbitMQ的安装以及简单使用
 
 **linux下安装步骤（docker）：**

@@ -1,5 +1,53 @@
 # 《实战Java高并发程序设计》读书笔记
 
+## 目录<br/>
+<a href="#第二章-Java并行程序基础">第二章 Java并行程序基础</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-线程的基本操作">2.1 线程的基本操作</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211-线程中断">2.1.1 线程中断</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212-等待（wait）和通知（notify）">2.1.2 等待（wait）和通知（notify）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213-等待线程结束（join）和谦让（yield）">2.1.3 等待线程结束（join）和谦让（yield）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-volatile与Java内存模型（JMM）">2.2 volatile与Java内存模型（JMM）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-线程组">2.3 线程组</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#24-守护线程（Daemon）">2.4 守护线程（Daemon）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-线程安全的概念和synchronized-">2.5 线程安全的概念和synchronized </a><br/>
+<a href="#第三章-JDK-并发包">第三章 JDK 并发包</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-同步控制">3.1 同步控制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-可重入锁(ReentrantLock)">3.1.1 可重入锁(ReentrantLock)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**1锁申请等待超时**">**1.锁申请等待超时**</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**2公平锁**">**2.公平锁**</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#312--条件（condition）">3.1.2  条件（condition）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#313-信号量（Semaphore）">3.1.3 信号量（Semaphore）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#314-读写锁（ReadWriteLock-）">3.1.4 读写锁（ReadWriteLock ）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#315-倒计时（CountDown）">3.1.5 倒计时（CountDown）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#316-循环栅栏（CyclicBarrier）">3.1.6 循环栅栏（CyclicBarrier）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#317-线程阻塞工具类（LockSupport）">3.1.7 线程阻塞工具类（LockSupport）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-线程池">3.2 线程池</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-JDK对线程池的支持">3.2.1 JDK对线程池的支持</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1计划任务">1.计划任务</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-线程池内部实现">3.2.2 线程池内部实现</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**1JDK内置的拒绝策略**">**1.JDK内置的拒绝策略**</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2线程池的扩展">2.线程池的扩展</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3合理优化线程池的数量">3.合理优化线程池的数量</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-Fork/Join-框架">3.2.3 Fork/Join 框架</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-并发容器">3.3 并发容器</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#331-并发集合简介（javautilconcurrent）">3.3.1 并发集合简介（java.util.concurrent）</a><br/>
+<a href="#第四章-锁的优化及注意事项">第四章 锁的优化及注意事项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-Java虚拟机对锁优化锁做的努力">4.2 Java虚拟机对锁优化锁做的努力</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-锁偏向">1. 锁偏向</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-轻量级锁">2. 轻量级锁</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-自选锁">3. 自选锁</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-锁消除">4. 锁消除</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-人手一只笔（ThreadLocal）">4.3 人手一只笔（ThreadLocal）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-无锁">4.4 无锁</a><br/>
+<a href="#第五章-并行模式与算法">第五章 并行模式与算法</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55-JDK中的Future">5.5 JDK中的Future</a><br/>
+<a href="#第六章--JAVA-8-并发">第六章  JAVA 8 并发</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#65-增强的Future(CompletableFuture)">6.5 增强的Future(CompletableFuture)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#66--StampedLock">6.6  StampedLock</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#67-LongAdder-和-LongAccumulator">6.7 LongAdder 和 LongAccumulator</a><br/>
+
+## 正文<br/>
+
 ## 第二章 Java并行程序基础
 
 ### 2.1 线程的基本操作
