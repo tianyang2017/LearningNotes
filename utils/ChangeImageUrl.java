@@ -25,14 +25,14 @@ public class ChangeImageUrl {
     private static void changeImageUrl(String dir, String preUrl, String oldImageUrlRegex) throws IOException {
         getAllFile(dir);
         for (String filePath : filesList) {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(filePath)));
+            FileReader reader = new FileReader(filePath);
             StringBuilder stringBuilder = new StringBuilder();
-            byte[] bytes = new byte[10240];
+            char[] chars = new char[1024*1024];
             int read = 0;
-            while ((read = inputStream.read(bytes)) != -1) {
-                stringBuilder.append(new String(bytes, 0, read));
+            while ((read = reader.read(chars)) != -1) {
+                stringBuilder.append(new String(chars, 0, read));
             }
-            inputStream.close();
+            reader.close();
             String content = stringBuilder.toString();
             String newContent = content.replaceAll(oldImageUrlRegex, String.format("$1</br>![$2](%s$3)</br>", preUrl));
             System.out.println(newContent);
