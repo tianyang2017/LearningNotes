@@ -99,12 +99,12 @@ public class GenNavigation {
     private static String getContent(String filePath) {
         StringBuilder builder = new StringBuilder();
         try {
-            FileInputStream inputStream = new FileInputStream(filePath);
-            byte[] bytes = new byte[10240];
+            FileReader reader = new FileReader(filePath);
+            char[] chars = new char[1024*1024];
 
             int read = 0;
-            while ((read = inputStream.read(bytes)) != -1) {
-                builder.append(new String(bytes, 0, read));
+            while ((read = reader.read(chars)) != -1) {
+                builder.append(new String(chars, 0, read));
             }
         } catch (IOException e) {
             e.printStackTrace();
