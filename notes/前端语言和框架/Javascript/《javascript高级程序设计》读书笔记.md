@@ -64,7 +64,7 @@
 
    + **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。
 
-         ![js 对象属性](D:\学习笔记\picture\js 对象属性.png)
+         ![js 对象属性](D:\LearningNotes\picture\js 对象属性.png)
 
    ![js 对象属性](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png)
 
@@ -755,11 +755,11 @@ alert(Person.prototype.constructor=== Person);  //true
 alert(Person.prototype == person1.__proto__);  //true
 ```
 
-![js 原型1](D:\学习笔记\picture\js 原型1.png)
+![js 原型1](D:\LearningNotes\picture\js 原型1.png)
 
 ![js 原型1](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B1.png)
 
-![js 原型2](D:\学习笔记\picture\js 原型2.png)
+![js 原型2](D:\LearningNotes\picture\js 原型2.png)
 
 ![js 原型2](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B2.png)
 
@@ -1314,7 +1314,7 @@ location.reload(true); //重新加载（从服务器重新加载）
 
 ### 1. Node 类型
 
-![Node节点](D:\学习笔记\picture\Node节点.png)
+![Node节点](D:\LearningNotes\picture\Node节点.png)
 
 ![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node%E8%8A%82%E7%82%B9.png)
 
@@ -1791,15 +1791,15 @@ alert(document.documentElement.contains(document.body)); //true
 
 **1.偏移量、客户区大小、滚动大小**
 
-![偏移量](D:\学习笔记\picture\偏移量.png)
+![偏移量](D:\LearningNotes\picture\偏移量.png)
 
 ![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%81%8F%E7%A7%BB%E9%87%8F.png)
 
-![客户区大小](D:\学习笔记\picture\客户区大小.png)
+![客户区大小](D:\LearningNotes\picture\客户区大小.png)
 
 ![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%AE%A2%E6%88%B7%E5%8C%BA%E5%A4%A7%E5%B0%8F.png)
 
-![滚动大小](D:\学习笔记\picture\滚动大小.png)
+![滚动大小](D:\LearningNotes\picture\滚动大小.png)
 
 ![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E6%BB%9A%E5%8A%A8%E5%A4%A7%E5%B0%8F.png)
 
@@ -1809,7 +1809,7 @@ alert(document.documentElement.contains(document.body)); //true
 
 “DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应。 
 
-![事件流](D:\学习笔记\picture\事件流.png)
+![事件流](D:\LearningNotes\picture\事件流.png)
 
 ![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%BA%8B%E4%BB%B6%E6%B5%81.png)
 

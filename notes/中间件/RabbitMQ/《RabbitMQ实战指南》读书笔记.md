@@ -111,9 +111,9 @@ public class Rabbit {
 
 #### 2.1.1 生产者和消费者
 
-![RabbitMQ模型架构](D:\学习笔记\picture\RabbitMQ模型架构.png)</br>![RabbitMQ模型架构](https://github.com/heibaiying/LearningNotes/blob/master/picture/RabbitMQ模型架构.png)</br>
+![RabbitMQ模型架构](D:\LearningNotes\picture\RabbitMQ模型架构.png)</br>![RabbitMQ模型架构](https://github.com/heibaiying/LearningNotes/blob/master/picture/RabbitMQ模型架构.png)</br>
 
-![消息队列运转过程](D:\学习笔记\picture\消息队列运转过程.png)</br>![消息队列运转过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/消息队列运转过程.png)</br>
+![消息队列运转过程](D:\LearningNotes\picture\消息队列运转过程.png)</br>![消息队列运转过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/消息队列运转过程.png)</br>
 
 #### 2.1.2 队列
 
@@ -133,7 +133,7 @@ public class Rabbit {
 
 **2. direct**: 把消息路由到那些BindingKey和RountingKey 完全匹配的队列中。
 
-![direct-exchange](D:\学习笔记\picture\direct-exchange.png)</br>![direct-exchange](https://github.com/heibaiying/LearningNotes/blob/master/picture/direct-exchange.png)</br>
+![direct-exchange](D:\LearningNotes\picture\direct-exchange.png)</br>![direct-exchange](https://github.com/heibaiying/LearningNotes/blob/master/picture/direct-exchange.png)</br>
 
 **官方原文：**
 
@@ -150,7 +150,7 @@ In such a setup a message published to the exchange with a routing key orange wi
   - \* (star) can substitute for exactly one word.
   - \# (hash) can substitute for zero or more words.
 
-![topic-exchange](D:\学习笔记\picture\topic-exchange.png)</br>![topic-exchange](https://github.com/heibaiying/LearningNotes/blob/master/picture/topic-exchange.png)</br>
+![topic-exchange](D:\LearningNotes\picture\topic-exchange.png)</br>![topic-exchange](https://github.com/heibaiying/LearningNotes/blob/master/picture/topic-exchange.png)</br>
 
 官网原文对这一模式的说明比较清晰,摘抄如下：
 
@@ -635,7 +635,7 @@ channel.queueDeclare("myqueue " , false , false , false , args) ;
 
 利用死信队列来实现：
 
-![延迟队列](D:\学习笔记\picture\延迟队列.png)</br>![延迟队列](https://github.com/heibaiying/LearningNotes/blob/master/picture/延迟队列.png)</br>
+![延迟队列](D:\LearningNotes\picture\延迟队列.png)</br>![延迟队列](https://github.com/heibaiying/LearningNotes/blob/master/picture/延迟队列.png)</br>
 
 ### 4.5 优先级队列
 
