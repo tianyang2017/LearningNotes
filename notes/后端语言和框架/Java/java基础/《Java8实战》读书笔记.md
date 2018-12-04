@@ -396,10 +396,6 @@ public class Stream {
 
 ## 第三部分 高效的Java 8编程
 
-### 第11章 CompletableFuture 组合式异步编程
-
-
-
 ### 第12章 新的日期和时间API
 
 #### 12.1 LocalDate、LocalTime、Instant、Duration、period
