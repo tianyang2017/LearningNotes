@@ -1,6 +1,6 @@
 # Java 单例设计模式详解
 
-参考自慕课网课程：[Java设计模式精讲](https://coding.imooc.com/class/270.html)
+参考自慕课网课程：[Java设计模式精讲](https://coding.imooc.com/class/270.html):star::star::star::star::star:
 
 #### 1、单例模式的饿汉模式（线程安全）
 
