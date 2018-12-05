@@ -11,8 +11,9 @@ class GenContexts:
             file_path = os.path.abspath(folder_path) + os.sep + fileName
             full_name = parent_path + "/" + fileName
             if os.path.isdir(file_path):
+                icon = " :books:" if deep_level==0 else " :book:"
                 catalog.append(
-                    "&nbsp;" * 10 * deep_level + " :book:" + "[" + fileName + "]" + "(" + root_url + full_name + ")" + " </br>\n")
+                    "&nbsp;" * 10 * deep_level + icon + "[" + fileName + "]" + "(" + root_url + full_name + ")" + " </br>\n")
                 cls.generate(file_path, root_url, full_name, deep_level + 1, catalog)
             elif os.path.isfile(file_path) and '.md' in fileName:
                 catalog.append(
