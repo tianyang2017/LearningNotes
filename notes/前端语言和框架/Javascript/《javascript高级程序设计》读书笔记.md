@@ -1,4 +1,101 @@
 # 《JavaScript 高级程序设计》读书笔记
+## 目录<br/>
+<a href="#第三章-基本语法">第三章 基本语法</a><br/>
+<a href="#第四章-变量、作用域和内存问题">第四章 变量、作用域和内存问题</a><br/>
+<a href="#第五章-应用类型">第五章 应用类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-Array-类型">1. Array 类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-RegExp-类型-	">2. RegExp 类型 	</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-Function-类型">3. Function 类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-String-类型">4. String 类型</a><br/>
+<a href="#第六章-面向对象的程序设计">第六章 面向对象的程序设计</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#61-理解对象">6.1 理解对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-1-属性类型"> 1. 属性类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-读取属性">2. 读取属性</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#62--创建对象">6.2  创建对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--构造函数模式">1.  构造函数模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2--原型模式">2.  原型模式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3组合使用构造函数和原型模式（主要使用方式）">3.组合使用构造函数和原型模式（主要使用方式）</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#63-继承">6.3 继承</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-原型链">1. 原型链</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-组合继承(主要使用方式)">2. 组合继承(主要使用方式)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-原型链继承">3. 原型链继承</a><br/>
+<a href="#第七章-函数表达式">第七章 函数表达式</a><br/>
+<a href="#第八章-BOM">第八章 BOM</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1window-对象">1.window 对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2location-对象-">2.location 对象 </a><br/>
+<a href="#第十章-DOM">第十章 DOM</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-Node-类型">1. Node 类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2Document类型">2.Document类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3Element类型">3.Element类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4Text类型">4.Text类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5动态创建表格">5.动态创建表格</a><br/>
+<a href="#第十一章-DOM扩展">第十一章 DOM扩展</a><br/>
+<a href="#第十二章-DOM2和DOM3">第十二章 DOM2和DOM3</a><br/>
+<a href="#第十三-事件">第十三 事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#131-DOM事件流-">13.1 DOM事件流 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#132-事件处理程序">13.2 事件处理程序</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-DOM0-级事件处理程序-">1. DOM0 级事件处理程序 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-DOM2-级事件处理程序-">2. DOM2 级事件处理程序 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3兼容IE">3.兼容IE</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#133-事件处理程序">13.3 事件处理程序</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#134-事件类型">13.4 事件类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1UI-事件">1.UI 事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2焦点事件">2.焦点事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3鼠标和滚轮事件">3.鼠标和滚轮事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4键盘与文本事件">4.键盘与文本事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5变动事件">5.变动事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6HTML5事件">6.HTML5事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第十四章-表单脚本">第十四章 表单脚本</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#141-表单基础知识">14.1 表单基础知识</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1提交表单">1.提交表单</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2重置表单">2.重置表单</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3表单字段">3.表单字段</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-共有的表单字段属性">3.1 共有的表单字段属性</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-共有的表单字段方法-">3.2 共有的表单字段方法 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-共有的表单字段事件">3.3 共有的表单字段事件</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#142-文本框脚本">14.2 文本框脚本</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-选择文本">1. 选择文本</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-过滤输入(**keypress**)">2. 过滤输入(**keypress**)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3自动切换焦点">3.自动切换焦点</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-HTML5-验证约束API-">4. HTML5 验证约束API </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#143-选择框脚本">14.3 选择框脚本</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1选择选项">1.选择选项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2增加选项">2.增加选项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3移除选项">3.移除选项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4移动和重排选项">4.移动和重排选项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#144-表单序列化">14.4 表单序列化</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第十六章-HTML5-脚本编程">第十六章 HTML5 脚本编程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1媒体元素">1.媒体元素</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第十七章-错误处理">第十七章 错误处理</a><br/>
+<a href="#第二十章-JSON">第二十章 JSON</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#201-语法">20.1 语法</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#202-json序列化与反序列化">20.2 json序列化与反序列化</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1序列化">1.序列化</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2序列化选项">2.序列化选项</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-过滤结果">2.1 过滤结果</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-toJSON()方法-">2.2 toJSON()方法 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-解析选项">2.3 解析选项</a><br/>
+<a href="#第二十二章-高级技巧">第二十二章 高级技巧</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#221-高级函数">22.1 高级函数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1安全类型检测">1.安全类型检测</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2作用域安全的构造函数">2.作用域安全的构造函数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3函数绑定">3.函数绑定</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#222-防篡改对象">22.2 防篡改对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1不可扩展对象">1.不可扩展对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3冻结的对象">3.冻结的对象</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#223-高级定时器">22.3 高级定时器</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1函数节流">1.函数节流</a><br/>
+<a href="#第二十三章-离线应用与客户端存储">第二十三章 离线应用与客户端存储</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#231-离线检测">23.1 离线检测</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#232-数据存储">23.2 数据存储</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1Cookie">1.Cookie</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2web存储机制">2.web存储机制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-Storage-类型">2.1 Storage 类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-sessionStorage-对象-">2.2 sessionStorage 对象 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-localStorage-对象-">2.3 localStorage 对象 </a><br/>
+## 正文<br/>
+
+
 
 ## 第三章 基本语法
 
@@ -1314,7 +1411,7 @@ location.reload(true); //重新加载（从服务器重新加载）
 
 ### 1. Node 类型
 
-![Node节点](D:\LearningNotes\picture\Node节点.png)
+![Node节点](D:\LearningNotes\picture\Node节点.png)</br>![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node节点.png)</br>
 
 ![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node%E8%8A%82%E7%82%B9.png)
 
@@ -1791,15 +1888,15 @@ alert(document.documentElement.contains(document.body)); //true
 
 **1.偏移量、客户区大小、滚动大小**
 
-![偏移量](D:\LearningNotes\picture\偏移量.png)
+![偏移量](D:\LearningNotes\picture\偏移量.png)</br>![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/偏移量.png)</br>
 
 ![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%81%8F%E7%A7%BB%E9%87%8F.png)
 
-![客户区大小](D:\LearningNotes\picture\客户区大小.png)
+![客户区大小](D:\LearningNotes\picture\客户区大小.png)</br>![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/客户区大小.png)</br>
 
 ![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%AE%A2%E6%88%B7%E5%8C%BA%E5%A4%A7%E5%B0%8F.png)
 
-![滚动大小](D:\LearningNotes\picture\滚动大小.png)
+![滚动大小](D:\LearningNotes\picture\滚动大小.png)</br>![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/滚动大小.png)</br>
 
 ![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E6%BB%9A%E5%8A%A8%E5%A4%A7%E5%B0%8F.png)
 
@@ -1809,7 +1906,7 @@ alert(document.documentElement.contains(document.body)); //true
 
 “DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应。 
 
-![事件流](D:\LearningNotes\picture\事件流.png)
+![事件流](D:\LearningNotes\picture\事件流.png)</br>![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/事件流.png)</br>
 
 ![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%BA%8B%E4%BB%B6%E6%B5%81.png)
 
