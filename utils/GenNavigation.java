@@ -1,4 +1,4 @@
-package com.ciic.test.util;
+package com.java.test.util;
 
 import javafx.util.Pair;
 
@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 /**
  * @author : heibai
  * @description : 生成文章页导航目录
- * @date :create in 2018/11/27
  */
 
 public class GenNavigation {
@@ -21,17 +20,21 @@ public class GenNavigation {
             System.out.println("请传递路径");
             return;
         }
-        String filePath = args[0];
-        //  获取文件内容
-        String content = getContent(filePath);
-        // 获取全部标题
-        List<Pair<String, String>> allTitle = getAllTitle(content);
-        // 生成导航
-        String nav = genNav(allTitle);
-        //输出导航
-        System.out.println(nav);
-        // 可以选择写出并覆盖原文件
-        // write(filePath, content, nav);
+
+        String dir = args[0];
+
+        List<String> filesList = getAllFile(dir, new ArrayList<>());
+        for (String filePath : filesList) {
+            //  获取文件内容
+            String content = getContent(filePath);
+            // 获取全部标题
+            List<Pair<String, String>> allTitle = getAllTitle(content);
+            // 生成导航
+            String nav = genNav(allTitle);
+            // 写出并覆盖原文件
+            write(filePath, content, nav);
+        }
+        System.out.println("生成目录成功！");
     }
 
     private static void write(String filePath, String content, String nav) {
@@ -85,7 +88,7 @@ public class GenNavigation {
 
     private static List<Pair<String, String>> getAllTitle(String content) {
         List<Pair<String, String>> list = new ArrayList<>();
-        Pattern pattern = Pattern.compile("(?m)^(#{2,10})\\s?(\\S+\\s?\\S+)");
+        Pattern pattern = Pattern.compile("(?m)^(#{2,10})\\s?(.*)");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
             String group2 = matcher.group(2);
@@ -98,6 +101,7 @@ public class GenNavigation {
 
     private static String getContent(String filePath) {
         StringBuilder builder = new StringBuilder();
+
         try {
             FileReader reader = new FileReader(filePath);
             char[] chars = new char[1024*1024];
@@ -110,6 +114,26 @@ public class GenNavigation {
             e.printStackTrace();
         }
         return builder.toString();
+    }
+
+    private static List<String> getAllFile(String dir, List<String> filesList) {
+        File file = new File(dir);
+        //如果是文件 则不遍历
+        if (file.isFile() && file.getName().endsWith(".md")) {
+            filesList.add(file.getAbsolutePath());
+        }
+        //如果是文件夹 则遍历下面的所有文件
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory() && !f.getName().startsWith(".")) {
+                    getAllFile(f.getAbsolutePath(), filesList);
+                } else if (f.getName().endsWith(".md")) {
+                    filesList.add(f.getAbsolutePath());
+                }
+            }
+        }
+        return filesList;
     }
 }
 
