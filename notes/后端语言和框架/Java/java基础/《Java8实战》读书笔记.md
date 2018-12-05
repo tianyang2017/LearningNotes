@@ -1,4 +1,28 @@
 # 《Java 8 实战》读书笔记
+## 目录<br/>
+<a href="#第二部分-函数式数据处理">第二部分 函数式数据处理</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第4章-引入流">第4章 引入流</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1流的基本使用">1.流的基本使用</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2数值流">2.数值流</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3构建流">3.构建流</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第5章-使用流">第5章 使用流</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1中间操作和基本操作">1.中间操作和基本操作</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2flatMap的使用">2.flatMap的使用</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3归约">3.归约</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第6章-用流收集数据">第6章 用流收集数据</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1预定义收集器">1.预定义收集器</a><br/>
+<a href="#第三部分-高效的Java-8编程">第三部分 高效的Java 8编程</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#第12章-新的日期和时间API">第12章 新的日期和时间API</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#121-LocalDate、LocalTime、Instant、Duration、period">12.1 LocalDate、LocalTime、Instant、Duration、period</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1使用-LocalDate-和-LocalTime">1.使用 LocalDate 和 LocalTime</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2使用LocalDateTime">2.使用LocalDateTime</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3时间间隔-Duration-或-Period">3.时间间隔 Duration 或 Period</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#122-操纵、解析和格式化日期">12.2 操纵、解析和格式化日期</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1操纵日期加减">1.操纵日期加减</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2使用TemporalAdjusters">2.使用TemporalAdjusters</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3日期格式解析">3.日期格式解析</a><br/>
+## 正文<br/>
+
 
 ## 第二部分 函数式数据处理
 
@@ -279,9 +303,9 @@ public class Stream {
 }
 ```
 
-![不使用flatmap的查找过程](D:\LearningNotes\picture\flatmap1.png)
+![不使用flatmap的查找过程](D:\LearningNotes\picture\flatmap1.png)</br>![不使用flatmap的查找过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/flatmap1.png)</br>
 
-![使用flatmap的查找过程](D:\LearningNotes\picture\flatmap2.png)
+![使用flatmap的查找过程](D:\LearningNotes\picture\flatmap2.png)</br>![使用flatmap的查找过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/flatmap2.png)</br>
 
 #### 3.归约
 
@@ -556,7 +580,7 @@ public class NewDateApi {
 }
 ```
 
-![TemporalAdjuster类中的工厂方法](D:\LearningNotes\picture\TemporalAdjuster类中的工厂方法.png)
+![TemporalAdjuster类中的工厂方法](D:\LearningNotes\picture\TemporalAdjuster类中的工厂方法.png)</br>![TemporalAdjuster类中的工厂方法](https://github.com/heibaiying/LearningNotes/blob/master/picture/TemporalAdjuster类中的工厂方法.png)</br>
 
 
 
