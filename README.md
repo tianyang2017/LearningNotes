@@ -77,15 +77,15 @@
 
 #### :pager: 服务器：
 
-1. **《Linux就该这么学》**刘遄 著
+1. **《Linux就该这么学》** 刘遄 著
 2. **《Docker——容器与容器云》** 浙江大学SEL实验室 著
 
 
 
 #### :rocket: 中间件：
 
-1. **《Kafka权威指南》**妮哈·纳克海德（Neha Narkhede）等 著
-2. **《RabbitMQ实战指南》**朱忠华 著
+1. **《Kafka权威指南》** 妮哈·纳克海德（Neha Narkhede）等 著
+2. **《RabbitMQ实战指南》** 朱忠华 著
 3. **《从PAXOS到ZOOKEEPER分布式一致性原理与实践》** 倪超 著
 
 
