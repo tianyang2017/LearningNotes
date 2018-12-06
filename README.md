@@ -50,7 +50,9 @@
 
 推荐部分自己学习过程中的感觉非常棒的资料。每个知识点都有推荐了一本书籍，都是自己感觉能够五星好评的，解读这个技术最好的书籍！:star::star::star::star::star:
 
-#### :coffee: Java：
+<br/>
+
+### :coffee: Java：
 
 1. **Java核心技术·卷 I(原书第10版)** ［美］凯S.霍斯特曼（Cay S. Horstmann）著  陈昊鹏 译
 2. **Java核心技术·卷II(原书第10版)** ［美］凯S.霍斯特曼（Cay S. Horstmann）著  陈昊鹏 译
@@ -59,50 +61,50 @@
 5. **《JAVA并发编程实践》** 戈茨 等 著 
 6. **《Effect Java（第三版）》**［美］ Joshua Bloch 著 
 
+<br/>
 
-
-#### :computer: 前端：
+### :computer: 前端：
 
 1. **《JavaScript高级程序设计》**［美］扎卡斯 (Nicholas C.Zakas)  著
 2. **《深入理解ES6》**［美］扎卡斯（Nicholas C. Zakas) 著  刘振涛 译 
 
+<br/>
 
-
-#### :floppy_disk: 数据库：
+### :floppy_disk: 数据库：
 
 1. **《Redis开发与运维》**  付磊 著
 2. **《高性能mysql（第三版）》**  Baron Schwartz 等 著
 
+<br/>
 
-
-#### :pager: 服务器：
+### :pager: 服务器：
 
 1. **《Linux就该这么学》** 刘遄 著
 2. **《Docker——容器与容器云》** 浙江大学SEL实验室 著
 
+<br/>
 
-
-#### :rocket: 中间件：
+### :rocket: 中间件：
 
 1. **《Kafka权威指南》** 妮哈·纳克海德（Neha Narkhede）等 著
 2. **《RabbitMQ实战指南》** 朱忠华 著
 3. **《从PAXOS到ZOOKEEPER分布式一致性原理与实践》** 倪超 著
 
+<br/>
 
-
-#### :wrench: 工具书：
+### :wrench: 工具书：
 
 1. **《Pro Git 》**中文版  [电子版阅读地址](https://git-scm.com/book/zh/v2)
 
+<br/>
 
-
-#### :deciduous_tree: 框架：
+### :deciduous_tree: 框架：
 
 1. [dubbo官网中文文档](http://dubbo.apache.org/zh-cn/docs/user/quick-start.html)
 
+<br/>
 
-
-#### :bar_chart: 算法和数据结构：
+### :bar_chart: 算法和数据结构：
 
 1. **《算法（第4版）》**[美] Robert Sedgewick / Kevin Wayne 著
 2. 推荐慕课网算法大牛[liuyubobobo](：http://www.imooc.com/t/108955)的算法课程,每门课的评价都是10分:+1::+1::+1::+1::+1:：
