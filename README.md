@@ -1,6 +1,6 @@
 ##  :tea:    编程学习笔记
 
-​ 📚[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
+ 📚[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[RabbitMQ](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《RabbitMQ实战指南》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ/《RabbitMQ实战指南》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[相关学习资料.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ/相关学习资料.md) </br>
@@ -20,6 +20,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[Java单例设计模式详解.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/Java单例设计模式详解.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《Java8实战》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/《Java8实战》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《实战Java高并发程序设计》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/《实战Java高并发程序设计》读书笔记.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《深入理解Java虚拟机》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/java基础/《深入理解Java虚拟机》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[mybatis](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/mybatis) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[spring](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/spring) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[springboot](https://github.com/heibaiying/LearningNotes/tree/master/notes/后端语言和框架/Java/springboot) </br>
@@ -41,8 +42,6 @@
  📚[算法和数据结构](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[算法基础.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构/算法基础.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[经典排序算法（Java版本）.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/算法和数据结构/经典排序算法（Java版本）.md) </br>
-
-
 
 
 ## </br>
