@@ -92,7 +92,7 @@
 
 ### :wrench: 工具书：
 
-1. **《Pro Git 》** 中文版  [电子版阅读地址](https://git-scm.com/book/zh/v2)
+1. **《Pro Git》** 中文版  [电子版阅读地址](https://git-scm.com/book/zh/v2)
 
 <br/>
 
