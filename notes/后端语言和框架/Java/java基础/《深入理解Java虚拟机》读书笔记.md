@@ -1,10 +1,32 @@
 # 《深入理解Java虚拟机》读书笔记
+## 目录<br/>
+<a href="#第二章-java内存区域与内存溢出异常">第二章 java内存区域与内存溢出异常</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-运行时数据区域">2.2 运行时数据区域</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#221--程序计数器">2.2.1  程序计数器</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#222--Java虚拟机栈">2.2.2  Java虚拟机栈</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#223-本地方法栈">2.2.3 本地方法栈</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#224-Java堆">2.2.4 Java堆</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#225-方法区">2.2.5 方法区</a><br/>
+<a href="#第四章-虚拟机性能监控与故障处理工具">第四章 虚拟机性能监控与故障处理工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421-JDK命令行工具">4.2.1 JDK命令行工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421-jps：虚拟机进程状况工具-">4.2.1 jps：虚拟机进程状况工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#422-jstat：虚拟机统计信息监视工具">4.2.2 jstat：虚拟机统计信息监视工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-gc-参数返回结果">1. gc 参数返回结果</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-class-参数返回结果">2. class 参数返回结果</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-gcmetacapacity-参数返回结果">3. gcmetacapacity 参数返回结果</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#423-jinfo：Java配置信息工具">4.2.3 jinfo：Java配置信息工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#424-jmap：Java内存映像工具-">4.2.4 jmap：Java内存映像工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#425-jhat：虚拟机堆转储快照分析工具-">4.2.5 jhat：虚拟机堆转储快照分析工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#426-jstack：Java堆栈跟踪工具-">4.2.6 jstack：Java堆栈跟踪工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-JDK的可视化工具-">4.3 JDK的可视化工具 </a><br/>
+<a href="#第十二章-Java内存模型">第十二章 Java内存模型</a><br/>
+## 正文<br/>
 
 ## 第二章 java内存区域与内存溢出异常
 
 ### 2.2 运行时数据区域
 
-![java虚拟机运行时数据区](D:\LearningNotes\picture\java虚拟机运行时数据区.png)
+![java虚拟机运行时数据区](D:\LearningNotes\picture\java虚拟机运行时数据区.png)</br>![java虚拟机运行时数据区](https://github.com/heibaiying/LearningNotes/blob/master/picture/java虚拟机运行时数据区.png)</br>
 
 
 
@@ -189,7 +211,7 @@ IDEA下推荐插件：JProfiler
 
 ## 第十二章 Java内存模型
 
-![java内存模型](D:\LearningNotes\picture\java内存模型.png)
+![java内存模型](D:\LearningNotes\picture\java内存模型.png)</br>![java内存模型](https://github.com/heibaiying/LearningNotes/blob/master/picture/java内存模型.png)</br>
 
 关于主内存与工作内存之间具体的交互协议，即一个变量如何从主内存拷贝到工作内存、 如何从工作内存同步回主内存之类的实现细节，Java内存模型中定义了以下8种操作来完成 ：
 
@@ -220,7 +242,7 @@ IDEA下推荐插件：JProfiler
 **先行发生原则：**
 
 1. **程序次序规则**（Program Order Rule）：在一个线程内，按照程序代码顺序，书写在前面的操作先行发生于书写在后面的操作。 准确地说，应该是控制流顺序而不是程序代码顺序，因为要考虑分支、 循环等结构。
-2. **管程锁定规则（**Monitor Lock Rule）：一个unlock操作先行发生于后面对同一个锁的lock操作。 这里必须强调的是同一个锁，而“后面”是指时间上的先后顺序。
+2. **管程锁定规则**（Monitor Lock Rule）：一个unlock操作先行发生于后面对同一个锁的lock操作。 这里必须强调的是同一个锁，而“后面”是指时间上的先后顺序。
 3. **volatile变量规则**（Volatile Variable Rule）：对一个volatile变量的写操作先行发生于后面对这个变量的读操作，这里的“后面”同样是指时间上的先后顺序。
 4. **线程启动规则**（Thread Start Rule）：Thread对象的start（）方法先行发生于此线程的每一个动作。
 5. **线程终止规则**（Thread Termination Rule）：线程中的所有操作都先行发生于对此线程的终止检测，我们可以通过Thread.join（）方法结束、 Thread.isAlive（）的返回值等手段检测到线程已经终止执行。
