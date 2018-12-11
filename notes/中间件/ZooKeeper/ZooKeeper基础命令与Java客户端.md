@@ -82,7 +82,7 @@
 
 ### 1.3 Zookeeper 集群搭建
 
-1. 解压三份Zookeeper安装包**(zookeeper-3.4.9, zookeeper02, zookeeper03**)，并建立对应的data目录和log目录，如下：
+1. 解压三份Zookeeper安装包(**zookeeper-3.4.9, zookeeper02, zookeeper03**)，并建立对应的data目录和log目录，如下：
 
    ```shell
    drwxr-xr-x. 10 root         root      4096 12月  3 14:22 zookeeper02
