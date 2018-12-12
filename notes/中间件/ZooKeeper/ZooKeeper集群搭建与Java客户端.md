@@ -78,7 +78,6 @@
 - **dataDir**:必须配置。
 - **dataLogDir**:日志目录。
 - **clientPort**：连接服务器的端口，默认2181
-- 
 
 ### 1.3 Zookeeper 集群搭建
 
