@@ -9,18 +9,19 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#225-方法区">2.2.5 方法区</a><br/>
 <a href="#第四章-虚拟机性能监控与故障处理工具">第四章 虚拟机性能监控与故障处理工具</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#421-JDK命令行工具">4.2.1 JDK命令行工具</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421-jps：虚拟机进程状况工具-">4.2.1 jps：虚拟机进程状况工具 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#422-jstat：虚拟机统计信息监视工具">4.2.2 jstat：虚拟机统计信息监视工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421-jps虚拟机进程状况工具">4.2.1 jps：虚拟机进程状况工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#422-jstat虚拟机统计信息监视工具">4.2.2 jstat：虚拟机统计信息监视工具</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-gc-参数返回结果">1. gc 参数返回结果</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-class-参数返回结果">2. class 参数返回结果</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-gcmetacapacity-参数返回结果">3. gcmetacapacity 参数返回结果</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#423-jinfo：Java配置信息工具">4.2.3 jinfo：Java配置信息工具</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#424-jmap：Java内存映像工具-">4.2.4 jmap：Java内存映像工具 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#425-jhat：虚拟机堆转储快照分析工具-">4.2.5 jhat：虚拟机堆转储快照分析工具 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#426-jstack：Java堆栈跟踪工具-">4.2.6 jstack：Java堆栈跟踪工具 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-JDK的可视化工具-">4.3 JDK的可视化工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#423-jinfoJava配置信息工具">4.2.3 jinfo：Java配置信息工具</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#424-jmapJava内存映像工具">4.2.4 jmap：Java内存映像工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#425-jhat虚拟机堆转储快照分析工具">4.2.5 jhat：虚拟机堆转储快照分析工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#426-jstackJava堆栈跟踪工具">4.2.6 jstack：Java堆栈跟踪工具 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-JDK的可视化工具">4.3 JDK的可视化工具 </a><br/>
 <a href="#第十二章-Java内存模型">第十二章 Java内存模型</a><br/>
 ## 正文<br/>
+
 
 ## 第二章 java内存区域与内存溢出异常
 
