@@ -8,10 +8,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-volatile与Java内存模型（JMM）">2.2 volatile与Java内存模型（JMM）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-线程组">2.3 线程组</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#24-守护线程（Daemon）">2.4 守护线程（Daemon）</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-线程安全的概念和synchronized-">2.5 线程安全的概念和synchronized </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#25-线程安全的概念和synchronized">2.5 线程安全的概念和synchronized </a><br/>
 <a href="#第三章-JDK-并发包">第三章 JDK 并发包</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-同步控制">3.1 同步控制</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-可重入锁(ReentrantLock)">3.1.1 可重入锁(ReentrantLock)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#311-可重入锁ReentrantLock">3.1.1 可重入锁(ReentrantLock)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**1锁申请等待超时**">**1.锁申请等待超时**</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**2公平锁**">**2.公平锁**</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#312--条件（condition）">3.1.2  条件（condition）</a><br/>
@@ -41,10 +41,11 @@
 <a href="#第五章-并行模式与算法">第五章 并行模式与算法</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#55-JDK中的Future">5.5 JDK中的Future</a><br/>
 <a href="#第六章--JAVA-8-并发">第六章  JAVA 8 并发</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#65-增强的Future(CompletableFuture)">6.5 增强的Future(CompletableFuture)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#65-增强的FutureCompletableFuture">6.5 增强的Future(CompletableFuture)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#66--StampedLock">6.6  StampedLock</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#67-LongAdder-和-LongAccumulator">6.7 LongAdder 和 LongAccumulator</a><br/>
 ## 正文<br/>
+
 
 
 

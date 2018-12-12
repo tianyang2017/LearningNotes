@@ -10,12 +10,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-环境安装">2.1 环境安装</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212-安装Java">2.1.2 安装Java</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213-安装zookeeper">2.1.3 安装zookeeper</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-1-ZooKeeper安装"> 1. ZooKeeper安装</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-ZooKeeper安装"> 1. ZooKeeper安装</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-Zookeeper-集群搭建">2. Zookeeper 集群搭建</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-安装kafka-Broker">2.2 安装kafka Broker</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-broker-配置">2.3 broker 配置</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#231-常规配置">2.3.1 常规配置</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1brokerid-">1.broker.id </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1brokerid">1.broker.id </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2port">2.port</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-zookeeperconnect">3. zookeeper.connect</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4logdirs">4.log.dirs</a><br/>
@@ -66,8 +66,10 @@
 <a href="#第八章-跨集群数据镜像">第八章 跨集群数据镜像</a><br/>
 <a href="#第九章-管理kafka">第九章 管理kafka</a><br/>
 <a href="#第十章-监控kafka">第十章 监控kafka</a><br/>
-<a href="#第十一章-流式处理-">第十一章 流式处理 </a><br/>
+<a href="#第十一章-流式处理">第十一章 流式处理 </a><br/>
 ## 正文<br/>
+
+
 
 ## 第一章 初识kafka
 

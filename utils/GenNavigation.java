@@ -64,12 +64,13 @@ public class GenNavigation {
         StringBuilder builder = new StringBuilder();
         // 目录头
         builder.append("## 目录<br/>\n");
-        // Github有效目录格式: <a href="#21-预备">页面锚点</a>
         for (Pair<String, String> ft : flagAndTitles) {
             String flag = ft.getKey();
             String title = ft.getValue();
             builder.append(genBlank(flag.length() - 2, 4));
-            builder.append(String.format("<a href=\"%s\">%s</a><br/>\n", "#" + title.replaceAll("\\.", "").replace(" ", "-"), title));
+            // Github有效目录格式: <a href="#21-预备">页面锚点</a> 不能出现特殊符号(,:)
+            String formatTitle=title.trim().replaceAll("[.():：]", "").replace(" ", "-");
+            builder.append(String.format("<a href=\"%s\">%s</a><br/>\n", "#" + formatTitle, title));
         }
         // 目录尾
         builder.append("## 正文<br/>\n");
@@ -128,7 +129,7 @@ public class GenNavigation {
             for (File f : files) {
                 if (f.isDirectory() && !f.getName().startsWith(".")) {
                     getAllFile(f.getAbsolutePath(), filesList);
-                } else if (f.getName().endsWith(".md")) {
+                } else if (f.getName().endsWith("读书笔记.md")) {
                     filesList.add(f.getAbsolutePath());
                 }
             }

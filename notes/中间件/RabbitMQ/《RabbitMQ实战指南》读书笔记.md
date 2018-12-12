@@ -29,13 +29,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-过期时间（TTL）">4.2 过期时间（TTL）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#421设置消息的TTL">4.2.1设置消息的TTL</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#422-设置队列的TTL">4.2.2 设置队列的TTL</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-死信队列DLX--">4.3 死信队列DLX  </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-死信队列DLX">4.3 死信队列DLX  </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-延迟队列">4.4 延迟队列</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#45-优先级队列">4.5 优先级队列</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#46-RPC-实现">4.6 RPC 实现</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#47-持久化">4.7 持久化</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#48-生产者确认">4.8 生产者确认</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#481-事务机制(不推荐)">4.8.1 事务机制(不推荐)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#481-事务机制不推荐">4.8.1 事务机制(不推荐)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#482-发送方确认机制（推荐）">4.8.2 发送方确认机制（推荐）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#49-消费端要点介绍">4.9 消费端要点介绍</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#491-消息分发">4.9.1 消息分发</a><br/>
@@ -56,6 +56,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#7Brokder的状态">7.Brokder的状态</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#8其他状态">8.其他状态</a><br/>
 ## 正文<br/>
+
+
 
 
 

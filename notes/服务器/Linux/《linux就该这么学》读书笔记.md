@@ -30,7 +30,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-pwd-命令">1. pwd 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-cd-命令">2. cd 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-ls命令">3. ls命令</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#26-文本文件编辑命令-">2.6 文本文件编辑命令 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#26-文本文件编辑命令">2.6 文本文件编辑命令 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-cat-命令">1. cat 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-more-命令">2. more 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3head-命令">3.head 命令</a><br/>
@@ -67,7 +67,7 @@
 <a href="#第五章-用户身份与文件权限">第五章 用户身份与文件权限</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#51-用户身份与能力">5.1 用户身份与能力</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-useradd-命令">1. useradd 命令</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-groupadd-命令-">2. groupadd 命令 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-groupadd-命令">2. groupadd 命令 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-usermod-命令">3. usermod 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-passwd-命令">4. passwd 命令</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5-userdel-命令">5. userdel 命令</a><br/>
@@ -96,11 +96,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-ln-命令">1. ln 命令</a><br/>
 <a href="#第八章--Iptables与Firewalld防火墙">第八章  Iptables与Firewalld防火墙</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#82-iptables">8.2 iptables</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#821-策略与规则链-">8.2.1 策略与规则链 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#821-策略与规则链">8.2.1 策略与规则链 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#822-基本的命令参数">8.2.2 基本的命令参数</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#83-Firewalld">8.3 Firewalld</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#831-终端管理工具">8.3.1 终端管理工具</a><br/>
 ## 正文<br/>
+
 
 ## 第一章 部署虚拟环境安装Linux系统
 

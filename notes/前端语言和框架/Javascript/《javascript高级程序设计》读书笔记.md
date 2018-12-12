@@ -4,12 +4,12 @@
 <a href="#第四章-变量、作用域和内存问题">第四章 变量、作用域和内存问题</a><br/>
 <a href="#第五章-应用类型">第五章 应用类型</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-Array-类型">1. Array 类型</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-RegExp-类型-	">2. RegExp 类型 	</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-RegExp-类型">2. RegExp 类型 	</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-Function-类型">3. Function 类型</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-String-类型">4. String 类型</a><br/>
 <a href="#第六章-面向对象的程序设计">第六章 面向对象的程序设计</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#61-理解对象">6.1 理解对象</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-1-属性类型"> 1. 属性类型</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-属性类型"> 1. 属性类型</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-读取属性">2. 读取属性</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#62--创建对象">6.2  创建对象</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1--构造函数模式">1.  构造函数模式</a><br/>
@@ -17,12 +17,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3组合使用构造函数和原型模式（主要使用方式）">3.组合使用构造函数和原型模式（主要使用方式）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#63-继承">6.3 继承</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-原型链">1. 原型链</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-组合继承(主要使用方式)">2. 组合继承(主要使用方式)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-组合继承主要使用方式">2. 组合继承(主要使用方式)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-原型链继承">3. 原型链继承</a><br/>
 <a href="#第七章-函数表达式">第七章 函数表达式</a><br/>
 <a href="#第八章-BOM">第八章 BOM</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#1window-对象">1.window 对象</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2location-对象-">2.location 对象 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2location-对象">2.location 对象 </a><br/>
 <a href="#第十章-DOM">第十章 DOM</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-Node-类型">1. Node 类型</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#2Document类型">2.Document类型</a><br/>
@@ -32,10 +32,10 @@
 <a href="#第十一章-DOM扩展">第十一章 DOM扩展</a><br/>
 <a href="#第十二章-DOM2和DOM3">第十二章 DOM2和DOM3</a><br/>
 <a href="#第十三-事件">第十三 事件</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#131-DOM事件流-">13.1 DOM事件流 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#131-DOM事件流">13.1 DOM事件流 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#132-事件处理程序">13.2 事件处理程序</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-DOM0-级事件处理程序-">1. DOM0 级事件处理程序 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-DOM2-级事件处理程序-">2. DOM2 级事件处理程序 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-DOM0-级事件处理程序">1. DOM0 级事件处理程序 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-DOM2-级事件处理程序">2. DOM2 级事件处理程序 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3兼容IE">3.兼容IE</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#133-事件处理程序">13.3 事件处理程序</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#134-事件类型">13.4 事件类型</a><br/>
@@ -51,13 +51,13 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2重置表单">2.重置表单</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3表单字段">3.表单字段</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-共有的表单字段属性">3.1 共有的表单字段属性</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-共有的表单字段方法-">3.2 共有的表单字段方法 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-共有的表单字段方法">3.2 共有的表单字段方法 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#33-共有的表单字段事件">3.3 共有的表单字段事件</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#142-文本框脚本">14.2 文本框脚本</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-选择文本">1. 选择文本</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-过滤输入(**keypress**)">2. 过滤输入(**keypress**)</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-过滤输入**keypress**">2. 过滤输入(**keypress**)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3自动切换焦点">3.自动切换焦点</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-HTML5-验证约束API-">4. HTML5 验证约束API </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-HTML5-验证约束API">4. HTML5 验证约束API </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#143-选择框脚本">14.3 选择框脚本</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1选择选项">1.选择选项</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2增加选项">2.增加选项</a><br/>
@@ -73,7 +73,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1序列化">1.序列化</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2序列化选项">2.序列化选项</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-过滤结果">2.1 过滤结果</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-toJSON()方法-">2.2 toJSON()方法 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-toJSON方法">2.2 toJSON()方法 </a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-解析选项">2.3 解析选项</a><br/>
 <a href="#第二十二章-高级技巧">第二十二章 高级技巧</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#221-高级函数">22.1 高级函数</a><br/>
@@ -91,9 +91,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1Cookie">1.Cookie</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2web存储机制">2.web存储机制</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-Storage-类型">2.1 Storage 类型</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-sessionStorage-对象-">2.2 sessionStorage 对象 </a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-localStorage-对象-">2.3 localStorage 对象 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-sessionStorage-对象">2.2 sessionStorage 对象 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-localStorage-对象">2.3 localStorage 对象 </a><br/>
 ## 正文<br/>
+
 
 
 
