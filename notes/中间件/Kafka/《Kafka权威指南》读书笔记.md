@@ -1,4 +1,73 @@
 # 《Kafka》权威指南
+## 目录<br/>
+<a href="#第一章-初识kafka">第一章 初识kafka</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#123-主题和分区">1.2.3 主题和分区</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#124-生产者和消费者">1.2.4 生产者和消费者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1生产者">1.生产者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2消费者">2.消费者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#125-broker和集群">1.2.5 broker和集群</a><br/>
+<a href="#第二章-安装kafka">第二章 安装kafka</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-环境安装">2.1 环境安装</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#212-安装Java">2.1.2 安装Java</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#213-安装zookeeper">2.1.3 安装zookeeper</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-1-ZooKeeper安装"> 1. ZooKeeper安装</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-Zookeeper-集群搭建">2. Zookeeper 集群搭建</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#22-安装kafka-Broker">2.2 安装kafka Broker</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#23-broker-配置">2.3 broker 配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#231-常规配置">2.3.1 常规配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1brokerid-">1.broker.id </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2port">2.port</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-zookeeperconnect">3. zookeeper.connect</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4logdirs">4.log.dirs</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5numrecoverythreadsperdatadir">5.num.recovery.threads.per.data.dir</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6autocreatetopicsenables">6.auto.create.topics.enables</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#232-主题的默认配置">2.3.2 主题的默认配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1numpartitions">1.num.partitions</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2logretentionms">2.log.retention.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3logretentionbytes">3.log.retention.bytes</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4logsegmentbytes">4.log.segment.bytes</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5logsegmentms">5.log.segment.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6messagemaxbytes">6.message.max.bytes</a><br/>
+<a href="#第三章-kafka生产者">第三章 kafka生产者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-创建-kafka-生产者">3.2 创建 kafka 生产者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1生产者必选属性">1.生产者必选属性</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2发送消息的方式">2.发送消息的方式</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#34-生产者配置">3.4 生产者配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1acks">1.acks</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2buffermemory">2.buffer.memory</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3compressiontype">3.compression.type</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4retries">4.retries</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5batchsize">5.batch.size</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6lingerms">6.linger.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#7clentid">7.clent.id</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#8maxinflightrequestsperconnection">8.max.in.flight.requests.per.connection</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#9timeoutms,-requesttimeoutms和metadatafetchtimeoutms">9.timeout.ms, request.timeout.ms和metadata.fetch.timeout.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#10maxblockms">10.max.block.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#11maxrequestsize">11.max.request.size</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#12receivebufferbytes-和-sendbufferbyte">12.receive.buffer.bytes 和 send.buffer.byte</a><br/>
+<a href="#第四章-kafka消费者">第四章 kafka消费者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#41-分区再均衡">4.1 分区再均衡</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-创建kafka消费者">4.2 创建kafka消费者</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-订阅主题">4.3 订阅主题</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-轮询">4.4 轮询</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#45-消费者配置">4.5 消费者配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1fetchminbyte">1.fetch.min.byte</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2fetchmaxwaitms">2.fetch.max.wait.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3maxpartitionfetchbytes">3.max.partition.fetch.bytes</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4sessiontimeoutms">4.session.timeout.ms</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5autooffsetreset">5.auto.offset.reset</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6enableautocommit">6.enable.auto.commit</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#7clientid">7.client.id</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#8maxpollrecords">8.max.poll.records</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#9receivebufferbytes-和-sendbufferbyte">9.receive.buffer.bytes 和 send.buffer.byte</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#46-提交和偏移量">4.6 提交和偏移量</a><br/>
+<a href="#第五章-深入kafka">第五章 深入kafka</a><br/>
+<a href="#第六章-可靠的数据传递">第六章 可靠的数据传递</a><br/>
+<a href="#第八章-跨集群数据镜像">第八章 跨集群数据镜像</a><br/>
+<a href="#第九章-管理kafka">第九章 管理kafka</a><br/>
+<a href="#第十章-监控kafka">第十章 监控kafka</a><br/>
+<a href="#第十一章-流式处理-">第十一章 流式处理 </a><br/>
+## 正文<br/>
 
 ## 第一章 初识kafka
 
@@ -8,7 +77,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 注意：由于一个主题包含多个分区，因此无法在整个主题范围内保证消息的顺序性，**但可以保证消息在单个分区内的顺序性**。
 
-![kafka主题和分区](D:\LearningNotes\picture\kafka主题和分区.png)
+![kafka主题和分区](D:\LearningNotes\picture\kafka主题和分区.png)</br>![kafka主题和分区](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka主题和分区.png)</br>
 
 ### 1.2.4 生产者和消费者
 
@@ -22,7 +91,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 注：原文这个地方的意思应该是，**一个分区只能被同一个消费者群组里面的一个消费者读取，但可以被不同消费者群组里面的多个消费者读取。多个消费者群组可以共同读取同一个主题，彼此之间互不影响**。
 
-![kafka消费者](D:\LearningNotes\picture\kafka消费者.png)
+![kafka消费者](D:\LearningNotes\picture\kafka消费者.png)</br>![kafka消费者](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka消费者.png)</br>
 
 ### 1.2.5 broker和集群
 
@@ -30,7 +99,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 broker是集群的组成部分。每一个集群都有一个broker同时充当了集群控制器的角色（自动从集群的活跃成员中选举出来）。控制器负责管理工作，包括将分区分配给broker和监控broker。**在集群中，一个分区从属一个broker,该broker被称为分区的首领**。一个分区可以分配给多个broker,这个时候会发生分区复制。这种复制机制为分区提供了消息冗余，如果有一个broker失效，其他broker可以接管领导权。
 
-![kafka集群复制](D:\LearningNotes\picture\kafka集群复制.png)
+![kafka集群复制](D:\LearningNotes\picture\kafka集群复制.png)</br>![kafka集群复制](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka集群复制.png)</br>
 
 ## 第二章 安装kafka
 
@@ -278,7 +347,7 @@ kafka数据的保存时间，默认为1周。
 
 ## 第三章 kafka生产者
 
-![kafka生产组件图](D:\LearningNotes\picture\kafka生产组件图.png)
+![kafka生产组件图](D:\LearningNotes\picture\kafka生产组件图.png)</br>![kafka生产组件图](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka生产组件图.png)</br>
 
 服务器在收到生产者的消息后悔返回一个响应信息，如果消息成功写入kafka,就返回一个RecordMetaData对象，它包含了主题和分区信息，已经记录在分区里的偏移量。如果写入失败，则会返回一个错误。生产者在收到错误之后尝试进行重新发送消息。
 
@@ -418,7 +487,7 @@ public class SimpleProducer {
 
 ## 第四章 kafka消费者
 
-![kafka多消费者组](D:\LearningNotes\picture\kafka多消费者组.png)
+![kafka多消费者组](D:\LearningNotes\picture\kafka多消费者组.png)</br>![kafka多消费者组](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka多消费者组.png)</br>
 
 ### 4.1 分区再均衡
 

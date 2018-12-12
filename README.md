@@ -1,11 +1,13 @@
 ##  :tea:    编程学习笔记
 
  📚[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[Kafka](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/Kafka) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《Kafka权威指南》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/Kafka/《Kafka权威指南》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[RabbitMQ](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《RabbitMQ实战指南》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ/《RabbitMQ实战指南》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[相关学习资料.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ/相关学习资料.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[ZooKeeper](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/ZooKeeper) </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[ZooKeeper基础命令与Java客户端.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/ZooKeeper/ZooKeeper基础命令与Java客户端.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[ZooKeeper集群搭建与Java客户端.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/ZooKeeper/ZooKeeper集群搭建与Java客户端.md) </br>
  📚[前端语言和框架](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[Javascript](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《javascript高级程序设计》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/前端语言和框架/Javascript/《javascript高级程序设计》读书笔记.md) </br>
