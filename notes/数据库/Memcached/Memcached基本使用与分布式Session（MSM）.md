@@ -163,7 +163,7 @@
 
 ## 二、Memcached Java 客户端 
 
-推荐使用 **XMemcached** ，官方中文文档：https://github.com/killme2008/xmemcached/wiki/Xmemcached-%E4%B8%AD%E6%96%87%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97
+推荐使用 **XMemcached** [官方中文文档](https://github.com/killme2008/xmemcached/wiki/Xmemcached-%E4%B8%AD%E6%96%87%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97)
 
 ## 三、分布式Session解决方案
 
