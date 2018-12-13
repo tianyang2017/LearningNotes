@@ -1,4 +1,16 @@
 # Memcached基本使用与分布式Session（MSM）
+## 目录<br/>
+<a href="#一、Memcached基本使用">一、Memcached基本使用</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1Memcached-安装">1.Memcached 安装</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-Memcached-基本命令">2. Memcached 基本命令</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-Memcached-底层结构">3. Memcached 底层结构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#31-底层存储结构">3.1 底层存储结构</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#32-寻找可用的Chunk的过程">3.2 寻找可用的Chunk的过程</a><br/>
+<a href="#二、Memcached-Java-客户端">二、Memcached Java 客户端 </a><br/>
+<a href="#三、分布式Session解决方案">三、分布式Session解决方案</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1关于sticky和non-sticky的区别">1.关于sticky和non-sticky的区别</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2non-sticky模式下MSM的配置">2.non-sticky模式下MSM的配置</a><br/>
+## 正文<br/>
 
 ## 一、Memcached基本使用
 
@@ -187,7 +199,7 @@ sticky模式：Tomcat会优先操作本地session，本地session发生变化时
 
 1. 引入msm相关[依赖包]()
 
-   ![msm相关依赖](D:\LearningNotes\picture\msm相关依赖.png)
+   ![msm相关依赖](D:\LearningNotes\picture\msm相关依赖.png)</br>![msm相关依赖](https://github.com/heibaiying/LearningNotes/blob/master/picture/msm相关依赖.png)</br>
 
 2. 配置Tomcat/conf/context.xml
 
