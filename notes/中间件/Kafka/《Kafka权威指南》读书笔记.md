@@ -1,4 +1,4 @@
-# 《Kafka》权威指南
+# 《Kafka权威指南》读书笔记
 
 ## 目录<br/>
 <a href="#第一章-初识kafka">第一章 初识kafka</a><br/>
@@ -62,13 +62,26 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#8maxpollrecords">8.max.poll.records</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#9receivebufferbytes-和-sendbufferbyte">9.receive.buffer.bytes 和 send.buffer.byte</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#46-提交和偏移量">4.6 提交和偏移量</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1提交当前偏移量">1.提交当前偏移量</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2提交特定偏移量">2.提交特定偏移量</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#47-再均衡监听器">4.7 再均衡监听器</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#48-从特定偏移量处开始处理数据">4.8 从特定偏移量处开始处理数据</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#49-如何退出">4.9 如何退出</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#411-独立消费者">4.11 独立消费者</a><br/>
 <a href="#第五章-深入kafka">第五章 深入kafka</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#51-集群与成员之间的关系">5.1 集群与成员之间的关系</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#52-控制器">5.2 控制器 </a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#53-复制">5.3 复制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#55-文件管理">5.5 文件管理</a><br/>
 <a href="#第六章-可靠的数据传递">第六章 可靠的数据传递</a><br/>
-<a href="#第八章-跨集群数据镜像">第八章 跨集群数据镜像</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#62-复制">6.2 复制</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#63-broker-配置">6.3 broker 配置</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#631-复制系数">6.3.1 复制系数</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#632-不完全的首领选举">6.3.2 不完全的首领选举</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#633-最少同步副本">6.3.3 最少同步副本</a><br/>
 <a href="#第九章-管理kafka">第九章 管理kafka</a><br/>
-<a href="#第十章-监控kafka">第十章 监控kafka</a><br/>
-<a href="#第十一章-流式处理">第十一章 流式处理 </a><br/>
 ## 正文<br/>
+
 
 
 
@@ -776,6 +789,33 @@ while (true) {
 
 ## 第五章 深入kafka
 
+### 5.1 集群与成员之间的关系
+
+**kafka 使用 Zookeeper 来维护集群成员的信息**。每个 broker 都有一个唯一标识符，这个标识符可以在配置文件里指定 ，也可以自动生成。在 broker启动的时候，它通过创建临时节点把自己的 ID 注册到 Zookeeper。 Kafka 组件订阅 Zookeeper 的／brokers/ids 路径(broker在 Zookeeper上的注册路径），当有 broker 加入集群或退出集群时，这些组件就可以获得通知。 
+
+
+
+### 5.2 控制器 
+
+控制器其实就是一个 broker，只不过它除了具有一般 broker的功能之外，还负责分区首领的选举。
+
+
+
+### 5.3 复制
+
+每个主题被分为若干个分区，每个分区有多个副本。那些副本被保存在 broker 上，每个 broker 可以保存成百上千个属于不同主题和分区的副本。副本有以下两种类型 ：
+
+- 首领副本
+  每个分区都有一个首领副本 。 为了保证一致性，所有生产者请求和消费者请求都会经过这个副本。
+- 跟随者副本
+  首领以外的副本都是跟随者副本。跟随者副本不处理来自客户端的请求，它们唯一的任务就是从首领那里复制消息，保持与首领一致的状态。如果首领发生崩渍，其中的一个跟随者会被提升为新首领。 
+
+
+
+### 5.5 文件管理
+
+因为在一个大文件里查找和删除消息是很费时的，也很容易出错，所以我们把分区分成若干个片段 。 默认情况下，每个片段包含 1GB 或一周的数据，以较小的那个为准。在 broker往分区写入数据时，如果达到片段上限，就关闭当前文件，井打开一个新文件。 当前正在写入数据的片段叫作活跃片段 活动片段永远不会被删除。
+
 
 
 ## 第六章 可靠的数据传递
@@ -802,7 +842,7 @@ while (true) {
 
 #### 6.3.2 不完全的首领选举
 
-**unclean.leader.election** 只能在broker 级别（实际上是在集群范围内）进行配置，它的默认值是true。**如果首领在不可用时其他副本都是不同步的，如果该值为true,则代表允许运行不同步的副本成为首领，这就是不完全的首领选举。**我们将面临丢失消息的风险。如果这个值为false,则需要等待原先的首领重新上线，从而降低了可用性。
+**unclean.leader.election** 只能在broker 级别（实际上是在集群范围内）进行配置，它的默认值是true。**如果首领在不可用时其他副本都是不同步的，如果该值为true,则代表允许运行不同步的副本成为首领，这就是不完全的首领选举**。我们将面临丢失消息的风险。如果这个值为false,则需要等待原先的首领重新上线，从而降低了可用性。
 
 
 
@@ -814,8 +854,7 @@ while (true) {
 
 ## 第九章 管理kafka
 
-## 第十章 监控kafka
+这一章主要讲解kafka的命令行操作，可以参考官方文档[[6. Operations](http://kafka.apache.org/documentation/#operations)](http://kafka.apache.org/documentation/#operations)
 
 
 
-# 

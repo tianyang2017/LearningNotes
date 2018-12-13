@@ -51,16 +51,18 @@
 ## </br>
 ## :books:书籍推荐：
 
-推荐部分自己学习过程中的感觉非常棒的资料。每个知识点都有推荐了一本书籍，都是自己感觉能够五星好评的，解读这个技术最好的书籍！:star::star::star::star::star:
+推荐部分自己学习过程中的感觉非常棒的资料！:star::star::star::star::star:
 
 ### :coffee: Java：
 
 1. **Java核心技术·卷 I(原书第10版)** ［美］凯S.霍斯特曼（Cay S. Horstmann）著  陈昊鹏 译
 2. **Java核心技术·卷II(原书第10版)** ［美］凯S.霍斯特曼（Cay S. Horstmann）著  陈昊鹏 译
-3. **《深入理解Java虚拟机——JVM高级特性与最佳实践(第2版)》** 周志明 著  
-4. **《实战Java高并发程序设计》** 葛一鸣 郭超 编
-5. **《JAVA并发编程实践》** 戈茨 等 著 
-6. **《Effect Java（第三版）》**［美］ Joshua Bloch 著 
+3. 《**Java编程的逻辑**》 马俊昌 著
+4. **《深入理解Java虚拟机——JVM高级特性与最佳实践(第2版)》** 周志明 著  
+5. **《实战Java高并发程序设计》** 葛一鸣 郭超 编
+6. **《JAVA并发编程实践》** 戈茨 等 著 
+7. **《Effect Java（第三版）》**［美］ Joshua Bloch 著 
+8. 《**JavaWeb高级编程 **》 [美] 威廉斯 著
 
 <br/>
 
@@ -90,6 +92,13 @@
 1. **《Kafka权威指南》** 妮哈·纳克海德（Neha Narkhede）等 著
 2. **《RabbitMQ实战指南》** 朱忠华 著
 3. **《从PAXOS到ZOOKEEPER分布式一致性原理与实践》** 倪超 著
+
+<br/>
+
+### :globe_with_meridians:网络：
+
+1. 《**图解HTTP**》 上野宣 著
+2. 《**Netty实战**》 诺曼·毛瑞尔 著
 
 <br/>
 
