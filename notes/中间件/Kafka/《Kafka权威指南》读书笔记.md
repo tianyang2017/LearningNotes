@@ -1,5 +1,6 @@
 # 《Kafka》权威指南
-## 目录<br/>
+
+## 目录<br/>
 <a href="#第一章-初识kafka">第一章 初识kafka</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#123-主题和分区">1.2.3 主题和分区</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#124-生产者和消费者">1.2.4 生产者和消费者</a><br/>
@@ -606,7 +607,7 @@ public class ConsumerGroup {
         System.out.println("Subscribed to topic " + topic);
 
         while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(Duration.of(3, ChronoUnit.SECONDS));
+            ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
             for (ConsumerRecord<String, String> record : records)
                 System.out.printf("offset = %d, key = %s, value = %s\n",
                         record.offset(), record.key(), record.value());
@@ -617,18 +618,204 @@ public class ConsumerGroup {
 
 ### 4.6 提交和偏移量
 
+#### 1.提交当前偏移量
+
+```java
+// 1、手动提交
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
+    for (ConsumerRecord<String, String> record : records)
+        System.out.printf("offset = %d, key = %s, value = %s\n",
+                record.offset(), record.key(), record.value());
+    // 手动提交 在成功提交之前或碰到无法恢复的错误之前，会一直重试
+    consumer.commitSync();
+}
+
+
+///2、异步提交 带回调函数
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
+    for (ConsumerRecord<String, String> record : records)
+        System.out.printf("offset = %d, key = %s, value = %s\n",
+                record.offset(), record.key(), record.value());
+    // 异步提交 不会重试
+    consumer.commitAsync((offsets, e) -> {
+        if (e != null) {
+            System.out.println("commit Async fail,offset");
+            e.printStackTrace();
+        }
+    });
+}
+
+
+// 3、同步加异步的组合
+try {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
+    for (ConsumerRecord<String, String> record : records)
+        System.out.printf("offset = %d, key = %s, value = %s\n",
+                record.offset(), record.key(), record.value());
+    // 异步提交
+    consumer.commitAsync();
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    try {
+        // 因为即将要关闭消费者，所以要用同步尽量保证提交成功
+        consumer.commitSync();
+    } finally {
+        consumer.close();
+    }
+}
+```
+
+
+
+#### 2.提交特定偏移量
+
+commitSync() 和  consumer.commitAsync() 默认提交的是最后一个偏移量，如果要提交特定偏移量，需要传入偏移量参数。不过，**因为消费者可能不只读取一个分区，所以需要跟踪所有分区的偏移量，然后全部提交**。
+
+```java
+ Map<TopicPartition, OffsetAndMetadata> currentOffsets = new HashMap<>();
+        int count = 0;
+        while (true) {
+            ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
+            for (ConsumerRecord<String, String> record : records) {
+                System.out.printf("offset = %d, key = %s, value = %s\n",
+                        record.offset(), record.key(), record.value());
+                currentOffsets.put(new TopicPartition(record.topic(), record.partition()), new OffsetAndMetadata(record.offset() + 1, "mo metadata"));
+            }
+            if (count % 1000 == 0) {
+                consumer.commitAsync(currentOffsets, null);
+            }
+            consumer.commitSync();
+            count++;
+        }
+```
+
+
+
+### 4.7 再均衡监听器
+
+通过在**subscribe**订阅消费者时候传入**ConsumerRebalanceListener** 可以对再均衡行为进行监听。
+
+- **onPartitionsRevoked**：方法会在再均衡开始之前和消费者停止读取消息之后被调用。如果在这里提交偏移量，下一个接管分区的消费者就知道该从哪里开始读取了。 
+- **onPartitionsAssigned**：方法会在重新分配分区之后和消费者开始读取消息之前被调用。 
+
+```java
+Map<TopicPartition, OffsetAndMetadata> currentOffsets = new HashMap<>();
+
+consumer.subscribe(Collections.singletonList(topic), new ConsumerRebalanceListener() {
+    @Override
+    public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+        System.out.println("再均衡即将触发");
+        // 提交当前偏移量
+        consumer.commitSync(currentOffsets);
+    }
+
+    @Override
+    public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+
+    }
+});
+```
+
+
+
+### 4.8 从特定偏移量处开始处理数据
+
+- seekToBeginning(Collection\<TopicPartition> partitions) 从分区的起始位置开始读取消息；
+- seekToEnd(Collection\<TopicPartition> partitions) 从分区的末尾开始读取消息；
+- seek(TopicPartition partition, long offset) 从分区的指定位置开始读取消息。
+
+
+
+### 4.9 如何退出
+
+```java
+/**
+* Wakeup the consumer. This method is thread-safe and is useful in particular to abort a long poll.
+* 唤醒消费者。此方法是线程安全的，特别适用于中止长轮询
+*/
+@Override
+public void wakeup() {
+    this.client.wakeup();
+}
+```
+
+**consumer.wakeup()是消费者唯一一个可以从其他线程里安全调用的方法。** 在退出线程之前调用consumer.close() 是很有必要的， 它会提交任何还没有提交的东西 ， 并向群组协调器发送消息，告知自己要离开群组，接下来就会触发再均衡 ，而不需要等待会话超时。 
+
+
+
+### 4.11 独立消费者
+
+你可能只需要一个消费者从一个主题的所有分区或者某个特定的分区读取数据。这个时候就不需要消费者群组和再均衡了， 只需要把主题或者分区分配给消费者，然后开始读取消息井提交偏移量。 
+
+```java
+List<TopicPartition> partitions = new ArrayList<>();
+List<PartitionInfo> partitionInfos = consumer.partitionsFor(topic);
+
+for (PartitionInfo partition : partitionInfos) {
+    partitions.add(new TopicPartition(partition.topic(), partition.partition()));
+}
+// 为消费者指定分区
+consumer.assign(partitions);
+
+
+while (true) {
+    ConsumerRecords<String, String> records = consumer.poll(Duration.of(100, ChronoUnit.MILLIS));
+    for (ConsumerRecord<String, String> record : records)
+        System.out.printf("offset = %d, key = %s, value = %s\n",
+                record.offset(), record.key(), record.value());
+    consumer.commitSync();
+}
+```
+
+除了不会发生再均衡，也不需要手动查找分区 ， 其他的看起来一切正常。不过要记住 ，**如果主题增加了新的分区，消费者并不会收到通知**。 所以 ，要么周期性地调用consumer.partitionsFor（）方法来检查是否有新分区加入， 要么在添加新分区后重启应用程序。 
+
 
 
 ## 第五章 深入kafka
 
+
+
 ## 第六章 可靠的数据传递
 
-## 第八章 跨集群数据镜像
+### 6.2 复制
+
+每个分区可以有多个副本，其中一个副本是首领**。所有的事件都直接发送给首领副本，或者直接从首领副本读取事件**。其他副本只需要与首领保持同步，并及时复制最新的事件。当首领副本不可用时，其中一个同步副本将成为新首领。 
+
+对于跟随者副本来说，它需要满足以下条件才能被认为是同步的：
+
+- 与 Zookeeper 之间有 一 个活跃的会话，也就是说，它在过去的6s(可配置)内向Zookeeper 发送过心跳。
+- 在过去的 10s 内（可配置）从首领那里获取过消息。
+- 在过去的 10s 内从首领那里获取过最新的消息。光从首领那里获取消息是不够的，它还必须是儿乎零延迟的。 
+
+
+
+### 6.3 broker 配置
+
+#### 6.3.1 复制系数
+
+主题级别的配置参数是**replication.factor**,而在broker级别则可以通过**default.replication.factor** 来配置自动创建的主题。我们假设主题的复制系数是3，也就是说分区总共会被3个不同的broker复制3次。
+
+
+
+#### 6.3.2 不完全的首领选举
+
+**unclean.leader.election** 只能在broker 级别（实际上是在集群范围内）进行配置，它的默认值是true。**如果首领在不可用时其他副本都是不同步的，如果该值为true,则代表允许运行不同步的副本成为首领，这就是不完全的首领选举。**我们将面临丢失消息的风险。如果这个值为false,则需要等待原先的首领重新上线，从而降低了可用性。
+
+
+
+#### 6.3.3 最少同步副本
+
+在主题级别和broker级别上，这个参数都叫**min.insync.replicas**，用于确保已提交的数据至少要写入多少个副本。
+
+
 
 ## 第九章 管理kafka
 
 ## 第十章 监控kafka
 
-## 第十一章 流式处理 
+
 
 # 
