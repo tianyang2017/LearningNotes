@@ -1,5 +1,6 @@
 # Memcached基本使用与分布式Session（MSM）
-## 目录<br/>
+
+## 目录<br/>
 <a href="#一、Memcached基本使用">一、Memcached基本使用</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#1Memcached-安装">1.Memcached 安装</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-Memcached-基本命令">2. Memcached 基本命令</a><br/>
@@ -148,7 +149,7 @@
 
 #### 3.1 底层存储结构
 
-![memcached 存储结构](D:\LearningNotes\picture\memcached 存储结构.png)
+![memcached存储结构](https://github.com/heibaiying/LearningNotes/blob/master/picture/memcached%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png)
 
 - slab：可以理解成内存容器
 - Page：可以理解成小版的内存容器
