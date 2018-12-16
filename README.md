@@ -1,6 +1,6 @@
 ##  :tea:    编程学习笔记
 
- 📚[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
+  📚[中间件](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[Kafka](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/Kafka) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《Kafka权威指南》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/Kafka/《Kafka权威指南》读书笔记.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[RabbitMQ](https://github.com/heibaiying/LearningNotes/tree/master/notes/中间件/RabbitMQ) </br>
@@ -35,7 +35,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[mongodb](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/mongodb) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[mysql](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/mysql) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[oracle](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle) </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[oracle 和 mysql 知识点总结和异同对比.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle/oracle 和 mysql 知识点总结和异同对比.md) </br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[oracle和mysql 知识点总结和异同对比.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/oracle/oracle和mysql 知识点总结和异同对比.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📖[Redis](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[linux下安装redis及常见报错解决方案.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/linux下安装redis及常见报错解决方案.md) </br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📝[《Redis开发与运维》读书笔记.md](https://github.com/heibaiying/LearningNotes/tree/master/notes/数据库/Redis/《Redis开发与运维》读书笔记.md) </br>
