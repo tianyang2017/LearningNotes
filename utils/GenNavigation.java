@@ -69,7 +69,7 @@ public class GenNavigation {
             String title = ft.getValue();
             builder.append(genBlank(flag.length() - 2, 4));
             // Github有效目录格式: <a href="#21-预备">页面锚点</a> 不能出现特殊符号(,:)
-            String formatTitle=title.trim().replaceAll("[.():：]", "").replace(" ", "-");
+            String formatTitle=title.trim().replaceAll("[.():：（）|、]", "").replace(" ", "-");
             builder.append(String.format("<a href=\"%s\">%s</a><br/>\n", "#" + formatTitle, title));
         }
         // 目录尾
