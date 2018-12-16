@@ -1,8 +1,12 @@
-# 一、数据库管理
+# oracle和mysql 知识点总结和异同对比
 
-## 1.1 用户管理
 
-### 1.1.1 mysql用户、权限管理
+
+## 一、数据库管理
+
+### 1.1 用户管理
+
+#### 1.1.1 mysql用户、权限管理
 
 **1.创建、修改、删除用户**
 
@@ -59,25 +63,26 @@ grant execute on function testdb.fn_add to ’dba’@’localhost’
 ```
 
 **4.可以赋予的权限(privileges)列表:**
-ALTER: 修改表和索引。
-CREATE: 创建数据库和表。
-DELETE: 删除表中已有的记录。
-DROP: 抛弃(删除)数据库和表。
-INDEX: 创建或抛弃索引。
-INSERT: 向表中插入新行。
-REFERENCE: 未用。
-SELECT: 检索表中的记录。
-UPDATE: 修改现存表记录。
-FILE: 读或写服务器上的文件。
-PROCESS: 查看服务器中执行的线程信息或杀死线程。
-RELOAD: 重载授权表或清空日志、主机缓存或表缓存。
-SHUTDOWN: 关闭服务器。
-**ALL: 所有权限，ALL PRIVILEGES同义词**。
-USAGE: 特殊的 "无权限" 权限。
+
+- ALTER: 修改表和索引。
+- CREATE: 创建数据库和表。
+- DELETE: 删除表中已有的记录。
+- DROP: 抛弃(删除)数据库和表。
+- INDEX: 创建或抛弃索引。
+- INSERT: 向表中插入新行。
+- REFERENCE: 未用。
+- SELECT: 检索表中的记录。
+- UPDATE: 修改现存表记录。
+- FILE: 读或写服务器上的文件。
+- PROCESS: 查看服务器中执行的线程信息或杀死线程。
+- RELOAD: 重载授权表或清空日志、主机缓存或表缓存。
+- SHUTDOWN: 关闭服务器。
+- **ALL: 所有权限，ALL PRIVILEGES同义词**。
+- USAGE: 特殊的 "无权限" 权限。
 
 
 
-### 1.1.2 oracle 用户、角色、权限管理
+#### 1.1.2 oracle 用户、角色、权限管理
 
 **1、创建用户**
 
@@ -170,11 +175,11 @@ oracle为兼容以前版本，提供三种标准角色（role）connect/resource
 
 
 
-# 二、DQL 语句
+## 二、DQL 语句
 
-## 2.1 基础查询
+### 2.1 基础查询
 
-### 1.常量查询的区别：
+#### 1.常量查询的区别：
 
 ```sql
 -- mysql 
@@ -184,14 +189,14 @@ select 常量值;
 select 常量值 from dual;
 ```
 
-### 2.字符串拼接
+#### 2.字符串拼接
 
 ```sql
 -- mysql oracle
 select concat(字符1，字符2，字符3,...);
 ```
 
-### 3.判断字段是否为空
+#### 3.判断字段是否为空
 
 功能：判断某字段或表达式是否为null，如果为null 返回指定的值，否则返回原本的值
 
@@ -203,7 +208,7 @@ select ifnull(字段名,默认值)  from 表名;
 select nvl(字段名,默认值)  from 表名;
 ```
 
-### 4.查询非空字段
+#### 4.查询非空字段
 
 ```sql
 -- mysql oracle
@@ -212,9 +217,9 @@ select 字段名 from 表名 where 字段名 IS NOT NULL;
 
 
 
-## 2.2 常见函数
+### 2.2 常见函数
 
-### 1.字符函数
+#### 1.字符函数
 
 ```sql
 -- mysql oracle
@@ -230,7 +235,7 @@ rpad：右填充
 instr:获取子串第一次出现的索引
 ```
 
-### 2.数学函数
+#### 2.数学函数
 
 ```mysql
 -- mysql -oracle
@@ -247,11 +252,11 @@ trunc:截断
  SELECT DBMS_RANDOM.value(0,1) FROM DUAL;  获取随机数，返回0-1之间的小数
 ```
 
-### 3.日期函数
+#### 3.日期函数
 
-### 1. oracle 日期函数：
+#### 1. oracle 日期函数：
 
-#### 1.1 oracel常用的时间格式掩码
+##### 1.1 oracel常用的时间格式掩码
 
 | 掩码元素 | 含义                                                 |
 | -------- | ---------------------------------------------------- |
@@ -271,7 +276,7 @@ trunc:截断
 
 
 
-#### 1.2 Oracle 获取当前年、月、日
+##### 1.2 Oracle 获取当前年、月、日
 
 EXTRACT ({ YEAR | MONTH | DAY | HOUR | MINUTE | SECOND } | {  TIMEZONE_HOUR | TIMEZONE_MINUTE } | { TIMEZONE_REGION | TIMEZONE_ABBR }  FROM { date_value | interval_value } ) 
 
@@ -286,7 +291,7 @@ select extract(day from sysdate)　from dual; --本月到当日的天数
 
 
 
-#### 1.3 计算两个时间差
+##### 1.3 计算两个时间差
 
 ```sql
 --天：
@@ -303,7 +308,7 @@ ROUND(TO_NUMBER(END_DATE - START_DATE) * 24 * 60 * 60 * 60)
 
 
 
-#### 1.4 日期和字符串转换
+##### 1.4 日期和字符串转换
 
 ```sql
 -- 日期到字符串
@@ -317,7 +322,7 @@ select to_date('2018-10-10 10:13:56','yyyy-mm-dd hh24:mi:ss') from dual
 
 
 
-#### 1.5 日期的加减计算
+##### 1.5 日期的加减计算
 
 ```sql
 --当前时间减去7分钟的时间
@@ -341,9 +346,9 @@ select sysdate,sysdate - 8*interval '7' hour from dual;
 
 
 
-### 2. mysql日期函数：
+#### 2.mysql日期函数
 
-#### 2.1 mysql 常用日期格式掩码
+##### 2.1 mysql 常用日期格式掩码
 
 |          | 值                                                    | 含义                                              |
 | -------- | ----------------------------------------------------- | ------------------------------------------------- |
@@ -375,7 +380,7 @@ select sysdate,sysdate - 8*interval '7' hour from dual;
 
 
 
-#### 2.2 Oracle 获取当前年、月、日
+##### 2.2 Oracle 获取当前年、月、日
 
 now：返回当前日期+时间
 year:返回年
@@ -389,7 +394,7 @@ second：秒
 
 
 
-#### 2.3 计算两个时间之差
+##### 2.3 计算两个时间之差
 
 **2.3.1、利用TO_DAYS函数**
 
@@ -426,7 +431,7 @@ select timestampdiff(day,'2011-09-30','2015-05-04');
 
 
 
-#### 2.4 日期和字符串转换
+##### 2.4 日期和字符串转换
 
 ```sql
 -- 字符串转日期
@@ -437,7 +442,7 @@ select date_format(now(),'%Y-%m-%d %H:%i:%s');
 
 
 
-#### 2.5 日期的加减计算
+##### 2.5 日期的加减计算
 
 MySQL 为日期增加一个时间间隔：date_add()
 
@@ -457,13 +462,15 @@ select date_add(now(), interval 1 year);--加1年
 
 
 
-### 4、流程控制函数
+#### 4、流程控制函数
 
-#### 4.1 oracle decode函数
+##### 4.1 oracle decode函数
 
 **decode(条件,值1,返回值1,值2,返回值2,...值n,返回值n,缺省值)**  
 
 该函数的含义如下：
+
+```mysql
 IF 条件=值1 THEN
 　　　　RETURN(翻译值1)
 ELSIF 条件=值2 THEN
@@ -474,6 +481,7 @@ ELSIF 条件=值n THEN
 ELSE
 　　　　RETURN(缺省值)
 END IF
+```
 
 **decode(字段或字段的运算，值1，值2，值3）**  
 
@@ -487,7 +495,7 @@ select decode(sign(变量1-变量2),-1,变量1,变量2) from dual;
 
 
 
-#### 4.2 mysql流程控制函数
+##### 4.2 mysql流程控制函数
 
 1.if(条件表达式，表达式1，表达式2)：如果条件表达式成立，返回表达式1，否则返回表达式2
 
@@ -522,7 +530,7 @@ else 值n
 end
 ```
 
-### 5.分页查询
+#### 5.分页查询
 
 ```sql
 -- mysql
@@ -540,11 +548,11 @@ WHERE RN >= 21
 
 ```
 
-# 三、DML语句
+## 三、DML语句
 
-## 1. 插入语句
+### 1. 插入语句
 
-### 1.1 mysql 多行插入
+##### 1.1 mysql 多行插入
 
 ```mysql
 -- 方式一
@@ -557,7 +565,7 @@ insert into 表名(字段名,...) values(值,...);
 ...
 ```
 
-### 1.2 oracle 多行插入
+##### 1.2 oracle 多行插入
 
 ```mysql
 INSERT ALL INTO  表 VALUES(各个值)  INTO 表 VALUES (其它值) INTO 表 VALUES(其它值) ....
@@ -565,9 +573,9 @@ INSERT ALL INTO  表 VALUES(各个值)  INTO 表 VALUES (其它值) INTO 表 VAL
 
 
 
-## 2.多表更新
+#### 2.多表更新
 
-### 2.1 mysql 多表更新
+##### 2.1 mysql 多表更新
 
 ```mysql
 update 表1 别名 
@@ -577,15 +585,15 @@ set 字段=值,字段=值
 【where 筛选条件】;
 ```
 
-### 2.2 oracle 多表更新
+##### 2.2 oracle 多表更新
 
 不支持类似mysql 的语法
 
 
 
-## 3. 级联删除
+#### 3. 级联删除
 
-### 3.1 mysql 级联删除
+##### 3.1 mysql 级联删除
 
 ```mysql
 delete 别名1,别名2 from 表1 别名 
@@ -594,7 +602,7 @@ on 连接条件
 【where 筛选条件】
 ```
 
-### 3.2 oracle 级联删除
+##### 3.2 oracle 级联删除
 
 不支持上面的语法，可以通过以下方式实现
 
@@ -603,11 +611,11 @@ on 连接条件
 
 
 
-# 四、DDL语句
+## 四、DDL语句
 
-## 4.1 数据库操作
+### 4.1 数据库操作
 
-### 4.1 mysql数据库的创建、修改和删除
+#### 4.1 mysql数据库的创建、修改和删除
 
 1、创建库
 
@@ -629,7 +637,7 @@ drop database 【if exists】 库名;
 
 
 
-### 4.2 oracle 数据库的创建和删除
+#### 4.2 oracle 数据库的创建和删除
 
 **1.oracle创建数据库：**
 
@@ -697,9 +705,9 @@ drop user youUsername cascade;
 
 
 
-## 4.2 表的管理
+### 4.2 表的管理
 
-### 4.2.1 创建表 
+#### 4.2.1 创建表 
 
 ```sql
 -- mysql
@@ -721,7 +729,7 @@ CREATE TABLE [schema.]表名(
 
 ```
 
-#### 1. oracle 字段类型
+##### 1. oracle 字段类型
 
 | 数据类型       | 描述                                   |
 | -------------- | -------------------------------------- |
@@ -736,7 +744,7 @@ CREATE TABLE [schema.]表名(
 | BLOB           | 二进制数据，最大可达到4G               |
 | BFILE          | 存储外部文件的二进制数据，最大可达到4G |
 
-#### 2. mysql 字段类型
+##### 2. mysql 字段类型
 
 （1）数值类型：
 
@@ -776,7 +784,7 @@ CREATE TABLE [schema.]表名(
 | LONGBLOB   | 0-4 294 967 295字节 | 二进制形式的极大文本数据        |
 | LONGTEXT   | 0-4 294 967 295字节 | 极大文本数据                    |
 
-### 4.2.2 修改表
+#### 4.2.2 修改表
 
 1.添加列
 
@@ -822,7 +830,7 @@ alter table 表名 drop column 列名;
 alter table 表名 rename to 新表名;
 ```
 
-### 4.2.3 删除表
+#### 4.2.3 删除表
 
 ```mysql
 -- mysql
@@ -832,7 +840,7 @@ drop table【if exists】 表名;
 drop table 表名;
 ```
 
-### 4.2.4 复制表
+#### 4.2.4 复制表
 
 1、复制表的结构
 
@@ -866,9 +874,9 @@ insert into 表1(column1,column2,column3) select column1x,column2x,column3x from
 
 
 
-## 4.3 约束
+### 4.3 约束
 
-### 4.3.1 常见的约束
+#### 4.3.1 常见的约束
 
 - NOT NULL：非空，该字段的值必填
 - UNIQUE：唯一，该字段的值不可重复
@@ -884,7 +892,7 @@ insert into 表1(column1,column2,column3) select column1x,column2x,column3x from
 
 
 
-### 4.3.2 创建表时添加约束
+#### 4.3.2 创建表时添加约束
 
 ```sql
 create table 表名(
@@ -897,7 +905,7 @@ create table 表名(
 
 ```
 
-### 4.3.3 修改表时添加或删除约束
+#### 4.3.3 修改表时添加或删除约束
 
 ```sql
 --1、非空约束
@@ -946,7 +954,7 @@ create table 表名(
 
 ```
 
-### 4.3.4 自增长列(mysql)
+#### 4.3.4 自增长列(mysql)
 
 - 不用手动插入值，可以自动提供序列值，默认从1开始，步长为1
 - 一个表至多有一个自增长列
@@ -966,7 +974,7 @@ alter table 表 modify column 字段名 字段类型 约束 auto_increment
 alter table 表 modify column 字段名 字段类型 约束 
 ```
 
-### 4.3.5 序列(oracle)
+#### 4.3.5 序列(oracle)
 
 oracle 没有自增长列，可以使用序列实现
 
@@ -1010,7 +1018,7 @@ insert into 表名（字段,..） values(sequence.nextval,...);
 
 
 
-### 4.3.6 级联操作
+#### 4.3.6 级联操作
 
 ```sql
 -- oracle mysql
@@ -1022,11 +1030,11 @@ ALTER TABLE 表名 ADD CONSTRAINT 约束名 FOREIGN KEY(外键列列名) REFEREN
 
 
 
-# 五、TCL语言
+## 五、TCL语言
 
-## 5.1 事务
+### 5.1 事务
 
-### 5.1.1 事务隔离级别
+#### 5.1.1 事务隔离级别
 
 | 隔离级别                    | 脏读 | 不可重复读 | 幻读 |
 | --------------------------- | ---- | ---------- | ---- |
@@ -1090,9 +1098,9 @@ JOIN v$session s ON t.addr = s.taddr AND s.sid = sys_context('USERENV', 'SID');
 
 
 
-# 六、其他扩展
+## 六、其他扩展
 
-## 6.1 视图
+### 6.1 视图
 
 **1. 创建视图**
 
@@ -1146,7 +1154,7 @@ select text from user_views where view_name='view_name';
 
 
 
-## 6.2 触发器
+### 6.2 触发器
 
 **1.基本语法**
 
@@ -1188,9 +1196,9 @@ SHOW TRIGGERS [FROM schema_name];
 
 
 
-## 6.4 存储过程
+### 6.3 存储过程
 
-### 6.4.1 创建存储过程
+#### 6.3.1 创建存储过程
 
 ```sql
 DELIMITER //
@@ -1208,7 +1216,7 @@ call([参数名])
 - **OUT**:该值可在存储过程内部被改变，并可返回  
 - **INOUT**:调用时指定，并且可被改变和返回
 
-### 6.4.2变量
+#### 6.3.2变量
 
 声明：DECLARE 变量名1[,变量名2...] 数据类型 [默认值]; 
 
@@ -1218,7 +1226,7 @@ call([参数名])
 
 
 
-### 6.4.3 存储过程的查询
+#### 6.3.3 存储过程的查询
 
 ```sql
 --查询存储过程
@@ -1233,7 +1241,7 @@ SHOW CREATE PROCEDURE 数据库.存储过程名;
  
 ```
 
-### 6.4.4 存储过程的修改
+#### 6.3.4 存储过程的修改
 
 ALTER PROCEDURE 更改用CREATE PROCEDURE 建立的预先指定的存储过程，其不会影响相关存储过程或存储功能。
 
@@ -1266,15 +1274,15 @@ ALTER  PROCEDURE  name_from_employee
  
 ```
 
-### 6.4.5 存储过程的删除
+#### 6.3.5 存储过程的删除
 
 ```sql
 DROP PROCEDURE [过程1[,过程2…]]
 ```
 
-### 6.4.6 条件语句
+#### 6.3.6 条件语句
 
-#### 1.分支结构
+##### 1.分支结构
 
 **（1）case结构**
 
@@ -1307,7 +1315,7 @@ end if;
 
 
 
-#### 2.循环结构
+##### 2.循环结构
 
 （1）while
 
@@ -1355,15 +1363,15 @@ end repeat 【名称】;
 
 
 
-## 6.3 游标
+### 6.4 游标
 
-### 6.3.1 游标简介
+#### 6.4.1 游标简介
 
 游标的设计是一种数据缓冲区的思想，用来存放SQL语句执行的结果。游标是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。
 尽管游标能遍历结果中的所有行，但一次只指向一行。
 游标的作用就是用于对查询数据库所返回的记录进行遍历，以便进行相应的操作。
 
-### 6.3.2 游标的特性
+#### 6.4.2 游标的特性
 
 游标具有三个属性：
 
@@ -1371,7 +1379,7 @@ end repeat 【名称】;
 2. 只读（Read only）
 3. 不滚动（Nonscrollable）：游标只能向一个方向前进，并且不可以跳过任何一行数据。
 
-### 6.3.3 游标的操作
+#### 6.4.3 游标的操作
 
 **1、游标的定义**
 
