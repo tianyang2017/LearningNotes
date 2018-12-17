@@ -100,7 +100,7 @@ RENAME USER '用户名' TO '新用户名'；
     -- 自己的口令
     SET PASSWORD=Password('新密码')
     -- 其他用户的口令
-	 SET PASSWORD FOR 用户名 = Password('新密码')
+    SET PASSWORD FOR 用户名 = Password('新密码')
 -- 删除用户
 DROP USER '用户名'；
 ```
