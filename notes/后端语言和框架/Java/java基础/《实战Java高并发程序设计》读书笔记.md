@@ -25,7 +25,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#321-JDK对线程池的支持">3.2.1 JDK对线程池的支持</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1计划任务">1.计划任务</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#322-线程池内部实现">3.2.2 线程池内部实现</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**1JDK内置的拒绝策略**">**1.JDK内置的拒绝策略**</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#**1JDK内置的拒绝策略**">1.JDK内置的拒绝策略</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2线程池的扩展">2.线程池的扩展</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3合理优化线程池的数量">3.合理优化线程池的数量</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#323-Fork/Join-框架">3.2.3 Fork/Join 框架</a><br/>
@@ -45,6 +45,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#65-增强的FutureCompletableFuture">6.5 增强的Future(CompletableFuture)</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#66--StampedLock">6.6  StampedLock</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#67-LongAdder-和-LongAccumulator">6.7 LongAdder 和 LongAccumulator</a><br/>
+
 ## 正文<br/>
 
 
@@ -60,7 +61,7 @@
 **interrupt**是设置终止标志位，并非真正的去终止线程。用户当线程检测到终止标志位为真时，可以执行对应的终止逻辑。
 
 - interrupted()是静态方法：内部实现是调用的当前线程的isInterrupted()，并且会重置当前线程的中断状态
-- isInterrupted()是实例方法，是调用该方法的对象所表示的那个线程的isInterrupted()，不会重置当前线程的中断状态
+- isInterrupted()是实例方法，是判断该方法的所在线程是否被中断，不会重置当前线程的中断状态
 
 ```java
 // Thread 类
