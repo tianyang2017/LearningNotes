@@ -28,7 +28,7 @@
 
 ### 2.2 运行时数据区域
 
-![java虚拟机运行时数据区](D:\LearningNotes\picture\java虚拟机运行时数据区.png)</br>![java虚拟机运行时数据区](https://github.com/heibaiying/LearningNotes/blob/master/picture/java虚拟机运行时数据区.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/java虚拟机运行时数据区.png"/> </div></br>
 
 
 
@@ -213,7 +213,7 @@ IDEA下推荐插件：JProfiler
 
 ## 第十二章 Java内存模型
 
-![java内存模型](D:\LearningNotes\picture\java内存模型.png)</br>![java内存模型](https://github.com/heibaiying/LearningNotes/blob/master/picture/java内存模型.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/java内存模型.png"/> </div></br>
 
 关于主内存与工作内存之间具体的交互协议，即一个变量如何从主内存拷贝到工作内存、 如何从工作内存同步回主内存之类的实现细节，Java内存模型中定义了以下8种操作来完成 ：
 

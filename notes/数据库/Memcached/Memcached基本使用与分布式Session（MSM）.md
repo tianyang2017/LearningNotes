@@ -149,7 +149,7 @@
 
 #### 3.1 底层存储结构
 
-![memcached存储结构](https://github.com/heibaiying/LearningNotes/blob/master/picture/memcached%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/memcached%20%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png"/> </div>
 
 - slab：可以理解成内存容器
 - Page：可以理解成小版的内存容器
@@ -200,7 +200,7 @@ sticky模式：Tomcat会优先操作本地session，本地session发生变化时
 
 1. 引入msm相关[依赖包]()
 
-   ![msm相关依赖](D:\LearningNotes\picture\msm相关依赖.png)</br>![msm相关依赖](https://github.com/heibaiying/LearningNotes/blob/master/picture/msm相关依赖.png)</br>
+   <div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/msm相关依赖.png"/> </div></br>
 
 2. 配置Tomcat/conf/context.xml
 

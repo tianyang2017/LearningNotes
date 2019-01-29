@@ -307,9 +307,9 @@ public class Stream {
 }
 ```
 
-![不使用flatmap的查找过程](D:\LearningNotes\picture\flatmap1.png)</br>![不使用flatmap的查找过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/flatmap1.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/flatmap1.png"/> </div></br>
 
-![使用flatmap的查找过程](D:\LearningNotes\picture\flatmap2.png)</br>![使用flatmap的查找过程](https://github.com/heibaiying/LearningNotes/blob/master/picture/flatmap2.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/flatmap2.png"/> </div></br>
 
 #### 3.归约
 
@@ -584,7 +584,7 @@ public class NewDateApi {
 }
 ```
 
-![TemporalAdjuster类中的工厂方法](D:\LearningNotes\picture\TemporalAdjuster类中的工厂方法.png)</br>![TemporalAdjuster类中的工厂方法](https://github.com/heibaiying/LearningNotes/blob/master/picture/TemporalAdjuster类中的工厂方法.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/TemporalAdjuster类中的工厂方法.png"/> </div></br>
 
 
 

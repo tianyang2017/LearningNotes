@@ -1412,9 +1412,9 @@ location.reload(true); //重新加载（从服务器重新加载）
 
 ### 1. Node 类型
 
-![Node节点](D:\LearningNotes\picture\Node节点.png)</br>![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node节点.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/Node节点.png"/> </div></br>
 
-![Node节点](https://github.com/heibaiying/LearningNotes/blob/master/picture/Node%E8%8A%82%E7%82%B9.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/Node%E8%8A%82%E7%82%B9.png"/> </div>
 
 ```JavaScript
 //新增节点
@@ -1889,17 +1889,17 @@ alert(document.documentElement.contains(document.body)); //true
 
 **1.偏移量、客户区大小、滚动大小**
 
-![偏移量](D:\LearningNotes\picture\偏移量.png)</br>![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/偏移量.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/偏移量.png"/> </div></br>
 
-![偏移量](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%81%8F%E7%A7%BB%E9%87%8F.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E5%81%8F%E7%A7%BB%E9%87%8F.png"/> </div>
 
-![客户区大小](D:\LearningNotes\picture\客户区大小.png)</br>![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/客户区大小.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/客户区大小.png"/> </div></br>
 
-![客户区大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%AE%A2%E6%88%B7%E5%8C%BA%E5%A4%A7%E5%B0%8F.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E5%AE%A2%E6%88%B7%E5%8C%BA%E5%A4%A7%E5%B0%8F.png"/> </div>
 
-![滚动大小](D:\LearningNotes\picture\滚动大小.png)</br>![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/滚动大小.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/滚动大小.png"/> </div></br>
 
-![滚动大小](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E6%BB%9A%E5%8A%A8%E5%A4%A7%E5%B0%8F.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E6%BB%9A%E5%8A%A8%E5%A4%A7%E5%B0%8F.png"/> </div>
 
 ## 第十三 事件
 
@@ -1907,9 +1907,9 @@ alert(document.documentElement.contains(document.body)); //true
 
 “DOM2级事件”规定的事件流包括三个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是冒泡阶段，可以在这个阶段对事件做出响应。 
 
-![事件流](D:\LearningNotes\picture\事件流.png)</br>![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/事件流.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/事件流.png"/> </div></br>
 
-![事件流](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%BA%8B%E4%BB%B6%E6%B5%81.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E4%BA%8B%E4%BB%B6%E6%B5%81.png"/> </div>
 
 ### 13.2 事件处理程序
 

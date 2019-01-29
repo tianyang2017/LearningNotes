@@ -8,7 +8,7 @@
 
 排序算法可以分为内部排序和外部排序，内部排序是数据记录在内存中进行排序，而外部排序是因排序的数据很大，一次不能容纳全部的排序记录，在排序过程中需要访问外存。常见的内部排序算法有：插入排序、希尔排序、选择排序、冒泡排序、归并排序、快速排序、堆排序、基数排序等。用一张图概括：
 
-![排序算法复杂度分析](D:\LearningNotes\picture\排序算法复杂度分析.png)<br/>![排序算法复杂度分析](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90.png)<br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90.png"/> </div><br>
 
 关于时间复杂度：
 
@@ -369,7 +369,7 @@ public class MergeSort implements IArraySort {
 
 ![六、快速排序](D:\LearningNotes\picture\六、快速排序.gif)
 
-![六、快速排序](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.gif)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.gif"/> </div>
 
 **3. Java 代码实现**
 
@@ -436,7 +436,7 @@ public class QuickSort implements IArraySort {
 
 ![七、堆排序](D:\LearningNotes\picture\七、堆排序.gif)
 
-![七、堆排序](https://github.com/heibaiying/LearningNotes/blob/master/picture/%E4%B8%83%E3%80%81%E5%A0%86%E6%8E%92%E5%BA%8F.gif)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E4%B8%83%E3%80%81%E5%A0%86%E6%8E%92%E5%BA%8F.gif"/> </div>
 
 **3. Java 代码实现**
 

@@ -93,7 +93,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 注意：由于一个主题包含多个分区，因此无法在整个主题范围内保证消息的顺序性，**但可以保证消息在单个分区内的顺序性**。
 
-![kafka主题和分区](D:\LearningNotes\picture\kafka主题和分区.png)</br>![kafka主题和分区](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka主题和分区.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/kafka主题和分区.png"/> </div></br>
 
 ### 1.2.4 生产者和消费者
 
@@ -107,7 +107,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 注：原文这个地方的意思应该是，**一个分区只能被同一个消费者群组里面的一个消费者读取，但可以被不同消费者群组里面的多个消费者读取。多个消费者群组可以共同读取同一个主题，彼此之间互不影响**。
 
-![kafka消费者](D:\LearningNotes\picture\kafka消费者.png)</br>![kafka消费者](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka消费者.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/kafka消费者.png"/> </div></br>
 
 ### 1.2.5 broker和集群
 
@@ -115,7 +115,7 @@ kafka 的消息通过主题进行分类。一个主题可以被分为若干个�
 
 broker是集群的组成部分。每一个集群都有一个broker同时充当了集群控制器的角色（自动从集群的活跃成员中选举出来）。控制器负责管理工作，包括将分区分配给broker和监控broker。**在集群中，一个分区从属一个broker,该broker被称为分区的首领**。一个分区可以分配给多个broker,这个时候会发生分区复制。这种复制机制为分区提供了消息冗余，如果有一个broker失效，其他broker可以接管领导权。
 
-![kafka集群复制](D:\LearningNotes\picture\kafka集群复制.png)</br>![kafka集群复制](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka集群复制.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/kafka集群复制.png"/> </div></br>
 
 ## 第二章 安装kafka
 
@@ -363,7 +363,7 @@ kafka数据的保存时间，默认为1周。
 
 ## 第三章 kafka生产者
 
-![kafka生产组件图](D:\LearningNotes\picture\kafka生产组件图.png)</br>![kafka生产组件图](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka生产组件图.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/kafka生产组件图.png"/> </div></br>
 
 服务器在收到生产者的消息后悔返回一个响应信息，如果消息成功写入kafka,就返回一个RecordMetaData对象，它包含了主题和分区信息，已经记录在分区里的偏移量。如果写入失败，则会返回一个错误。生产者在收到错误之后尝试进行重新发送消息。
 
@@ -503,7 +503,7 @@ public class SimpleProducer {
 
 ## 第四章 kafka消费者
 
-![kafka多消费者组](D:\LearningNotes\picture\kafka多消费者组.png)</br>![kafka多消费者组](https://github.com/heibaiying/LearningNotes/blob/master/picture/kafka多消费者组.png)</br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/kafka多消费者组.png"/> </div></br>
 
 ### 4.1 分区再均衡
 
