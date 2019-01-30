@@ -58,20 +58,20 @@
 
 #### 2.1.1 线程中断
 
-**interrupt**是设置终止标志位，并非真正的去终止线程。用户当线程检测到终止标志位为真时，可以执行对应的终止逻辑。
++ `Thread.interrupt() `是一个实例方法，它通知目标线程被中断，也就是设置中断标志位；
++ `Thread.isInterrupted()`也是实例方法，判断当前线程是否有被中断（通过检查中断标志位）；
 
-- interrupted()是静态方法：内部实现是调用的当前线程的isInterrupted()，并且会重置当前线程的中断状态
-- isInterrupted()是实例方法，是判断该方法的所在线程是否被中断，不会重置当前线程的中断状态
+- `Thread.interrupted()`是静态方法：用来判断当前线程的中断状态，但同时会清除当前线程的中断标志位状态。
 
 ```java
 // Thread 类
-public void interrupt()         	// 停止线程
+public void interrupt()         	// 设置中断标志位
 public boolean isInterrupted()    	// 判断是否被中断
 public static boolean interrupted() // 判断是否被中断 并清除标志位  
 ```
 
-```javascript
-//不能停止线程
+```java
+//只是设置标志位，并不能停止线程
 public class Test {
     public static void main(String[] args) throws InterruptedException {
         Thread thread = new Thread(() -> {
@@ -120,7 +120,7 @@ public class Test {
 
 这两个方法在Object 下，意味着任何对象都可以调用这两个方法。
 
-如果是一个线程调用了wait,那么它就会进入object对象的等待队列。notify()  **随机唤醒(并非先等待先唤醒，不是公平的唤醒)**  等待队列中的一个队列，notifyAll() 唤醒全部等待。
+如果是一个线程调用了`wait()`,那么它就会进入object对象的等待队列。`notify()  `**随机唤醒(并非先等待先唤醒，不是公平的唤醒)**  等待队列中的一个队列，`notifyAll()` 唤醒全部等待。
 
 ```java
 // 正常情况
@@ -209,6 +209,13 @@ public class Test {
     }
 }
 
+// 输出
+对象object等待
+对象object唤醒
+线程2后续操作
+线程1后续操作
+
+
 // 全部唤醒
 public class Test {
     private static final Object object = new Object();
@@ -216,7 +223,7 @@ public class Test {
         new Thread(() -> {
             synchronized (object) {
                 try {
-                    System.out.println("对象objectd在线程1等待");
+                    System.out.println("对象object在线程1等待");
                     object.wait();
                     System.out.println("线程1后续操作");
                 } catch (InterruptedException e) {
@@ -245,6 +252,14 @@ public class Test {
         }).start();
     }
 }
+
+// 输出
+对象object在线程1等待
+对象object在线程2等待
+对象object唤醒
+线程3后续操作
+线程2后续操作
+线程1后续操作
 ```
 
 **（1）wait() 与 notify/notifyAll 方法必须在同步代码块中使用**
@@ -341,9 +356,9 @@ public class Test {
 public static native void yield();
 ```
 
-yield 会使得当前线程让出CPU,但是在让出后，还会进行CPU资源的争夺，这意味这有可能会再次获得CPU的执行权。
+`yield()` 会使得当前线程让出CPU,但是在让出后，还会进行CPU资源的争夺，这意味这有可能会再次获得CPU的执行权。
 
-join方法的主要作用就是同步，它可以使得线程之间的并行执行变为串行执行。
+`join()`方法的主要作用就是同步，它可以使得线程之间的并行执行变为串行执行。
 
 ```java
 public class Test {
@@ -358,7 +373,7 @@ public class Test {
         System.out.println(j);
     }
 }
-//结果 0
+//不等待线程结束，结果 0
 
 
 public class Test {
@@ -374,20 +389,20 @@ public class Test {
         System.out.println(j);
     }
 }
-//结果 100000
+//等待线程结束，结果 100000
 ```
 
 ### 2.2 volatile与Java内存模型（JMM）
 
-以下内容摘抄自博客：https://juejin.im/post/5b5727d66fb9a04f834652d6[作者：云起]
+
 
 一旦一个 共享变量（类的成员变量、类的静态成员变量）被 volatile 修饰之后，那么就具备了两层语义：
 
 **1. 保证了不同线程对这个变量进行读取时的可见性，即一个线程修改了某个变量的值 ，这新值对其他线程来说是立即可见的 。(volatile  解决了线程间共享变量 的可见性问题）**
 
 - 使用 volatile 关键字会强制将修改的值立即写入主存；
-- 使用 volatile 关键字的话，当线程 2 进行修改时，会导致线程 1 的量 工作内存中缓存变量 stop  的缓存行无效（反映到硬件层的话，就是 CPU 的 L1或者 L2 缓存中对应的缓存行无效）**；**
-- 由于线程 1 的工作内存中缓存变量 stop 的缓存行无效，所以线程 1再次读取变量 stop 的值时 会去主存读取。那么，在线程 2 修改  stop 值时（当然这里包括 2 个操作，修改线程 2 工作内存中的值，然后将修改后的值写入内存），会使得线程 1 的工作内存中缓存变量  stop 的缓存行无效，然后线程 1  读取时，发现自己的缓存行无效，它会等待缓存行对应的主存地址被更新之后，然后去对应的主存读取最新的值。那么线程 1 读取到的就是最新的正确的值。
+- 使用 volatile 关键字的话，当线程 2 进行修改时，会导致线程 1 的工作内存中缓存变量 (假设变量名是 x ) 的缓存行无效（反映到硬件层的话，就是 CPU 的 L1或者 L2 缓存中对应的缓存行无效）**；**
+- 由于线程 1 的工作内存中缓存变量 x 的缓存行无效，所以线程 1再次读取变量 x 的值时 会去主存读取。那么，在线程 2 修改  x 值时（当然这里包括 2 个操作，修改线程 2 工作内存中的值，然后将修改后的值写入内存），会使得线程 1 的工作内存中缓存变量 x 的缓存行无效，然后线程 1 读取时，发现自己的缓存行无效，它会等待缓存行对应的主存地址被更新之后，然后去对应的主存读取最新的值。那么线程 1 读取到的就是最新的正确的值。
 
 **2.禁止进行指令重排序 ，阻止编译器对代码的优化 。**
 
@@ -397,7 +412,7 @@ public class Test {
 
 - 在进行指令优化时，不能把 volatile 变量前面的语句放在其后面执行，也不能把 volatile 变量后面的语句放到其前面执行。
 
-  为了实现  volatile 的内存语义，加入 volatile 关键字时，编译器在生成字节码时，会在指令序列中插入内存屏障，会多出一个 lock  前缀指令。内存屏障是一组处理器指令，解决禁止指令重排序和内存可见性的问题。编译器和 CPU  可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。处理器在进行重排序时是会考虑指令之间的数据依赖性。
+  为了实现  volatile 的内存语义，加入 volatile 关键字时，编译器在生成字节码时，会在指令序列中插入**内存屏障**，会多出一个 lock  前缀指令。内存屏障是一组处理器指令，解决禁止指令重排序和内存可见性的问题。编译器和 CPU  可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。处理器在进行重排序时是会考虑指令之间的数据依赖性。
 
   内存屏障有两个作用：
 
@@ -410,6 +425,39 @@ public class Test {
 - 　对变量的写操作不依赖于当前值
 - 　该变量没有包含在具有其他变量的不变式中
 
+有两种典型的使用场景，一是用于修饰多个线程之间的共享标志位变量，二是用于单例模式中饿汉模式:
+
+```java
+public class LazySingleton {
+
+    // 必须要声明为 volatile 防止指令重排序
+    private static volatile LazySingleton lazySingleton = null;
+
+    private LazySingleton() {
+        if (lazySingleton != null) {
+            throw new RuntimeException("单例模式禁止反射调用！");
+        }
+    }
+
+    public static LazySingleton getInstance() {
+        if (lazySingleton == null) {
+            synchronized (LazySingleton.class) {
+                if (lazySingleton != null) {
+                    /*
+                     new对象过程：
+                      1.分配内存给这个对象
+                      2.初始化对象
+                      3.设置lazyDoubleCheckSingleton 指向刚分配的内存地址
+                      上述三步会发生指令重排序
+                     */
+                    lazySingleton = new LazySingleton();
+                }
+            }
+        }
+        return lazySingleton;
+    }
+}
+```
 ### 2.3 线程组
 
 ```java
@@ -419,18 +467,22 @@ public class Test {
         @Override
         public void run() {
             Thread current = Thread.currentThread();
-            System.out.println("当前线程id: "+ current.getId()+"当前所属线程组: "+ current.getThreadGroup().getName());
+            System.out.println("当前线程id: "+ current.getId()+" 当前所属线程组: "+ current.getThreadGroup().getName());
         }
     }
 
     public static void main(String[] args) {
-       ThreadGroup group=new ThreadGroup("java线程组");
+        ThreadGroup group=new ThreadGroup("java线程组");
         Thread thread1 = new Thread(group, new Task());
         Thread thread2 = new Thread(group, new Task());
         thread1.start();
         thread2.start();
     }
 }
+
+//输出
+当前线程id: 13 当前所属线程组: java线程组
+当前线程id: 14 当前所属线程组: java线程组
 ```
 
 ### 2.4 守护线程（Daemon）
@@ -503,7 +555,9 @@ public class Test {
     }
 }
 
+```
 
+```java
 // 虽然用了synchronized，线程还是不安全
 public class Test {
 
@@ -638,11 +692,11 @@ public class Test {
 
 #### 3.1.1 可重入锁(ReentrantLock)
 
-- lock()：获得锁，如果锁已经被占用，则等待；
-- lockInterruptibly(): 获得锁，但优先响应中断；
-- tryLock():尝试获得锁，如果成功，返回true,失败返回false。该方法不等待，立即返回；
-- tryLock(long time,TimeUnit unit):在给定的时间内尝试获得锁；
-- unlock():释放锁
+- `lock()`：获得锁，如果锁已经被占用，则等待；
+- `lockInterruptibly()`: 获得锁，但优先响应中断；
+- `tryLock()`:尝试获得锁，如果成功，返回true,失败返回false。该方法不等待，立即返回；
+- `tryLock(long time,TimeUnit unit)`:在给定的时间内尝试获得锁；
+- `unlock()`:释放锁
 
 ```java
 // 线程安全的
@@ -707,7 +761,7 @@ public class Test {
 
 ##### 1.锁申请等待超时
 
-使用 reentrantLock.tryLock 方法，超过指定时间则不等待。
+使用 `reentrantLock.tryLock` 方法，超过指定时间则不等待。
 
 ```java
 public class Test {
@@ -778,13 +832,13 @@ public class Test {
 }
 ```
 
-公平锁需要维护一个有序队列，需要额外的开销，所以需要考虑场景使用。使用synchronized 实现的锁默认是不公平的。
+**公平锁需要维护一个有序队列，需要额外的开销，所以需要考虑场景使用。使用synchronized 实现的锁默认是不公平的**。
 
 #### 3.1.2  条件（condition）
 
-- await() 方法会使当前线程等待，**同时释放当前锁**，当其他线程中使用singnal()或者singnalAll()方法时，线程会**重新获得锁**并继续执行。或者当线程被中断时候，也能跳出等待。这和Object.wait() 方法很相似。
-- awaitUninterruptibly() 方法与await()方法基本相同，但是它并不会在等待过程中响应中断。
-- singal() 方法用于唤醒一个在等待中的线程。相对的singalAll()方法会唤醒所有在等待中的线程。
+- `await()` 方法会使当前线程等待，**同时释放当前锁**，当其他线程中使用singnal()或者singnalAll()方法时，线程会**重新获得锁**并继续执行。或者当线程被中断时候，也能跳出等待。这和Object.wait() 方法很相似。
+- `awaitUninterruptibly()` 方法与await()方法基本相同，但是它并不会在等待过程中响应中断。
+- `singal()` 方法用于唤醒一个在等待中的线程。相对的`singalAll()`方法会唤醒所有在等待中的线程。
 
 ```java
 public class Test {
@@ -818,16 +872,16 @@ public class Test {
 }
 ```
 
-流程：在调用await()方法前线程必须获得重入锁，调用await()方法后线程会释放当前占用的锁。同理在调用signal()方法时当前线程也必须获得相应重入锁，调用signal()方法后系统会从condition.await()等待队列中唤醒一个线程。当线程被唤醒后，它就会尝试重新获得与之绑定的重入锁，一旦获取成功将继续执行。所以调用signal()方法后一定要释放当前占用的锁，这样被唤醒的线程才能有获得锁的机会，才能继续执行。
+流程：在调用await()方法前线程必须获得重入锁，调用await()方法后线程会释放当前占用的锁。同理**在调用signal()方法时当前线程也必须获得相应重入锁**，调用signal()方法后系统会从condition.await()等待队列中唤醒一个线程。当线程被唤醒后，它就会尝试重新获得与之绑定的重入锁，一旦获取成功将继续执行。所以**调用signal()方法后一定要释放当前占用的锁**，这样被唤醒的线程才能有获得锁的机会，才能继续执行。
 
 #### 3.1.3 信号量（Semaphore）
 
 广义上说，信号量是对锁的扩展，无论是内部锁synchronized 还是 重入锁 ReentrantLock,一次都只允许一个线程访问一个资源，而信号量却允许指定多个线程，同时访问某一个资源。
 
-- acquire()方法尝试获得一个准入的许可，若无法获得，则线程会等待，直到有线程释放一个许可或者当前线程被中断；
-- acquireUninterruptibly()方法和acquire()类似，但是不响应中断；
-- tryAcquire() 尝试获得一个许可，如果成功返回true,失败则返回false,它不会进行等待，立即返回；
-- release() 用于在线程访问资源结束后，释放一个许可，以使其他等待许可的线程可以进行资源访问。
+- `acquire()`方法尝试获得一个准入的许可，若无法获得，则线程会等待，直到有线程释放一个许可或者当前线程被中断；
+- `acquireUninterruptibly()`方法和acquire()类似，但是不响应中断；
+- `tryAcquire()` 尝试获得一个许可，如果成功返回true,失败则返回false,它不会进行等待，立即返回；
+- `release()` 用于在线程访问资源结束后，释放一个许可，以使其他等待许可的线程可以进行资源访问。
 
 ```java
 public class Test {
@@ -855,6 +909,31 @@ public class Test {
         }
     }
 }
+
+// 五个一组，五个一组的输出
+13获得锁!
+14获得锁!
+15获得锁!
+16获得锁!
+17获得锁!
+    
+18获得锁!
+19获得锁!
+20获得锁!
+21获得锁!
+22获得锁!
+    
+23获得锁!
+24获得锁!
+25获得锁!
+26获得锁!
+27获得锁!
+    
+28获得锁!
+29获得锁!
+30获得锁!
+31获得锁!
+32获得锁!
 ```
 
 #### 3.1.4 读写锁（ReadWriteLock ）
@@ -972,7 +1051,7 @@ public class Test {
 ```java
 public class Test {
 
-    private static int number=10000000;
+    private static int number=1000000;
     private static CountDownLatch latch=new CountDownLatch(number);
     private static AtomicInteger integer=new AtomicInteger(0);
 
@@ -1041,11 +1120,26 @@ public class Test {
         executorService.shutdown();
     }
 }
+
+// 输出
+任务21执行完成
+任务15执行完成
+任务22执行完成
+任务14执行完成
+任务20执行完成
+五人小组任务执行完成
+
+任务16执行完成
+任务19执行完成
+任务17执行完成
+任务18执行完成
+任务13执行完成
+五人小组任务执行完成
 ```
 
 #### 3.1.7 线程阻塞工具类（LockSupport）
 
-LockSupport的静态方法park() 可以阻塞当前线程，类似的还有parkNanos() 和parkUntil()等方法。他们实现了一个限时的等待。
+LockSupport的静态方法`park()` 可以阻塞当前线程，类似的还有`parkNanos() `和`parkUntil()`等方法。他们实现了一个限时的等待。
 
 LockSupport类使用类似信号量的机制，它为每一个线程准备一个许可，如果许可可用，那么park()函数就会立即返回，并且消费这个许可（也就是将许可变为不可用），如果许可不可用，就会阻塞。而unpark()则使得一个许可变为可用（但是和信号量不同的是，许可不能累加，你不可能拥有超过一个许可，它永远只有一个）。
 
@@ -1074,6 +1168,13 @@ public class Test {
         LockSupport.unpark(thread02);
     }
 }
+
+// 输出
+线程13开始阻塞
+线程14开始阻塞
+主线程干预
+线程13解除阻塞
+线程14解除阻塞
 ```
 
 ### 3.2 线程池
@@ -1239,7 +1340,7 @@ public class Test {
 
 ##### 2.线程池的扩展
 
-ThreadPoolExecutor是一个可以拓展的线程池，它提供了beforeExecute()、afterExecute()和terminated() 三个接口对线程池进行扩展。
+`ThreadPoolExecutor`是一个可以拓展的线程池，它提供了beforeExecute()、afterExecute()和terminated() 三个接口对线程池进行扩展。
 
 ```java
 public class Test {
@@ -1313,9 +1414,9 @@ public class Test {
 
 ForkJoinPool提供如下两个常用的构造器：
 
-- ForkJoinPool(int parallelism)  创建一个包含parallelism个并行线程的ForkJoinPool;
+- `ForkJoinPool(int parallelism) ` 创建一个包含parallelism个并行线程的ForkJoinPool;
 
-- ForkJoinPool()  以Runtime.availableProcessors()方法的返回值作为parallelism参数来创建ForkJoinPool。
+- `ForkJoinPool() ` 以Runtime.availableProcessors()方法的返回值作为parallelism参数来创建ForkJoinPool。
 
 ```java
 public class CountTask extends RecursiveTask<Long> {
@@ -1575,6 +1676,11 @@ public class Test {
         executorService.shutdown();
     }
 }
+
+// 输出
+输出i的值9983
+输出j的值10000
+输出K的值10000
 ```
 
 **1. 无锁数组**
@@ -1657,7 +1763,7 @@ public class Test {
 
 **2. AtomicIntegerFieldUpdater**
 
-AtomicIntegerFieldUpdater让普通变量也能具备原子性的操作。
+`AtomicIntegerFieldUpdater`让普通变量也能具备原子性的操作。
 
 - AtomicIntegerFieldUpdater只能修改它可见范围内的变量，其是通过反射得到这个变量的，如果不可见，就会出错；
 - 为保证变量被正确的读取，它必须是volatile类型的；
@@ -1728,6 +1834,9 @@ public class Test {
         }
     }
 }
+
+// 输出
+候选人获得票数:10000
 ```
 
 **3. SynchronousQueue队列  实现线程之间通讯**
@@ -1794,6 +1903,8 @@ public class Test {
 ## 第五章 并行模式与算法
 
 ### 5.5 JDK中的Future
+
+使用Future模式,获取数据的时候可能无法立即得到需要的数据。而是先拿到一个包装,可以在需要的时候再去get获取需要的数据。
 
 ```java
 public class Test {
@@ -2061,6 +2172,14 @@ epr 所在线程：11
 
 ### 6.6  StampedLock
 
+ StampedLock是并发包里面jdk8版本新增的一个锁，该锁提供了三种模式的读写控制，三种模式分别如下：
+
+- 写锁writeLock，是个排它锁或者叫独占锁，同时只有一个线程可以获取该锁，当一个线程获取该锁后，其它请求的线程必须等待，当目前没有线程持有读锁或者写锁的时候才可以获取到该锁，请求该锁成功后会返回一个stamp票据变量用来表示该锁的版本，当释放该锁时候需要unlockWrite并传递参数stamp。
+
+- 悲观读锁readLock，是个共享锁，在没有线程获取独占写锁的情况下，同时多个线程可以获取该锁，如果已经有线程持有写锁，其他线程请求获取该读锁会被阻塞。这里讲的悲观其实是参考数据库中的乐观悲观锁的，这里说的悲观是说在具体操作数据前悲观的认为其他线程可能要对自己操作的数据进行修改，所以需要先对数据加锁，这是在读少写多的情况下的一种考虑,请求该锁成功后会返回一个stamp票据变量用来表示该锁的版本，当释放该锁时候需要unlockRead并传递参数stamp。
+
+- 乐观读锁tryOptimisticRead，是相对于悲观锁来说的，在操作数据前并没有通过CAS设置锁的状态，如果当前没有线程持有写锁，则简单的返回一个非0的stamp版本信息，获取该stamp后在具体操作数据前还需要调用validate验证下该stamp是否已经不可用，也就是看当调用tryOptimisticRead返回stamp后到到当前时间间是否有其他线程持有了写锁，如果是那么validate会返回0，否者就可以使用该stamp版本的锁对数据进行操作。由于tryOptimisticRead并没有使用CAS设置锁状态所以不需要显示的释放该锁。该锁的一个特点是适用于读多写少的场景，因为获取读锁只是使用与或操作进行检验，不涉及CAS操作，所以效率会高很多，但是同时由于没有使用真正的锁，在保证数据一致性上需要拷贝一份要操作的变量到方法栈，并且在操作数据时候可能其他写线程已经修改了数据，而我们操作的是方法栈里面的数据，也就是一个快照，所以最多返回的不是最新的数据，但是一致性还是得到保障的。
+
 ```java
 public class Point {
     private double x, y;//内部定义表示坐标点
@@ -2144,3 +2263,10 @@ longAdder:1000000
 longAccumulator:1000000
 ```
 
+
+
+## 参考内容：
+
++ **《实战Java高并发程序设计》** 葛一鸣 郭超 编
++ [Java多线程（二）volatile关键字](https://juejin.im/post/5b5727d66fb9a04f834652d6)
++ [JDK8并发包新增StampedLock锁](https://www.jianshu.com/p/481071ddafd3)
