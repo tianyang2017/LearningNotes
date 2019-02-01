@@ -1,17 +1,18 @@
-package com.java.test.util;
-
 import javafx.util.Pair;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author : heibai
- * @description : 生成文章页导航目录
+ * @author : heibaiying
+ * @description : 用于生成README.md导航目录的工具类
  */
-
 public class GenNavigation {
 
     public static void main(String[] args) {
@@ -68,8 +69,8 @@ public class GenNavigation {
             String flag = ft.getKey();
             String title = ft.getValue();
             builder.append(genBlank(flag.length() - 2, 4));
-            // Github有效目录格式: <a href="#21-预备">页面锚点</a> 不能出现特殊符号(,:)
-            String formatTitle=title.trim().replaceAll("[.():：（）|、]", "").replace(" ", "-");
+            // Github有效目录格式: <a href="#21-预备">页面锚点</a>  url中不能出现特殊符号
+            String formatTitle = title.trim().replaceAll("[.():：（）|、,，@。]", "").replace(" ", "-");
             builder.append(String.format("<a href=\"%s\">%s</a><br/>\n", "#" + formatTitle, title));
         }
         // 目录尾
@@ -105,7 +106,7 @@ public class GenNavigation {
 
         try {
             FileReader reader = new FileReader(filePath);
-            char[] chars = new char[1024*1024];
+            char[] chars = new char[1024 * 1024];
 
             int read = 0;
             while ((read = reader.read(chars)) != -1) {
@@ -129,7 +130,7 @@ public class GenNavigation {
             for (File f : files) {
                 if (f.isDirectory() && !f.getName().startsWith(".")) {
                     getAllFile(f.getAbsolutePath(), filesList);
-                } else if (f.getName().endsWith("读书笔记.md")) {
+                } else if (f.getName().endsWith(".md")) {
                     filesList.add(f.getAbsolutePath());
                 }
             }
@@ -137,5 +138,3 @@ public class GenNavigation {
         return filesList;
     }
 }
-
-
