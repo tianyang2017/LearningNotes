@@ -1,5 +1,6 @@
 # 《Redis开发与运维》读书笔记
-## 目录<br/>
+
+## 目录<br/>
 <a href="#第二章-API的理解与使用">第二章 API的理解与使用</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-预备">2.1 预备</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#211-全局命令">2.1.1 全局命令</a><br/>
@@ -125,11 +126,11 @@ type命令实际返回的就是当前键的数据结构类型， 它们分别是
 
 | 作用     | 格式                                                         | 参数或示例                                                   |
 | -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 增       | 左侧插入：lpush key value [value ...] 右侧插入：rpush key value [value ...] 某个指定元素前后插入：linsert key before\|after pivot value |                                                              |
-| 查       | 获取指定范围内的元素列表：lrange key start end 获取列表指定索引下标的元素：lindex key index 获取列表指定长度：llen key | lrange listkey 0 -1                                          |
-| 删       | 从列表左侧弹出元素：lpop key 从列表右侧弹出元素：rpop key 删除指定元素：lrem key count value 截取列表：ltrim key start end | count>0， 从左到右， 删除最多count个元素。<br/>count<0， 从右到左， 删除最多count绝对值个元素。<br/>count=0， 删除所有 |
+| 增       | 左侧插入：lpush key value [value ...] <br/>右侧插入：rpush key value [value ...] <br/>某个指定元素前后插入：linsert key before\|after pivot value |                                                              |
+| 查       | 获取指定范围内的元素列表：lrange key start end <br/>获取列表指定索引下标的元素：lindex key index <br/>获取列表指定长度：llen key | lrange listkey 0 -1                                          |
+| 删       | 从列表左侧弹出元素：lpop key <br/>从列表右侧弹出元素：rpop key <br/>删除指定元素：lrem key count value <br/>截取列表：ltrim key start end | count>0， 从左到右， 删除最多count个元素。<br/>count<0， 从右到左， 删除最多count绝对值个元素。<br/>count=0， 删除所有 |
 | 改       | 修改指定索引下标的元素：lset key index newValue              |                                                              |
-| 阻塞操作 | blpop key [key ...] timeout brpop key [key ...] timeout      | key[key...]： 多个列表的键。 timeout： 阻塞时间\|等待时间（单位： 秒） |
+| 阻塞操作 | blpop key [key ...] timeout <br/>brpop key [key ...] timeout | key[key...]： 多个列表的键。 timeout： 阻塞时间\|等待时间（单位： 秒） |
 
 
 
@@ -173,7 +174,7 @@ type命令实际返回的就是当前键的数据结构类型， 它们分别是
 | 删除成员                 | zrem key member [member ...]                                 |                                                              |
 | 增加成员分数             | zincrby key increment member                                 | zincrby user:ranking 9 tom                                   |
 | 返回指定排名范围的成员   | zrange key start end [withscores] zrange key start end [withscores] | zrange是从低到高返回， zrevrange反之。                       |
-| 返回指定分数范围内的成员 | zrangebyscore key min max \[withscores][limit offset count] zrevrangebyscore key max min \[withscores][limit offset count] | 其中zrangebyscore按照分数从低到高返回， zrevrangebyscore反之。 [limit offset count]选项可以限制输出的起始位置和个数： 同时min和max还支持开区间（小括号） 和闭区间（中括号） ， -inf和+inf分别代表无限小和无限大 |
+| 返回指定分数范围内的成员 | zrangebyscore key min max \[withscores][limit offset count] <br/>zrevrangebyscore key max min \[withscores][limit offset count] | 其中zrangebyscore按照分数从低到高返回， zrevrangebyscore反之。 [limit offset count]选项可以限制输出的起始位置和个数： 同时min和max还支持开区间（小括号） 和闭区间（中括号） ， -inf和+inf分别代表无限小和无限大 |
 | 删除指定排名内的升序元素 | zremrangerank key start end                                  |                                                              |
 | 删除指定分数范围的成员   | zremrangebyscore key min max                                 |                                                              |
 
