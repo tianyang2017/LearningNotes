@@ -852,13 +852,9 @@ alert(Person.prototype.constructor=== Person);  //true
 alert(Person.prototype == person1.__proto__);  //true
 ```
 
-![js 原型1](D:\LearningNotes\picture\js 原型1.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型1"/> </div></br>
 
-![js 原型1](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B1.png)
-
-![js 原型2](D:\LearningNotes\picture\js 原型2.png)
-
-![js 原型2](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%8E%9F%E5%9E%8B2.png)
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型2"/> </div></br>
 
 ```javascript
 //覆盖原型中的属性
