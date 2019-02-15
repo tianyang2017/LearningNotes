@@ -1,5 +1,6 @@
 # 《JavaScript 高级程序设计》读书笔记
-## 目录<br/>
+
+## 目录<br/>
 <a href="#第三章-基本语法">第三章 基本语法</a><br/>
 <a href="#第四章-变量、作用域和内存问题">第四章 变量、作用域和内存问题</a><br/>
 <a href="#第五章-应用类型">第五章 应用类型</a><br/>
@@ -107,7 +108,7 @@
    var floatNum2 = 10.0; // 整数——解析为 10 
    ```
 
-2. 为了消除在使用parseInt() 函数时可能导致的上述困惑，可以为这个函数提供第二个参数：转换时使用的基数（即多少进制）。如果知道要解析的值是十六进制格式的字符串，那么指定基数 16 作为第二个参数，可以保证得到正确的结果，例如：var num = parseInt("0xAF", 16); //175实际上，如果指定了 16 作为第二个参数，字符串可以不带前面的"0x"，如下所示：
+2. 为了消除在使用parseInt() 函数时可能导致的上述困惑，可以为这个函数提供第二个参数：转换时使用的基数（即多少进制）。如果知道要解析的值是十六进制格式的字符串，那么指定基数 16 作为第二个参数，可以保证得到正确的结果，例如：var num = parseInt("0xAF", 16); //175 实际上，如果指定了 16 作为第二个参数，字符串可以不带前面的"0x"，如下所示：
 
    ```javascript
    var num1 = parseInt("AF", 16); //175
@@ -162,9 +163,7 @@
 
    + **valueOf()**：返回对象的字符串、数值或布尔值表示。通常与 toString()方法的返回值相同。
 
-         ![js 对象属性](D:\LearningNotes\picture\js 对象属性.png)
-
-   ![js 对象属性](https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png)
+   <div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/picture/js%20%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7.png"/> </div></br>
 
 
 ## 第四章 变量、作用域和内存问题
