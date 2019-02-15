@@ -727,7 +727,7 @@ drop database 【if exists】 库名;
 **1.oracle创建数据库：**
 
 1. 创建两个数据库的文件
-2. 创建用户与上面创建的文件形成映射关系
+2. 创建用户，与上面创建的文件形成映射关系
 3. 给用户添加权限
 
 （1）、创建两个数据库的文件（databaseName.dbf 和databaseName_temp.dbf 两个文件）  
@@ -740,7 +740,7 @@ create temporary tablespace monitor_temp tempfile 'E:\app\owner\oradata\orcl\dat
 size 100m autoextend on next 32m maxsize 500m extent management local;
 ```
 
-（2）、创建用户与上面创建的文件形成映射关系
+（2）、创建用户，与上面创建的文件形成映射关系
 
 ```sql
 CREATE USER youUsername IDENTIFIED BY youPassword DEFAULT databaseName monitor TEMPORARY TABLESPACE databaseName_temp;
@@ -767,7 +767,7 @@ drop user youUsername cascade;
 
 **4. 关于权限的说明**
 
-**CONNECT角色：** 是授予最终用户的典型权利，最基本的权力，能够连接到ORACLE数据库中，并在对其他用户的表有访问权限时，做SELECT、UPDATE、INSERTT等操作。
+**CONNECT角色：** 是授予最终用户的典型权利，最基本的权力，能够连接到ORACLE数据库中，并在对其他用户的表有访问权限时，做SELECT、UPDATE、INSERT等操作。
 
 - ALTER SESSION --修改会话
 - CREATE CLUSTER --建立聚簇
@@ -999,7 +999,7 @@ create table 表名(
         alter table 表名 modify column 字段名 字段类型 not null;
          -- 删除非空
         alter table 表名 modify column 字段名 字段类型 ;
-    --oracle
+    -- oracle
         -- 添加非空
         alter table 表名 modify 字段名  not null;
          -- 删除非空
@@ -1007,15 +1007,15 @@ create table 表名(
 
 
 -- 2、默认约束
-    -- mysql
-         -- 添加默认
+   -- mysql
+        -- 添加默认
         alter table 表名 modify column 字段名 字段类型 default 默认值
-         -- 删除默认
+        -- 删除默认
         alter table 表名 modify column 字段名 字段类型 ;
-	--oracle
-		 -- 添加默认
+   -- oracle
+		-- 添加默认
 		alter table 表名 modify 字段名 default 默认值;
-         -- 删除默认
+        -- 删除默认
         alter table 表名 modify 字段名 ;
 
 
