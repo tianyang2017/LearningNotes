@@ -253,7 +253,7 @@
 
 3. 数组重排序
 
-   在默认情况下， sort()方法按升序排列数组项——即最小的值位于最前面，最大的值排在最后面。为了实现排序， sort()方法会调用每个数组项的 toString()转型方法，然后比较得到的字符串，以确定如何排序。即使数组中的每一项都是数值， sort()方法比较的也是字符串，如下所示。 
+   在默认情况下， `sort()`方法按升序排列数组项——即最小的值位于最前面，最大的值排在最后面。为了实现排序， sort()方法会调用每个数组项的 toString()转型方法，然后比较得到的字符串，以确定如何排序。即使数组中的每一项都是数值， sort()方法比较的也是字符串，如下所示。 
 
    ```javascript
    var values = [1, 2, 3, 4, 5];
@@ -274,19 +274,23 @@
    return 0;
    	}
    }
+   
+   var values = [0, 1, 5, 10, 15];
+   values.sort(compare);
+   alert(values); // 15,10,5,1,0
    ```
 
 
 
 4. 数组操作方法
 
-   splice()的主要用途是向数组的中部插入项，但使用这种方法的方式则有如下 3 种。
+   `splice()`的主要用途是向数组的中部插入项，但使用这种方法的方式则有如下 3 种。
 
    - **删除**：可以删除任意数量的项，只需指定 2 个参数：要删除的第一项的位置和要删除的项数。例如， splice(0,2)会删除数组中的前两项。
    - **插入**：可以向指定位置插入任意数量的项，只需提供 3 个参数：起始位置、 0（要删除的项数）和要插入的项。如果要插入多个项，可以再传入第四、第五，以至任意多个项。例如，splice(2,0,"red","green")会从当前数组的位置 2 开始插入字符串"red"和"green"。
    - **替换**：可以向指定位置插入任意数量的项，且同时删除任意数量的项，只需指定 3 个参数：起始位置、要删除的项数和要插入的任意数量的项。插入的项数不必与删除的项数相等。例如，splice (2,1,"red","green")会删除当前数组位置 2 的项，然后再从位置 2 开始插入字符串"red"和"green"。 
 
-   splice()方法始终都会返回一个数组，该数组中包含从原始数组中删除的项（如果没有删除任何项，则返回一个空数组）。下面的代码展示了上述 3 种使用 splice()方法的方式。 
+   `splice()`方法始终都会返回一个数组，该数组中包含从原始数组中删除的项（如果没有删除任何项，则返回一个空数组）。下面的代码展示了上述 3 种使用 splice()方法的方式。 
 
    ```javascript
    //基于当前数据创建新的数组
@@ -360,7 +364,7 @@
 
 6. 归并方法 
 
-   ECMAScript 5 还新增了两个归并数组的方法： reduce()和 reduceRight()。这两个方法都会迭代数组的所有项，然后构建一个最终返回的值。其中， reduce()方法从数组的第一项开始，逐个遍历到最后。而 reduceRight()则从数组的最后一项开始，向前遍历到第一项。这两个方法都接收两个参数：一个在每一项上调用的函数和（可选的）作为归并基础的初始值。传给 reduce()和 reduceRight()的函数接收 4 个参数：前一个值、当前值、项的索引和数组对象。这个函数返回的任何值都会作为第一个参数自动传给下一项。第一次迭代发生在数组的第二项上，因此第一个参数是数组的第一项，第二个参数就是数组的第二项。  
+   ECMAScript 5 还新增了两个归并数组的方法： `reduce()`和 `reduceRight()`。这两个方法都会迭代数组的所有项，然后构建一个最终返回的值。其中， reduce()方法从数组的第一项开始，逐个遍历到最后。而 reduceRight()则从数组的最后一项开始，向前遍历到第一项。这两个方法都接收两个参数：一个在每一项上调用的函数和（可选的）作为归并基础的初始值。传给 reduce()和 reduceRight()的函数接收 4 个参数：前一个值、当前值、项的索引和数组对象。这个函数返回的任何值都会作为第一个参数自动传给下一项。第一次迭代发生在数组的第二项上，因此第一个参数是数组的第一项，第二个参数就是数组的第二项。  
 
    ```javascript
    var values = [1,2,3,4,5];
@@ -379,60 +383,60 @@
 
 ### 2. RegExp 类型 	
 
-1. ```
-   var expression = / pattern / flags ;
-   ```
+```
+var expression = / pattern / flags ;
+```
 
-   其中的模式（pattern）部分可以是任何简单或复杂的正则表达式，可以包含字符类、限定符、分组、向前查找以及反向引用。每个正则表达式都可带有一或多个标志（flags），用以标明正则表达式的行为。
-   正则表达式的匹配模式支持下列 3 个标志。
+1 .   其中的模式（pattern）部分可以是任何简单或复杂的正则表达式，可以包含字符类、限定符、分组、向前查找以及反向引用。每个正则表达式都可带有一或多个标志（flags），用以标明正则表达式的行为。
+正则表达式的匹配模式支持下列 3 个标志。
 
-   + **g**：表示全局（global）模式，即模式将被应用于所有字符串，而非在发现第一个匹配项时立即停止；
-   +  **i**：表示不区分大小写（case-insensitive）模式，即在确定匹配项时忽略模式与字符串的大小写；
-   +  **m**：表示多行（multiline）模式，即在到达一行文本末尾时还会继续查找下一行中是否存在与模式匹配的项。 
++ **g**：表示全局（global）模式，即模式将被应用于所有字符串，而非在发现第一个匹配项时立即停止；
++  **i**：表示不区分大小写（case-insensitive）模式，即在确定匹配项时忽略模式与字符串的大小写；
++  **m**：表示多行（multiline）模式，即在到达一行文本末尾时还会继续查找下一行中是否存在与模式匹配的项。 
 
-   模式中使用的所有元字符都必须转义。正则表达式中的元字符包括： ( [ { \ ^ $ | ) ? * + .]} 
+模式中使用的所有元字符都必须转义。正则表达式中的元字符包括： ( [ { \ ^ $ | ) ? * + .]} 
 
-   ```javascript
-   /*
-   * 匹配字符串中所有"at"的实例
-   */
-   var pattern1 = /at/g;
-   /*
-   * 匹配第一个"bat"或"cat"，不区分大小写
-   */
-   var pattern2 = /[bc]at/i;
-   /*
-   * 匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
-   */
-   var pattern3 = /.at/gi;
-   /*
-   * 匹配第一个"bat"或"cat"，不区分大小写
-   */
-   var pattern1 = /[bc]at/i;
-   /*
-   * 匹配第一个" [bc]at"，不区分大小写
-   */
-   var pattern2 = /\[bc\]at/i;
-   /*
-   * 匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
-   */
-   var pattern3 = /.at/gi;
-   /*
-   * 匹配所有".at"，不区分大小写
-   */
-   var pattern4 = /\.at/gi;
-   /*
-   * 匹配第一个"bat"或"cat"，不区分大小写
-   */
-   var pattern1 = /[bc]at/i;
-   /*
-   * 与 pattern1 相同，只不过是使用构造函数创建的
-   */
-   var pattern2 = new RegExp("[bc]at", "i");
-   ```
+```javascript
+/*
+* 匹配字符串中所有"at"的实例
+*/
+var pattern1 = /at/g;
+/*
+* 匹配第一个"bat"或"cat"，不区分大小写
+*/
+var pattern2 = /[bc]at/i;
+/*
+* 匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
+*/
+var pattern3 = /.at/gi;
+/*
+* 匹配第一个"bat"或"cat"，不区分大小写
+*/
+var pattern1 = /[bc]at/i;
+/*
+* 匹配第一个" [bc]at"，不区分大小写
+*/
+var pattern2 = /\[bc\]at/i;
+/*
+* 匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
+*/
+var pattern3 = /.at/gi;
+/*
+* 匹配所有".at"，不区分大小写
+*/
+var pattern4 = /\.at/gi;
+/*
+* 匹配第一个"bat"或"cat"，不区分大小写
+*/
+var pattern1 = /[bc]at/i;
+/*
+* 与 pattern1 相同，只不过是使用构造函数创建的
+*/
+var pattern2 = new RegExp("[bc]at", "i");
+```
 
 
-2. RegExp 对象的主要方法是 exec()，该方法是专门为捕获组而设计的。 exec()接受一个参数，即要应用模式的字符串，然后返回包含第一个匹配项信息的数组；或者在没有匹配项的情况下返回 null。返回的数组虽然是 Array 的实例，但包含两个额外的属性： index 和 input。其中， index 表示匹配项在字符串中的位置，而 input 表示应用正则表达式的字符串。在数组中，第一项是与整个模式匹配的字符串，其他项是与模式中的捕获组匹配的字符串（如果模式中没有捕获组，则该数组只包含一项）。
+2. RegExp 对象的主要方法是 `exec()`，该方法是专门为捕获组而设计的。 exec()接受一个参数，即要应用模式的字符串，然后返回包含第一个匹配项信息的数组；或者在没有匹配项的情况下返回 null。返回的数组虽然是 Array 的实例，但包含两个额外的属性： index 和 input。其中， index 表示匹配项在字符串中的位置，而 input 表示应用正则表达式的字符串。在数组中，第一项是与整个模式匹配的字符串，其他项是与模式中的捕获组匹配的字符串（如果模式中没有捕获组，则该数组只包含一项）。
 
    ```javascript
    var text = "mom and dad and baby";
@@ -528,28 +532,32 @@
 
 ### 3. Function 类型
 
-1. 每个函数都包含两个非继承而来的方法： apply()和 call()。这两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内 this 对象的值。首先， apply()方法接收两个参数：一个是在其中运行函数的作用域，另一个是参数数组。其中，第二个参数可以是 Array 的实例，也可以是arguments 对象。例如： 
+1. 每个函数都包含两个非继承而来的方法： `apply()`和 `call()`。这两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内 this 对象的值。首先， apply()方法接收两个参数：一个是在其中运行函数的作用域，另一个是参数数组。其中，第二个参数可以是 Array 的实例，也可以是arguments 对象。例如： 
 
    ```javascript
    function sum(num1, num2){
-   return num1 + num2;
+   	return num1 + num2;
    }
+   
    function callSum1(num1, num2){
-   return sum.apply(this, arguments); // 传入 arguments 对象
+   	return sum.apply(this, arguments); // 传入 arguments 对象
    }
+   
    function callSum2(num1, num2){
-   return sum.apply(this, [num1, num2]); // 传入数组
+   	return sum.apply(this, [num1, num2]); // 传入数组
    }
+   
    alert(callSum1(10,10)); //20
    alert(callSum2(10,10)); //20
    
    /*call()方法与 apply()方法的作用相同，它们的区别仅在于接收参数的方式不同。对于 call() 方法而言，第一个参数是 this 值没有变化，变化的是其余参数都直接传递给函数。换句话说，在使用call()方法时，传递给函数的参数必须逐个列举出来，如下面的例子所示。
     */
    function sum(num1, num2){
-   return num1 + num2;
+   	return num1 + num2;
    }
+   
    function callSum(num1, num2){
-   return sum.call(this, num1, num2);
+   	return sum.call(this, num1, num2);
    }
    alert(callSum(10,10)); //20
    
@@ -558,7 +566,7 @@
    window.color = "red";
    var o = { color: "blue" };
    function sayColor(){
-   alert(this.color);
+   	alert(this.color);
    }
    sayColor(); //red
    sayColor.call(this); //red
@@ -566,13 +574,13 @@
    sayColor.call(o); //blue
    ```
 
-2. ECMAScript 5 还定义了一个方法： bind()。这个方法会创建一个函数的实例，其 this 值会被绑定到传给 bind()函数的值。例如： 
+2. ECMAScript 5 还定义了一个方法： `bind()`。这个方法会创建一个函数的实例，其 this 值会被绑定到传给 bind()函数的值。例如： 
 
    ```javascript
    window.color = "red";
    var o = { color: "blue" };
    function sayColor(){
-   alert(this.color);
+   	alert(this.color);
    }
    var objectSayColor = sayColor.bind(o);
    objectSayColor(); //blue
@@ -581,7 +589,7 @@
 
 ### 4. String 类型
 
-1. ECMAScript还提供了三个基于子字符串创建新字符串的方法： slice()、 substr()和 substring()。这三个方法都会返回被操作字符串的一个子字符串，而且也都接受一或两个参数。第一个参数指定子字符串的开始位置，第二个参数（在指定的情况下）表示子字符串到哪里结束。具体来说， slice()和substring()的第二个参数指定的是子字符串最后一个字符后面的位置。而 substr()的第二个参数指定的则是返回的字符个数。如果没有给这些方法传递第二个参数，则将字符串的长度作为结束位置。与concat()方法一样， slice()、 substr()和 substring()也不会修改字符串本身的值——它们只是返回一个基本类型的字符串值，对原始字符串没有任何影响。请看下面的例子。  
+1. ECMAScript还提供了三个基于子字符串创建新字符串的方法： `slice()`、 `substr()`和 `substring()`。这三个方法都会返回被操作字符串的一个子字符串，而且也都接受一或两个参数。第一个参数指定子字符串的开始位置，第二个参数（在指定的情况下）表示子字符串到哪里结束。具体来说， slice()和substring()的第二个参数指定的是子字符串最后一个字符后面的位置。而 substr()的第二个参数指定的则是返回的字符个数。如果没有给这些方法传递第二个参数，则将字符串的长度作为结束位置。与concat()方法一样， slice()、 substr()和 substring()也不会修改字符串本身的值——它们只是返回一个基本类型的字符串值，对原始字符串没有任何影响。请看下面的例子。  
 
    ```javascript
    var stringValue = "hello world";
@@ -658,50 +666,57 @@
 1. ECMAScript 中有两种属性：数据属性和访问器属性。
    1. **数据属性**
        数据属性包含一个数据值的位置。在这个位置可以读取和写入值。数据属性有 4 个描述其行为的特性。
-         **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-         **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-         **[[Writable]]**：表示能否修改属性的值。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
-         **[[Value]]**：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。这个特性的默认值为 undefined。 
 
-     ```javascript
-     var person = {};
-     Object.defineProperty(person, "name", {
-     writable: false,
-     value: "Nicholas"
-     });
-     alert(person.name); //"Nicholas"
-     person.name = "Greg";
-     alert(person.name); //"Nicholas"
-     
-     var person = {};
-     Object.defineProperty(person, "name", {
-     configurable: false,
-     value: "Nicholas"
-     });
-     alert(person.name); //"Nicholas"
-     delete person.name;
-     alert(person.name); //"Nicholas"
-     
-     //一旦把属性定义为不可配置的，就不能再把它变回可配置了
-     var person = {};
-     Object.defineProperty(person, "name", {
-     configurable: false,
-     value: "Nicholas"
-     });
-     //抛出错误
-     Object.defineProperty(person, "name", {
-     configurable: true,
-     value: "Nicholas"
-     });
-     ```
+       + **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+
+       + **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+
+       + **[[Writable]]**：表示能否修改属性的值。像前面例子中那样直接在对象上定义的属性，它们的这个特性默认值为 true。
+
+       + **[[Value]]**：包含这个属性的数据值。读取属性值的时候，从这个位置读；写入属性值的时候，把新值保存在这个位置。这个特性的默认值为 undefined。 
+
+         ```javascript
+          var person = {};
+           Object.defineProperty(person, "name", {
+           	writable: false,
+           	value: "Nicholas"
+           });
+           alert(person.name); //"Nicholas"
+           person.name = "Greg";
+           alert(person.name); //"Nicholas"
+           
+           var person = {};
+           Object.defineProperty(person, "name", {
+           	configurable: false,
+           	value: "Nicholas"
+           });
+           alert(person.name); //"Nicholas"
+           delete person.name;
+           alert(person.name); //"Nicholas"
+           
+           //一旦把属性定义为不可配置的，就不能再把它变回可配置了
+           var person = {};
+           Object.defineProperty(person, "name", {
+           	configurable: false,
+           	value: "Nicholas"
+           });
+           //抛出错误
+           Object.defineProperty(person, "name", {
+           	configurable: true,
+           	value: "Nicholas"
+           });
+         ```
 
    2. **访问器属性**
       访问器属性不包含数据值；它们包含一对儿 getter 和 setter 函数（不过，这两个函数都不是必需的） 
 
-       **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为数据属性。对于直接在对象上定义的属性，这个特性的默认值为true。
-       **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。对于直接在对象上定义的属性，这个特性的默认值为 true。
-       **[[Get]]**：在读取属性时调用的函数。默认值为 undefined。
-       **[[Set]]**：在写入属性时调用的函数。默认值为 undefined。 
+      + **[[Configurable]]**：表示能否通过 delete 删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为数据属性。对于直接在对象上定义的属性，这个特性的默认值为true。
+
+      + **[[Enumerable]]**：表示能否通过 for-in 循环返回属性。对于直接在对象上定义的属性，这个特性的默认值为 true。
+
+      + **[[Get]]**：在读取属性时调用的函数。默认值为 undefined。
+
+      + **[[Set]]**：在写入属性时调用的函数。默认值为 undefined。 
 
       **访问器属性不能直接定义，必须使用 Object.defineProperty()来定义。** 
 
@@ -751,7 +766,7 @@
 
 #### 2. 读取属性
 
-1. 使用 ECMAScript 5 的 Object.getOwnPropertyDescriptor()方法，可以取得给定属性的描述符。这个方法接收两个参数：属性所在的对象和要读取其描述符的属性名称。
+1. 使用 ECMAScript 5 的 `Object.getOwnPropertyDescriptor()`方法，可以取得给定属性的描述符。这个方法接收两个参数：属性所在的对象和要读取其描述符的属性名称。
 
 ```javascript
 var book = {};
@@ -866,6 +881,7 @@ Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function(){
 	alert(this.name);
 };
+
 var person1 = new Person();
 var person2 = new Person();
 person1.name = "Greg";
@@ -883,6 +899,7 @@ Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function(){
 	alert(this.name);
 };
+
 var person1 = new Person();
 var person2 = new Person();
 person1.name = "Greg";
@@ -899,8 +916,10 @@ function Person(){
 Person.prototype.name = "Nicholas";
 Person.prototype.age = 29;
 Person.prototype.job = "Software Engineer";
-Person.prototype.sayName = function(){alert(this.name);
+Person.prototype.sayName = function(){
+    alert(this.name);
 };
+
 var person1 = new Person();
 var person2 = new Person();
 alert(person1.hasOwnProperty("name")); //false
@@ -924,6 +943,7 @@ Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function(){
 alert(this.name);
 };
+
 var person1 = new Person();
 var person2 = new Person();
 alert(person1.hasOwnProperty("name")); //false
@@ -941,7 +961,7 @@ alert(person1.hasOwnProperty("name")); //false
 alert("name" in person1); //true
 ```
 
-​	在使用 for-in 循环时，返回的是所有能够通过对象访问的、可枚举的（enumerated）属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性（即将[[Enumerable]]标记为 false 的属性）的实例属性也会在 for-in 循环中返回，因为根据规定，所有开发人员定义的属性都是可枚举的。
+在使用 for-in 循环时，返回的是所有能够通过对象访问的、可枚举的（enumerated）属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性（即将[[Enumerable]]标记为 false 的属性）的实例属性也会在 for-in 循环中返回，因为根据规定，所有开发人员定义的属性都是可枚举的。
 
 ```javascript
 //获取所有可枚举的属性
@@ -951,7 +971,7 @@ Person.prototype.name = "Nicholas";
 Person.prototype.age = 29;
 Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function(){
-alert(this.name);
+	alert(this.name);
 };
 var keys = Object.keys(Person.prototype);
 alert(keys); //"name,age,job,sayName"
@@ -1047,7 +1067,7 @@ alert(typeof Array.prototype.sort); //"function"
 alert(typeof String.prototype.substring); //"function"
 
 String.prototype.startsWith = function (text) {
-return this.indexOf(text) == 0;
+	return this.indexOf(text) == 0;
 };
 var msg = "Hello world!";
 alert(msg.startsWith("Hello")); //true
@@ -1081,17 +1101,19 @@ alert(person1.friends === person2.friends); //true
 
 ```javascript
 function Person(name, age, job){
-this.name = name;
-this.age = age;
-this.job = job;
-this.friends = ["Shelby", "Court"];
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.friends = ["Shelby", "Court"];
 }
 Person.prototype = {
 constructor : Person,
-sayName : function(){
-alert(this.name);
+	sayName : function(){
+		alert(this.name);
+	}
 }
-}
+
+
 var person1 = new Person("Nicholas", 29, "Software Engineer");
 var person2 = new Person("Greg", 27, "Doctor");
 person1.friends.push("Van");
