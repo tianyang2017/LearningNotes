@@ -81,6 +81,7 @@
 
 ## 正文<br/>
 
+
 ## 一、数据库管理
 
 ### 1.1 用户管理
@@ -250,7 +251,6 @@ oracle为兼容以前版本，提供三种标准角色（role）connect/resource
 
 注：与testRole角色相关的权限将从数据库全部删除
 
-**本小结内容参考自博客**：[Oracle创建用户、角色、授权、建表](https://www.cnblogs.com/roger112/p/7685307.html)
 
 
 
@@ -1079,7 +1079,7 @@ oracle 没有自增长列，可以使用序列实现
 
 **2.修改序列**
 
-```
+```sql
   alter SEQUENCE sequence  //创建序列名称
        [INCREMENT BY n]  //递增的序列值是n 如果n是正数就递增,如果是负数就递减 默认是1
        [START WITH n]    //开始的值,递增默认是minvalue 递减是maxvalue
@@ -1444,8 +1444,6 @@ end repeat 【名称】;
 - repeat 先执行后判断，无条件至少执行一次
 
 
-注：推荐博文：[MYSQL存储过程](https://www.cnblogs.com/mark-chan/p/5384139.html)
-
 
 
 ### 6.4 游标
@@ -1496,7 +1494,14 @@ CLOSE cursor_name;
 DEALLOCATE cursor_name;
 ```
 
-注：参考自博文：[MySQL数据库高级（九）——游标](http://blog.51cto.com/9291927/2097626)
+
+
+## 参考资料
+
++ [Oracle创建用户、角色、授权、建表](https://www.cnblogs.com/roger112/p/7685307.html)
++ [MYSQL存储过程](https://www.cnblogs.com/mark-chan/p/5384139.html)
++ [MySQL数据库高级（九）——游标](http://blog.51cto.com/9291927/2097626)
+
 
 
 
