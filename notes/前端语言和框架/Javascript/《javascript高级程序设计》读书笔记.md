@@ -867,9 +867,9 @@ alert(Person.prototype.constructor=== Person);  //true
 alert(Person.prototype == person1.__proto__);  //true
 ```
 
-<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型1"/> </div></br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型1.png"/> </div></br>
 
-<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型2"/> </div></br>
+<div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/js原型2.png"/> </div></br>
 
 ```javascript
 //覆盖原型中的属性
