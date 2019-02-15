@@ -1,5 +1,6 @@
 # 《RabbitMQ实战指南》读书笔记
-## 目录<br/>
+
+## 目录<br/>
 <a href="#第一章-RabbitMQ的安装以及简单使用">第一章 RabbitMQ的安装以及简单使用</a><br/>
 <a href="#第二章-RabbitMQ入门">第二章 RabbitMQ入门</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#21-相关概念介绍">2.1 相关概念介绍</a><br/>
@@ -789,7 +790,7 @@ try {
 }
 ```
 
-**异步confirm模式（推荐）**的编程实现最复杂，Channel对象提供的ConfirmListener()回调方法只包含deliveryTag（当前Chanel发出的消息序号），我们需要自己为每一个Channel维护一个unconfirm的消息序号集合，每publish一条数据，集合中元素加1，每回调一次handleAck方法，unconfirm集合删掉相应的一条（multiple=false）或多条（multiple=true）记录。从程序运行效率上看，这个unconfirm集合最好采用有序集合SortedSet存储结构。
+**异步confirm模式**（推荐）：的编程实现最复杂，Channel对象提供的ConfirmListener()回调方法只包含deliveryTag（当前Chanel发出的消息序号），我们需要自己为每一个Channel维护一个unconfirm的消息序号集合，每publish一条数据，集合中元素加1，每回调一次handleAck方法，unconfirm集合删掉相应的一条（multiple=false）或多条（multiple=true）记录。从程序运行效率上看，这个unconfirm集合最好采用有序集合SortedSet存储结构。
 
 **注：不论是handleAck还是handleNack都证明消息被收到了，并没有丢失。**
 
