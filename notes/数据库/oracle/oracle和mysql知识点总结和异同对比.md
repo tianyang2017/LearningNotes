@@ -995,14 +995,14 @@ create table 表名(
 ```sql
 --1、非空约束
     -- mysql
-         -- 添加非空
+        -- 添加非空
         alter table 表名 modify column 字段名 字段类型 not null;
-         -- 删除非空
+        -- 删除非空
         alter table 表名 modify column 字段名 字段类型 ;
     -- oracle
         -- 添加非空
         alter table 表名 modify 字段名  not null;
-         -- 删除非空
+        -- 删除非空
         alter table 表名 modify 字段名 ;
 
 
@@ -1013,8 +1013,8 @@ create table 表名(
         -- 删除默认
         alter table 表名 modify column 字段名 字段类型 ;
    -- oracle
-		-- 添加默认
-		alter table 表名 modify 字段名 default 默认值;
+	-- 添加默认
+	alter table 表名 modify 字段名 default 默认值;
         -- 删除默认
         alter table 表名 modify 字段名 ;
 
