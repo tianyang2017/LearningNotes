@@ -367,8 +367,6 @@ public class MergeSort implements IArraySort {
 
 **2. 动图演示**
 
-![六、快速排序](D:\LearningNotes\picture\六、快速排序.gif)
-
 <div align="center"> <img src="https://github.com/heibaiying/LearningNotes/blob/master/pictures/%E5%85%AD%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.gif"/> </div>
 
 **3. Java 代码实现**

@@ -335,7 +335,7 @@ trunc:截断
 
 #### 1. oracle 日期函数：
 
-##### 1.1 oracel常用的时间格式掩码
+##### 1.1 Oracle 常用的时间格式掩码
 
 | 掩码元素 | 含义                                                 |
 | -------- | ---------------------------------------------------- |
@@ -459,17 +459,17 @@ select sysdate,sysdate - 8*interval '7' hour from dual;
 
 
 
-##### 2.2 Oracle 获取当前年、月、日
+##### 2.2 mysql 获取当前年、月、日
 
-now：返回当前日期+时间
-year:返回年
-month：返回月
-day:返回日
-curdate:返回当前日期
-curtime：返回当前时间
-hour:小时
-minute:分钟
-second：秒
+- now：返回当前日期+时间
+- year:返回年
+- month：返回月
+- day:返回日
+- curdate:返回当前日期
+- curtime：返回当前时间
+- hour:小时
+- minute:分钟
+- second：秒
 
 
 
@@ -477,17 +477,23 @@ second：秒
 
 **2.3.1、利用TO_DAYS函数**
 
+```mysql
 select to_days(now()) - to_days('20120512')
+```
 
 **2.3.2、利用DATEDIFF函数**
 
+```mysql
 select datediff(now(),'20120512')
+```
 
 **2.3. 3、利用TIMESTAMPDIFF函数**
 
 计算两日期时间之间相差的天数，秒数，分钟数，周数，小时数，这里主要分享的是通过MySql内置的函数 TimeStampDiff() 实现。函数 TimeStampDiff() 是MySQL本身提供的可以计算两个时间间隔的函数，语法为：
 
+```mysql
 TIMESTAMPDIFF(unit,datetime_expr1,datetime_expr2)
+```
 
 其中unit单位有如下几种：
 
