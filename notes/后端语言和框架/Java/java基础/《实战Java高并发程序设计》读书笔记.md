@@ -35,7 +35,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#42-Java虚拟机对锁优化锁做的努力">4.2 Java虚拟机对锁优化锁做的努力</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1-锁偏向">1. 锁偏向</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2-轻量级锁">2. 轻量级锁</a><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-自选锁">3. 自选锁</a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3-自旋锁">3. 自旋锁</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4-锁消除">4. 锁消除</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#43-人手一只笔ThreadLocal">4.3 人手一只笔（ThreadLocal）</a><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#44-无锁">4.4 无锁</a><br/>
@@ -1509,7 +1509,7 @@ public class CountTask extends RecursiveTask<Long> {
 
 轻量级锁的操作也很方便，它只是简单地将对象头部作为指针，指向持有锁的线程堆栈的内部，来判断一个线程是否持有对象锁。 如果线程获得轻量级锁成功，则可以顺利进入临界区。如果轻量级锁失败，则表示其他线程抢先争夺了锁，那么当前线程的锁请求就会膨胀为重量级锁。
 
-#### 3. 自选锁
+#### 3. 自旋锁
 
 **锁膨胀后，虚拟机为了避免线程真实地在操作系统层面挂起，虚拟机还会在做最后的努力–自选锁**。由于当前线程暂时无法获得锁，但是什么时候可以获得锁是一个未知数。也许在CPU几个时钟周期后，就可以得到锁。如果这样，简单粗暴的挂起线程可能是一种得不偿失的操作，因此系统会进行一次赌注：它会假设在不久的将来，线程可以得到这把锁。
 
